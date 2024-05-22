@@ -1,8 +1,8 @@
 const colors = {
   black_41: '#414141',
   gray_81: '#818181',
-  gray_dd: '#dddddd',
-  gray_ee: '#eeeeee',
+  gray_DD: '#dddddd',
+  gray_EE: '#eeeeee',
   backGround: '#f6f4ef',
   brand: '#99c98e',
   error: '#C41013',
@@ -15,7 +15,8 @@ const colors = {
   green_text: '#578246',
   yellow_text: '#c18e1b',
   blue_text: '#418099',
-  pink_text: '#bc3c6a'
+  pink_text: '#bc3c6a',
+  white: '#FFFFFF'
 };
 
 export default colors;

@@ -1,3 +1,4 @@
+import Chip from './components/Chip';
 import GlobalStyles from "./styles/GlobalStyles";
 
 function App() {
@@ -6,6 +7,7 @@ function App() {
       <GlobalStyles />
       <div>
         <h1>Hello, World!</h1>
+        <Chip isActive={true}>미라클모닝기상</Chip>
       </div>
     </>
   );
