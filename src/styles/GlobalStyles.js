@@ -1,8 +1,9 @@
 import { createGlobalStyle } from "styled-components";
 import reset from './reset.css'
+import colors from './colors';
 
 const GlobalStyles = createGlobalStyle`
-@import url(${reset});
+  @import url(${reset});
 
   @font-face {
     font-family: 'Pretendard';
@@ -13,6 +14,8 @@ const GlobalStyles = createGlobalStyle`
 
   body {
     font-family: 'Pretendard';
+    background-color: ${colors.backGround};
+    color: ${colors.black_41};
   }
 `;
 
