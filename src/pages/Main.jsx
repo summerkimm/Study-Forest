@@ -1,12 +1,14 @@
 import styled from "styled-components";
 import colors from "../styles/colors";
 import { onMobile, onTablet } from "../styles/media-queries";
+import Card from '../components/Card';
 
 function Main() {
   return (
     <StyledContainer>
       <StyledWrapper>
         <StyledTitle>최근 조회한 스터디</StyledTitle>
+        <Card />
       </StyledWrapper>
       <StyledWrapper>
         <StyledTitle>스터디 둘러보기</StyledTitle>
