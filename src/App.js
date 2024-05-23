@@ -1,5 +1,5 @@
 import Navbar from "./components/Navbar";
-import Tag from "./components/Tag";
+import PointTag from "./components/Tags/PointTag";
 import GlobalStyles from "./styles/GlobalStyles";
 
 function App() {
@@ -7,6 +7,8 @@ function App() {
     <>
       <GlobalStyles />
       <Navbar />
+      <PointTag type="dark" />
+      <PointTag type="light" />
     </>
   );
 }

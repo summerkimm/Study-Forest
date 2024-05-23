@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import PointIcon from "../assets/icons/icon-point.svg";
-import colors from '../styles/colors';
+import PointIcon from "../../assets/icons/icon-point.svg";
+import colors from "../../styles/colors";
 
-function Tag() {
+function PointTag({ type = "dark" }) {
   return (
-    <StyledTagContainer>
+    <StyledTagContainer type={type}>
       <StyledTagWrapper>
         <img src={PointIcon} alt="획득 포인트 아이콘" />
         <StyledTagPoint>310P 획득</StyledTagPoint>
@@ -12,14 +12,19 @@ function Tag() {
     </StyledTagContainer>
   );
 }
-export default Tag;
+export default PointTag;
 
 const StyledTagContainer = styled.div`
   width: fit-content;
-  padding: 8px 12px;
+  padding: 4px 8px;
   border-radius: 50px;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 0.3);
+  background: ${(props) =>
+    props.type === "dark"
+      ? "rgba(0, 0, 0, 0.50)"
+      : "rgba(255, 255, 255, 0.30)"};
+  color: ${(props) =>
+    props.type === "dark" ? `${colors.white}` : `${colors.black_41}`};
 `;
 
 const StyledTagWrapper = styled.div`
@@ -27,9 +32,7 @@ const StyledTagWrapper = styled.div`
   gap: 4px;
 `;
 
-
 const StyledTagPoint = styled.div`
-  color: ${colors};
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 500;
 `;
