@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import colors from "../styles/colors";
+import Tag from "./Tag";
 
 function Card() {
   return (
     <StyledCardContainer>
       <StyledCardTitleWrapper>
         <StyledCardTitle>이유디 의 UX 스터디</StyledCardTitle>
-        <div>Tag</div>
+        <Tag />
       </StyledCardTitleWrapper>
       <StyledDay>62일 째 진행 중</StyledDay>
       <StyledIntroduce>Slow And Steady Wins The Race!!</StyledIntroduce>
@@ -19,7 +20,7 @@ export default Card;
 
 const StyledCardContainer = styled.div`
   width: 358px;
-  height: auto;
+  height: 243px;
   flex-shrink: 0;
   border-radius: 20px;
   border: 1px solid rgba(0, 0, 0, 0.1);

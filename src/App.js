@@ -1,5 +1,5 @@
-import Navbar from './components/Navbar';
-import Main from './pages/Main';
+import Navbar from "./components/Navbar";
+import Tag from "./components/Tag";
 import GlobalStyles from "./styles/GlobalStyles";
 
 function App() {
@@ -7,7 +7,6 @@ function App() {
     <>
       <GlobalStyles />
       <Navbar />
-      <Main/>
     </>
   );
 }
