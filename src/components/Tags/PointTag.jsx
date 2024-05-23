@@ -2,9 +2,9 @@ import styled from "styled-components";
 import PointIcon from "../../assets/icons/icon-point.svg";
 import colors from "../../styles/colors";
 
-function PointTag({ type = "dark" }) {
+function PointTag({ status = "dark" }) {
   return (
-    <StyledTagContainer type={type}>
+    <StyledTagContainer status={status}>
       <StyledTagWrapper>
         <img src={PointIcon} alt="획득 포인트 아이콘" />
         <StyledTagPoint>310P 획득</StyledTagPoint>
@@ -19,12 +19,10 @@ const StyledTagContainer = styled.div`
   padding: 4px 8px;
   border-radius: 50px;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  background: ${(props) =>
-    props.type === "dark"
-      ? "rgba(0, 0, 0, 0.50)"
-      : "rgba(255, 255, 255, 0.30)"};
-  color: ${(props) =>
-    props.type === "dark" ? `${colors.white}` : `${colors.black_41}`};
+  background: ${({ status }) =>
+    status === "dark" ? "rgba(0, 0, 0, 0.50)" : "rgba(255, 255, 255, 0.30)"};
+  color: ${({ status }) =>
+    status === "dark" ? `${colors.white}` : `${colors.black_41}`};
 `;
 
 const StyledTagWrapper = styled.div`

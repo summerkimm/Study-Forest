@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import colors from "../styles/colors";
-import Tag from "./Tag";
+import PointTag from './Tags/PointTag';
 
 function Card() {
   return (
     <StyledCardContainer>
       <StyledCardTitleWrapper>
         <StyledCardTitle>이유디 의 UX 스터디</StyledCardTitle>
-        <Tag />
+        <PointTag type="dark" />
       </StyledCardTitleWrapper>
       <StyledDay>62일 째 진행 중</StyledDay>
       <StyledIntroduce>Slow And Steady Wins The Race!!</StyledIntroduce>
