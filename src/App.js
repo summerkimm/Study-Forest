@@ -1,4 +1,5 @@
 import Navbar from './components/Navbar';
+import Main from './pages/Main';
 import GlobalStyles from "./styles/GlobalStyles";
 
 function App() {
@@ -6,6 +7,7 @@ function App() {
     <>
       <GlobalStyles />
       <Navbar />
+      <Main/>
     </>
   );
 }
