@@ -70,7 +70,6 @@ function Card() {
     points,
   } = MOCKDATA;
 
-
   return (
     <StyledCardContainer background={background}>
       <StyledCardHeader>
