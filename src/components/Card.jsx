@@ -14,7 +14,7 @@ const MOCKDATA = {
   nickName: "이모티콘 스터디",
   description: "화이팅 🤍",
   studyDays: 45,
-  background: "image-2",
+  background: "green",
   points: 225,
   topReactions: [
     {
@@ -105,9 +105,7 @@ function Card() {
 export default Card;
 
 const StyledCardContainer = styled.div`
-  width: 358px;
   height: 243px;
-  flex-shrink: 0;
   border-radius: 20px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 30px;
@@ -125,7 +123,6 @@ const StyledCardContainer = styled.div`
   justify-content: space-between;
 
   ${onTablet} {
-    width: 312px;
     height: 243px;
   }
 

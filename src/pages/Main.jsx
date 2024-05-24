@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import Card from "../components/Card";
+import SearchInput from "../components/SearchInput";
 import colors from "../styles/colors";
 import { onMobile, onTablet } from "../styles/media-queries";
-import SearchInput from '../components/SearchInput';
 import CardList from '../components/CardList';
 
 function Main() {
@@ -11,7 +11,9 @@ function Main() {
       <StyledBoxContainer>
         <StyledBoxTitle>최근 조회한 스터디</StyledBoxTitle>
         <StyledBoxWrapper>
-          <Card color="green" />
+          <Card />
+          <Card />
+          <Card />
         </StyledBoxWrapper>
       </StyledBoxContainer>
 
@@ -35,9 +37,10 @@ const StyledContainer = styled.div`
 `;
 
 const StyledBoxContainer = styled.div`
-  display: flex;
+  width: 100%;
   max-width: 1200px;
   padding: 40px;
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
@@ -46,7 +49,7 @@ const StyledBoxContainer = styled.div`
 
   ${onTablet} {
     width: 697px;
-  }
+  } 
 
   ${onMobile} {
     width: 344px;

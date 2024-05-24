@@ -4,7 +4,7 @@ import Card from "./Card";
 
 function CardList() {
   return (
-    <CardListContainer>
+    <StyledAllCardListContainer>
       <Card />
       <Card />
       <Card />
@@ -13,15 +13,13 @@ function CardList() {
       <Card />
       <Card />
       <Card />
-      <Card />
-    </CardListContainer>
+    </StyledAllCardListContainer>
   );
 }
 
 export default CardList;
 
-const CardListContainer = styled.div`
-  border: 1px solid #000;
+const StyledAllCardListContainer = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -32,6 +30,6 @@ const CardListContainer = styled.div`
   }
 
   ${onMobile} {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(1, 1fr);
   }
 `;
