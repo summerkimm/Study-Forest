@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Card from "../components/Card";
 import colors from "../styles/colors";
 import { onMobile, onTablet } from "../styles/media-queries";
+import SearchInput from '../components/SearchInput';
 
 function Main() {
   return (
@@ -15,6 +16,7 @@ function Main() {
 
       <StyledBoxContainer>
         <StyledBoxTitle>스터디 둘러보기</StyledBoxTitle>
+        <SearchInput />
       </StyledBoxContainer>
     </StyledContainer>
   );
