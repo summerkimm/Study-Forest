@@ -1,37 +1,36 @@
 import styled from "styled-components";
 import COLORS from "../../styles/colors";
 
-function EmojiTag({ status = "dark" }) {
+function EmojiTag({ reactions, status }) {
+  const { emoji, count } = reactions;
+
   return (
-    <EmojiTagContainer status={status}>
-      <EmojiTagWrapper>
-        <div>👩🏻‍💻</div>
-        <EmojiTagNumber>26</EmojiTagNumber>
-      </EmojiTagWrapper>
-    </EmojiTagContainer>
+    <StyledEmojiTagContainer status={status}>
+      <StyledEmoji>{emoji}</StyledEmoji>
+      <StyledEmojiNumber>{count}</StyledEmojiNumber>
+    </StyledEmojiTagContainer>
   );
 }
 
 export default EmojiTag;
 
-const EmojiTagContainer = styled.div`
+const StyledEmojiTagContainer = styled.div`
   display: flex;
-  width: fit-content;
+  width: 32px;
   padding: 6px 8px;
   align-items: center;
   gap: 5px;
   border-radius: 50px;
+  background: rgba(0, 0, 0, 0.5);
   background: ${({ status }) =>
     status === "dark" ? "rgba(0, 0, 0, 0.50)" : "rgba(0, 0, 0, 0.40)"};
 `;
 
-const EmojiTagWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
+const StyledEmoji = styled.div`
+  font-size: 12px;
 `;
 
-const EmojiTagNumber = styled.div`
+const StyledEmojiNumber = styled.div`
   color: ${COLORS.white};
   font-size: 12px;
   font-weight: 400;

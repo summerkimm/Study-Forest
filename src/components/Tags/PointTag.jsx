@@ -2,12 +2,12 @@ import styled from "styled-components";
 import PointIcon from "../../assets/icons/icon-point.svg";
 import COLORS from "../../styles/colors";
 
-function PointTag({ points, status = "dark" }) {
+function PointTag({ points, status }) {
   return (
     <StyledTagContainer status={status}>
       <StyledTagWrapper>
         <img src={PointIcon} alt="획득 포인트 아이콘" />
-        <StyledTagPoint>310P 획득</StyledTagPoint>
+        <StyledTagPoint>{points}P 획득</StyledTagPoint>
       </StyledTagWrapper>
     </StyledTagContainer>
   );

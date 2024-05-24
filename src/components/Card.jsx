@@ -1,64 +1,104 @@
 import styled from "styled-components";
+import Image1 from "../assets/images/image-card1.png";
+import Image2 from "../assets/images/image-card2.png";
+import Image3 from "../assets/images/image-card3.png";
+import Image4 from "../assets/images/image-card4.png";
 import colors from "../styles/colors";
+import { onMobile, onTablet } from "../styles/media-queries";
 import EmojiTag from "./Tags/EmojiTag";
 import PointTag from "./Tags/PointTag";
 
 const MOCKDATA = {
-  id: 1,
-  name: "UX 스터디",
-  nickName: "이유디",
-  description: "Slow And Steady Wins The Race!!",
-  studyDays: 62,
-  background: "sky-blue",
-  points: 310,
+  id: 2,
+  name: "해나",
+  nickName: "이모티콘 스터디",
+  description: "화이팅 🤍",
+  studyDays: 45,
+  background: "image-2",
+  points: 225,
   topReactions: [
     {
-      id: 27,
-      emoji: "👩🏻",
-      count: 37,
+      id: 25,
+      emoji: "🥰",
+      count: 10,
     },
     {
-      id: 39,
-      emoji: "🔥",
-      count: 26,
+      id: 11,
+      emoji: "💗",
+      count: 12,
     },
     {
-      id: 31,
-      emoji: "🤍",
-      count: 14,
+      id: 9,
+      emoji: "👍🏻",
+      count: 10,
     },
   ],
 };
 
+const COLORSCHEME = {
+  green: { color: "#578246", backgroundColor: "#e1edde", status: "light" },
+  yellow: { color: "#c18e1b", backgroundColor: "#fff1cc", status: "light" },
+  pink: { color: "#bc3c6a", backgroundColor: "#fde0e9", status: "light" },
+  blue: { color: "#418099", backgroundColor: "#E0F1F5", status: "light" },
+  "image-1": {
+    backgroundImage: `url(${Image1})`,
+    status: "dark",
+  },
+  "image-2": {
+    backgroundImage: `url(${Image2})`,
+    status: "dark",
+  },
+  "image-3": {
+    backgroundImage: `url(${Image3})`,
+    status: "dark",
+  },
+  "image-4": {
+    color: "#fff",
+    backgroundImage: `url(${Image4})`,
+    status: "dark",
+  },
+};
+
 function Card() {
-  const { name, nickName, description, studyDays } = MOCKDATA;
+  const {
+    name,
+    nickName,
+    description,
+    studyDays,
+    topReactions,
+    background,
+    points,
+  } = MOCKDATA;
+
 
   return (
-    <StyledCardContainer>
+    <StyledCardContainer background={background}>
       <StyledCardHeader>
         <StyledCardTitleWrapper>
-          <StyledCardTitle>
-            {nickName} 의 {name}
+          <StyledCardTitle background={background}>
+            <StyledCardNickname background={background}>
+              {name}{" "}
+            </StyledCardNickname>
+            의 {nickName}
           </StyledCardTitle>
-          <PointTag status="light" />
-          {/* <PointTag status="dark" /> */}
+          <PointTag points={points} status={COLORSCHEME[background].status} />
         </StyledCardTitleWrapper>
-        <StyledDay>
+        <StyledProgressDay background={background}>
           <span>{studyDays}</span>일 째 진행 중
-        </StyledDay>
+        </StyledProgressDay>
       </StyledCardHeader>
-      <StyledCardDescription>{description}</StyledCardDescription>
+      <StyledCardDescription background={background}>
+        {description}
+      </StyledCardDescription>
       <StyledEmojiTagWrapper>
-        <EmojiTag status="light" />
-        <EmojiTag status="light" />
-        <EmojiTag status="light" />
+        {topReactions.map((reactions) => (
+          <EmojiTag
+            key={reactions.id}
+            reactions={reactions}
+            status={COLORSCHEME[background].status}
+          />
+        ))}
       </StyledEmojiTagWrapper>
-
-      {/* <StyledEmojiTagWrapper>
-        <EmojiTag status="dark" />
-        <EmojiTag status="dark" />
-        <EmojiTag status="dark" />
-      </StyledEmojiTagWrapper> */}
     </StyledCardContainer>
   );
 }
@@ -71,11 +111,28 @@ const StyledCardContainer = styled.div`
   flex-shrink: 0;
   border-radius: 20px;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  background: rgba(65, 65, 65, 0.5);
   padding: 30px;
+
+  background: ${({ background }) =>
+    COLORSCHEME[background]?.backgroundColor || "rgba(65, 65, 65, 0.50)"};
+  background-image: ${({ background }) =>
+    COLORSCHEME[background]?.backgroundImage || "none"};
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  ${onTablet} {
+    width: 312px;
+    height: 243px;
+  }
+
+  ${onMobile} {
+    height: 180px;
+  }
 `;
 
 const StyledCardHeader = styled.div`
@@ -94,26 +151,38 @@ const StyledCardTitleWrapper = styled.div`
 `;
 
 const StyledCardTitle = styled.div`
-  color: ${colors.white};
+  color: ${({ background }) =>
+    COLORSCHEME[background]?.status === "light"
+      ? `${colors.black_41}`
+      : "#ffffff"};
   font-size: 18px;
   font-weight: 700;
 `;
 
-const StyledDay = styled.p`
-  color: ${colors.gray_EE};
+const StyledCardNickname = styled.span`
+  color: ${({ background }) => COLORSCHEME[background]?.color || "#ffffff"};
+`;
+
+const StyledProgressDay = styled.p`
+  color: ${({ background }) =>
+    COLORSCHEME[background]?.status === "light"
+      ? `${colors.gray_81}`
+      : "#eeeeee"};
   font-size: 14px;
   font-weight: 400;
 `;
 
 const StyledCardDescription = styled.p`
-  color: ${colors.white};
+  color: ${({ background }) =>
+    COLORSCHEME[background]?.status === "light"
+      ? `${colors.black_41}`
+      : "#ffffff"};
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
 `;
 
 const StyledEmojiTagWrapper = styled.div`
-  border: 1px solid #000;
   display: flex;
   align-items: flex-start;
   gap: 5px;

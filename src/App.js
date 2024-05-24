@@ -1,5 +1,5 @@
 import Navbar from "./components/Navbar";
-import Main from './pages/Main';
+import Card from './components/Card';
 import GlobalStyles from "./styles/GlobalStyles";
 
 
@@ -8,7 +8,8 @@ function App() {
     <>
       <GlobalStyles />
       <Navbar />
-      <Main />
+      {/* <Main /> */}
+      <Card />
     </>
   );
 }

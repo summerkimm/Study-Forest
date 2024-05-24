@@ -3,6 +3,7 @@ import Card from "../components/Card";
 import colors from "../styles/colors";
 import { onMobile, onTablet } from "../styles/media-queries";
 import SearchInput from '../components/SearchInput';
+import CardList from '../components/CardList';
 
 function Main() {
   return (
@@ -17,6 +18,7 @@ function Main() {
       <StyledBoxContainer>
         <StyledBoxTitle>스터디 둘러보기</StyledBoxTitle>
         <SearchInput />
+        <CardList />
       </StyledBoxContainer>
     </StyledContainer>
   );
@@ -34,7 +36,7 @@ const StyledContainer = styled.div`
 
 const StyledBoxContainer = styled.div`
   display: flex;
-  width: 1200px;
+  max-width: 1200px;
   padding: 40px;
   flex-direction: column;
   align-items: flex-start;
