@@ -1,17 +1,64 @@
 import styled from "styled-components";
 import colors from "../styles/colors";
-import PointTag from './Tags/PointTag';
+import EmojiTag from "./Tags/EmojiTag";
+import PointTag from "./Tags/PointTag";
+
+const MOCKDATA = {
+  id: 1,
+  name: "UX 스터디",
+  nickName: "이유디",
+  description: "Slow And Steady Wins The Race!!",
+  studyDays: 62,
+  background: "sky-blue",
+  points: 310,
+  topReactions: [
+    {
+      id: 27,
+      emoji: "👩🏻",
+      count: 37,
+    },
+    {
+      id: 39,
+      emoji: "🔥",
+      count: 26,
+    },
+    {
+      id: 31,
+      emoji: "🤍",
+      count: 14,
+    },
+  ],
+};
 
 function Card() {
+  const { name, nickName, description, studyDays } = MOCKDATA;
+
   return (
     <StyledCardContainer>
-      <StyledCardTitleWrapper>
-        <StyledCardTitle>이유디 의 UX 스터디</StyledCardTitle>
-        <PointTag type="dark" />
-      </StyledCardTitleWrapper>
-      <StyledDay>62일 째 진행 중</StyledDay>
-      <StyledIntroduce>Slow And Steady Wins The Race!!</StyledIntroduce>
-      <div>tag tag tag</div>
+      <StyledCardHeader>
+        <StyledCardTitleWrapper>
+          <StyledCardTitle>
+            {nickName} 의 {name}
+          </StyledCardTitle>
+          <PointTag status="light" />
+          {/* <PointTag status="dark" /> */}
+        </StyledCardTitleWrapper>
+        <StyledDay>
+          <span>{studyDays}</span>일 째 진행 중
+        </StyledDay>
+      </StyledCardHeader>
+      <StyledCardDescription>{description}</StyledCardDescription>
+      <StyledEmojiTagWrapper>
+        <EmojiTag status="light" />
+        <EmojiTag status="light" />
+        <EmojiTag status="light" />
+      </StyledEmojiTagWrapper>
+
+      {/* <StyledEmojiTagWrapper>
+        <EmojiTag status="dark" />
+        <EmojiTag status="dark" />
+        <EmojiTag status="dark" />
+      </StyledEmojiTagWrapper> */}
     </StyledCardContainer>
   );
 }
@@ -26,6 +73,17 @@ const StyledCardContainer = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.1);
   background: rgba(65, 65, 65, 0.5);
   padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const StyledCardHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  align-self: stretch;
 `;
 
 const StyledCardTitleWrapper = styled.div`
@@ -39,22 +97,24 @@ const StyledCardTitle = styled.div`
   color: ${colors.white};
   font-size: 18px;
   font-weight: 700;
-  margin-bottom: 10px;
 `;
 
 const StyledDay = styled.p`
-  color: #eee;
+  color: ${colors.gray_EE};
   font-size: 14px;
   font-weight: 400;
-  margin-bottom: 30px;
 `;
 
-const StyledIntroduce = styled.p`
-  color: #fff;
-  font-family: Pretendard;
+const StyledCardDescription = styled.p`
+  color: ${colors.white};
   font-size: 16px;
-  font-style: normal;
   font-weight: 400;
-  line-height: 24px; /* 150% */
-  padding-bottom: 45px;
+  line-height: 24px;
+`;
+
+const StyledEmojiTagWrapper = styled.div`
+  border: 1px solid #000;
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
 `;

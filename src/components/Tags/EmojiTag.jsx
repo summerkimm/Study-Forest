@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import colors from "../../styles/colors";
+import COLORS from "../../styles/colors";
 
 function EmojiTag({ status = "dark" }) {
   return (
@@ -32,7 +32,7 @@ const EmojiTagWrapper = styled.div`
 `;
 
 const EmojiTagNumber = styled.div`
-  color: ${colors.white};
+  color: ${COLORS.white};
   font-size: 12px;
   font-weight: 400;
 `;

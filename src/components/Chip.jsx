@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import colors from "../styles/colors";
+import COLORS from "../styles/colors";
 
 function Chip({ isActive = true, children }) {
   return <StyledChip isActive={isActive}>{children}</StyledChip>;
@@ -20,6 +20,6 @@ const StyledChip = styled.div`
   text-align: center;
   font-size: 16px;
   font-weight: 700;
-  background: ${({ isActive }) => (isActive ? colors.brand : colors.gray_EE)};
-  color: ${({ isActive }) => (isActive ? colors.white : colors.gray_81)};
+  background: ${({ isActive }) => (isActive ? COLORS.brand : COLORS.gray_EE)};
+  color: ${({ isActive }) => (isActive ? COLORS.white : COLORS.gray_81)};
 `;

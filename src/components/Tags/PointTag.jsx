@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import PointIcon from "../../assets/icons/icon-point.svg";
-import colors from "../../styles/colors";
+import COLORS from "../../styles/colors";
 
-function PointTag({ status = "dark" }) {
+function PointTag({ points, status = "dark" }) {
   return (
     <StyledTagContainer status={status}>
       <StyledTagWrapper>
@@ -22,7 +22,7 @@ const StyledTagContainer = styled.div`
   background: ${({ status }) =>
     status === "dark" ? "rgba(0, 0, 0, 0.50)" : "rgba(255, 255, 255, 0.30)"};
   color: ${({ status }) =>
-    status === "dark" ? `${colors.white}` : `${colors.black_41}`};
+    status === "dark" ? `${COLORS.white}` : `${COLORS.black_41}`};
 `;
 
 const StyledTagWrapper = styled.div`

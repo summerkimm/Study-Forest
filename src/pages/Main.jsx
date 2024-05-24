@@ -9,9 +9,7 @@ function Main() {
       <StyledBoxContainer>
         <StyledBoxTitle>최근 조회한 스터디</StyledBoxTitle>
         <StyledBoxWrapper>
-          <Card />
-          <Card />
-          <Card />
+          <Card color="green" />
         </StyledBoxWrapper>
       </StyledBoxContainer>
 
