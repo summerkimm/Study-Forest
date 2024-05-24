@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import Card from "../components/Card";
+import CardList from "../components/CardList";
 import SearchInput from "../components/SearchInput";
+import { MOCKDATA } from "../mock";
 import colors from "../styles/colors";
 import { onMobile, onTablet } from "../styles/media-queries";
-import CardList from '../components/CardList';
 
 function Main() {
+  const { studies } = MOCKDATA;
+
   return (
     <StyledContainer>
       <StyledBoxContainer>
@@ -20,7 +23,7 @@ function Main() {
       <StyledBoxContainer>
         <StyledBoxTitle>스터디 둘러보기</StyledBoxTitle>
         <SearchInput />
-        <CardList />
+        <CardList studies={studies} />
       </StyledBoxContainer>
     </StyledContainer>
   );
@@ -49,7 +52,7 @@ const StyledBoxContainer = styled.div`
 
   ${onTablet} {
     width: 697px;
-  } 
+  }
 
   ${onMobile} {
     width: 344px;

@@ -2,17 +2,13 @@ import styled from "styled-components";
 import { onMobile, onTablet } from "../styles/media-queries";
 import Card from "./Card";
 
-function CardList() {
+function CardList({ studies }) {
+
   return (
     <StyledAllCardListContainer>
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
+      {studies.map((study) => 
+        <Card key={study.id} study={study} />
+      )}
     </StyledAllCardListContainer>
   );
 }
