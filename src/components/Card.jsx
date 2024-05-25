@@ -8,38 +8,11 @@ import { onMobile, onTablet } from "../styles/media-queries";
 import EmojiTag from "./Tags/EmojiTag";
 import PointTag from "./Tags/PointTag";
 
-const MOCKDATA = {
-  id: 2,
-  name: "해나",
-  nickName: "이모티콘 스터디",
-  description: "화이팅 🤍",
-  studyDays: 45,
-  background: "green",
-  points: 225,
-  topReactions: [
-    {
-      id: 25,
-      emoji: "🥰",
-      count: 10,
-    },
-    {
-      id: 11,
-      emoji: "💗",
-      count: 12,
-    },
-    {
-      id: 9,
-      emoji: "👍🏻",
-      count: 10,
-    },
-  ],
-};
-
 const COLORSCHEME = {
   green: { color: "#578246", backgroundColor: "#e1edde", status: "light" },
   yellow: { color: "#c18e1b", backgroundColor: "#fff1cc", status: "light" },
   pink: { color: "#bc3c6a", backgroundColor: "#fde0e9", status: "light" },
-  blue: { color: "#418099", backgroundColor: "#E0F1F5", status: "light" },
+  "sky-blue": { color: "#418099", backgroundColor: "#E0F1F5", status: "light" },
   "image-1": {
     backgroundImage: `url(${Image1})`,
     status: "dark",
@@ -53,48 +26,50 @@ const COLORSCHEME = {
     status: "dark",
   },
   "image-4": {
-    color: "#fff",
     backgroundImage: `url(${Image4})`,
     status: "dark",
   },
 };
 
-function Card() {
-  const {
-    name,
-    nickName,
-    description,
-    studyDays,
-    topReactions,
-    background,
-    points,
-  } = MOCKDATA;
+function Card({
+  name,
+  nickName,
+  description,
+  studyDays,
+  topReactions,
+  background,
+  points,
+}) {
+  console.log(background);
 
   return (
-    <StyledCardContainer background={background}>
+    <StyledCardContainer $background={background}>
       <StyledCardHeader>
         <StyledCardTitleWrapper>
-          <StyledCardTitle background={background}>
-            <StyledCardNickname background={background}>
+          <StyledCardTitle $background={background}>
+            <StyledCardNickname $background={background}>
               {name}{" "}
             </StyledCardNickname>
             의 {nickName}
           </StyledCardTitle>
-          <PointTag points={points} status={COLORSCHEME[background].status} />
+          <PointTag
+            $points={points}
+            $status={COLORSCHEME[background]?.status}
+          />
         </StyledCardTitleWrapper>
-        <StyledProgressDay background={background}>
+        <StyledProgressDay $background={background}>
           <span>{studyDays}</span>일 째 진행 중
         </StyledProgressDay>
       </StyledCardHeader>
-      <StyledCardDescription background={background}>
+      <StyledCardDescription $background={background}>
         {description}
       </StyledCardDescription>
       <StyledEmojiTagWrapper>
-        {topReactions.map((reactions) => (
+        {topReactions?.map((reactions) => (
           <EmojiTag
             key={reactions.id}
             reactions={reactions}
-            status={COLORSCHEME[background].status}
+            $status={COLORSCHEME[background]?.status}
           />
         ))}
       </StyledEmojiTagWrapper>
@@ -110,10 +85,10 @@ const StyledCardContainer = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 30px;
 
-  background: ${({ background }) =>
-    COLORSCHEME[background]?.backgroundColor || "rgba(65, 65, 65, 0.50)"};
-  background-image: ${({ background }) =>
-    COLORSCHEME[background]?.backgroundImage || "none"};
+  background-color: ${({ $background }) =>
+    COLORSCHEME[$background]?.backgroundColor || "rgba(65, 65, 65, 0.50)"};
+  background-image: ${({ $background }) =>
+    COLORSCHEME[$background]?.backgroundImage || "none"};
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -147,8 +122,8 @@ const StyledCardTitleWrapper = styled.div`
 `;
 
 const StyledCardTitle = styled.div`
-  color: ${({ background }) =>
-    COLORSCHEME[background]?.status === "light"
+  color: ${({ $background }) =>
+    COLORSCHEME[$background]?.status === "light"
       ? `${colors.black_41}`
       : "#ffffff"};
   font-size: 18px;
@@ -156,12 +131,12 @@ const StyledCardTitle = styled.div`
 `;
 
 const StyledCardNickname = styled.span`
-  color: ${({ background }) => COLORSCHEME[background]?.color || "#ffffff"};
+  color: ${({ $background }) => COLORSCHEME[$background]?.color || "#ffffff"};
 `;
 
 const StyledProgressDay = styled.p`
-  color: ${({ background }) =>
-    COLORSCHEME[background]?.status === "light"
+  color: ${({ $background }) =>
+    COLORSCHEME[$background]?.status === "light"
       ? `${colors.gray_81}`
       : "#eeeeee"};
   font-size: 14px;
@@ -169,8 +144,8 @@ const StyledProgressDay = styled.p`
 `;
 
 const StyledCardDescription = styled.p`
-  color: ${({ background }) =>
-    COLORSCHEME[background]?.status === "light"
+  color: ${({ $background }) =>
+    COLORSCHEME[$background]?.status === "light"
       ? `${colors.black_41}`
       : "#ffffff"};
   font-size: 16px;

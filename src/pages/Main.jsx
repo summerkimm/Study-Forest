@@ -5,9 +5,11 @@ import SearchInput from "../components/SearchInput";
 import { MOCKDATA } from "../mock";
 import colors from "../styles/colors";
 import { onMobile, onTablet } from "../styles/media-queries";
+import { useState } from 'react';
 
 function Main() {
   const { studies } = MOCKDATA;
+  const [items, setItems] = useState(studies);
 
   return (
     <StyledContainer>
@@ -23,7 +25,7 @@ function Main() {
       <StyledBoxContainer>
         <StyledBoxTitle>스터디 둘러보기</StyledBoxTitle>
         <SearchInput />
-        <CardList studies={studies} />
+        <CardList items={items} />
       </StyledBoxContainer>
     </StyledContainer>
   );
@@ -32,7 +34,6 @@ function Main() {
 export default Main;
 
 const StyledContainer = styled.div`
-  border: 1px solid #000;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -67,7 +68,6 @@ const StyledBoxTitle = styled.h1`
 `;
 
 const StyledBoxWrapper = styled.div`
-  border: 1px solid #000;
   display: flex;
   width: 100%;
   height: auto;
