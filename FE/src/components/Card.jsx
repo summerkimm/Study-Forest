@@ -40,8 +40,9 @@ function Card({
   background,
   points,
 }) {
+
   return (
-    <StyledCardContainer $background={background}>
+    <StyledCardContainer $background={background} >
       <StyledCardHeader>
         <StyledCardTitleWrapper>
           <StyledCardTitle $background={background}>
