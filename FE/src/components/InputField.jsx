@@ -1,16 +1,31 @@
 import styled from "styled-components";
 
-function Input({ name, label, type = "text", placeholder, value, onChange }) {
+function InputField({
+  name,
+  label,
+  type = "text",
+  placeholder,
+  value,
+  onChange,
+  errorMessage,
+  isError,
+}) {
   return (
     <StyledInputContainer>
       <StyledInputLabel>{label}</StyledInputLabel>
-      <StyledInput name={name} value={value} type={type} placeholder={placeholder} onChange={onChange} />
-      {/* {error & <p>{error}</p>} */}
+      <StyledInput
+        name={name}
+        value={value}
+        type={type}
+        placeholder={placeholder}
+        onChange={onChange}
+      />
+      {isError && <p>{errorMessage}</p>}
     </StyledInputContainer>
   );
 }
 
-export default Input;
+export default InputField;
 
 const StyledInputContainer = styled.div`
   width: 100%;
