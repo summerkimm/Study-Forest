@@ -40,8 +40,6 @@ function Card({
   background,
   points,
 }) {
-  console.log(background);
-
   return (
     <StyledCardContainer $background={background}>
       <StyledCardHeader>
@@ -52,10 +50,7 @@ function Card({
             </StyledCardNickname>
             의 {nickName}
           </StyledCardTitle>
-          <PointTag
-            $points={points}
-            $status={COLORSCHEME[background]?.status}
-          />
+          <PointTag points={points} status={COLORSCHEME[background]?.status} />
         </StyledCardTitleWrapper>
         <StyledProgressDay $background={background}>
           <span>{studyDays}</span>일 째 진행 중
@@ -69,7 +64,7 @@ function Card({
           <EmojiTag
             key={reactions.id}
             reactions={reactions}
-            $status={COLORSCHEME[background]?.status}
+            status={COLORSCHEME[background]?.status}
           />
         ))}
       </StyledEmojiTagWrapper>

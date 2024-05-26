@@ -1,31 +1,47 @@
+import { useState } from "react";
 import styled from "styled-components";
-import Card from "../components/Card";
+import SearchIcon from "../assets/icons/icon-search.svg";
 import CardList from "../components/CardList";
-import SearchInput from "../components/SearchInput";
 import { MOCKDATA } from "../mock";
 import colors from "../styles/colors";
 import { onMobile, onTablet } from "../styles/media-queries";
-import { useState } from 'react';
 
 function Main() {
   const { studies } = MOCKDATA;
   const [items, setItems] = useState(studies);
+  const [search, setSearch] = useState("");
+
+  const handleChangeSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const filteredItems = items.filter((item) =>
+    item.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <StyledContainer>
       <StyledBoxContainer>
         <StyledBoxTitle>최근 조회한 스터디</StyledBoxTitle>
-        <StyledBoxWrapper>
+        {/* <StyledBoxWrapper>
           <Card />
           <Card />
           <Card />
-        </StyledBoxWrapper>
+        </StyledBoxWrapper> */}
       </StyledBoxContainer>
 
       <StyledBoxContainer>
         <StyledBoxTitle>스터디 둘러보기</StyledBoxTitle>
-        <SearchInput />
-        <CardList items={items} />
+        <SearchInputContainer>
+          <img src={SearchIcon} alt="검색창 아이콘" />
+          <SearchTextInput
+            value={search}
+            type="text"
+            placeholder="검색"
+            onChange={handleChangeSearch}
+          />
+        </SearchInputContainer>
+        <CardList items={filteredItems} />
       </StyledBoxContainer>
     </StyledContainer>
   );
@@ -75,4 +91,29 @@ const StyledBoxWrapper = styled.div`
   gap: 24px;
   flex-shrink: 0;
   overflow-x: auto;
+`;
+
+const SearchInputContainer = styled.div`
+  display: flex;
+  width: 335px;
+  height: auto;
+  padding: 12px 20px;
+  align-items: flex-start;
+  gap: 10px;
+
+  border-radius: 15px;
+  border: 1px solid #ddd;
+  background: #fff;
+
+  ${onMobile} {
+    width: 312px;
+  }
+`;
+
+const SearchTextInput = styled.input`
+  width: 100%;
+  color: #818181;
+  font-size: 16px;
+  font-weight: 400;
+  border: none;
 `;

@@ -3,6 +3,7 @@ import PointIcon from "../../assets/icons/icon-point.svg";
 import COLORS from "../../styles/colors";
 
 function PointTag({ points, status }) {
+
   return (
     <StyledTagContainer status={status}>
       <StyledTagWrapper>
