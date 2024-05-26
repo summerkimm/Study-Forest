@@ -46,9 +46,9 @@ function Card({
         <StyledCardTitleWrapper>
           <StyledCardTitle $background={background}>
             <StyledCardNickname $background={background}>
-              {name}{" "}
+              {nickName}{" "}
             </StyledCardNickname>
-            의 {nickName}
+            의 {name}
           </StyledCardTitle>
           <PointTag points={points} status={COLORSCHEME[background]?.status} />
         </StyledCardTitleWrapper>
