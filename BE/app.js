@@ -34,30 +34,23 @@ function asyncHandler(handler) {
 }
 
 /*----                user               -----*/
-app.get("studies/:studyId/userCheck", asyncHandler(async(req, res) => {
+app.post("studies/:studyId/userCheck", asyncHandler(async(req, res) => {
   const { password } = req.body;
   const {studyId} = req.params;
 
-  async function userCheck (password) {
-    const user = await prisma.user.findUnique({
-      where : {studiesId : studyId}
-    });
+  const user = await prisma.user.findUnique({
+    where : {studiesId : studyId}
+  });
 
-    if(user.password === password) {
-      const {nickName, name, description, background, password} = await prisma.studies.findUnique({
-        where : {
-          id : studyId,
-        },
-      })
-      return {nickName, name, description, background, password}
-    } else {
-      throw new Error({message : '비밀번호가 일치하지 않습니다.'})
-    }
-  };
-  res.send(await userCheck(password))  
+  let message;
+  if(user.password === password) {
+    message = {message : 'Success'}
+  } else {
+    throw new Error({message : '비밀번호가 일치하지 않습니다.'})
+  }
+
+  res.status(201).send(message)  
 }))
-
-
 
 /*----                study               -----*/
 app.get(
@@ -89,8 +82,38 @@ app.get(
           mode: "insensitive",
         },
       },
+      include : {
+        TopReaction : true,
+      },
     });
-    res.send(study);
+
+    const formattedStudies = studies.map(study => {
+      return {
+        id: study.id,
+        name: study.name,
+        nickName: study.nickName,
+        description: study.description,
+        studyDays: study.studyDays,
+        background: study.background,
+        points: study.points,
+        topReactions: study.TopReaction.map(reaction => ({
+          id: reaction.id,
+          emoji: reaction.emoji,
+          count: reaction.count
+        }))
+      };
+    });
+
+    const result = {
+      studies: formattedStudies,
+      pagination: {
+        currentOffset: parseInt(offset),
+        nextOffset: parseInt(offset) + parseInt(limit),
+        limit: parseInt(limit),
+      }
+    };
+
+    res.send(result);
   })
 );
 
@@ -139,7 +162,7 @@ app.get(
       habitTrackers: habitTrackers.map((tracker) => ({
         id: tracker.id,
         name: tracker.name,
-        isCompleted: tracker.isCompleted,
+        isCompleted: JSON.parse(tracker.isCompletedDays),
       })),
     };
 
@@ -206,7 +229,7 @@ app.delete(
 /*----                point              -----*/
 
 app.post(
-  "/studies/:studyId/point",
+  "/:studyId/point",
   asyncHandler(async (req, res) => {
     const { studyId } = req.params;
     const { additionalPoints } = req.body;
@@ -220,7 +243,7 @@ app.post(
       },
     });
 
-    res.send({
+    res.status(201).send({
       id,
       name,
       points,

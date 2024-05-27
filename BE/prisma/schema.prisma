@@ -57,10 +57,10 @@ model Habit {
 }
 
 model HabitTracker {
-  id              String          @id @default(uuid())
+  id              String  @id @default(uuid())
   name            String
-  isCompletedDays IsCompletedDays
-  studies         Studies         @relation(fields: [studiesId], references: [id])
+  isCompletedDays Json
+  studies         Studies @relation(fields: [studiesId], references: [id])
   studiesId       String
 }
 
@@ -88,14 +88,4 @@ enum Background {
 enum EmojiType {
   increase
   decrease
-}
-
-enum IsCompletedDays {
-  Mon
-  Tue
-  Wed
-  Thu
-  Fri
-  Sat
-  Sun
 }
