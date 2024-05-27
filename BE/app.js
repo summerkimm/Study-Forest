@@ -33,6 +33,32 @@ function asyncHandler(handler) {
   };
 }
 
+/*----                user               -----*/
+app.get("studies/:studyId/userCheck", asyncHandler(async(req, res) => {
+  const { password } = req.body;
+  const {studyId} = req.params;
+
+  async function userCheck (password) {
+    const user = await prisma.user.findUnique({
+      where : {studiesId : studyId}
+    });
+
+    if(user.password === password) {
+      const {nickName, name, description, background, password} = await prisma.studies.findUnique({
+        where : {
+          id : studyId,
+        },
+      })
+      return {nickName, name, description, background, password}
+    } else {
+      throw new Error({message : '비밀번호가 일치하지 않습니다.'})
+    }
+  };
+  res.send(await userCheck(password))  
+}))
+
+
+
 /*----                study               -----*/
 app.get(
   "/studies",
