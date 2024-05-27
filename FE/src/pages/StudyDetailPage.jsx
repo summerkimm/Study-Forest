@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../components/Button";
 import HabitTracker from "../components/HabitTracker";
@@ -68,6 +69,16 @@ function StudyDetailPage() {
   const { nickName, name, description, point, habitTrackers } = MOCK;
   const [showHabitModal, setShowHabitModal] = useState(false);
   const [showFocusModal, setShowFocusModal] = useState(false);
+  const { id } = useParams();
+
+  useEffect(() => {
+    let get_local = JSON.parse(localStorage.getItem("watched")) || [];
+
+    get_local.push(id);
+    get_local = new Set(get_local);
+    get_local = [...get_local];
+    localStorage.setItem("watched", JSON.stringify(get_local));
+  }, []);
 
   return (
     <>

@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import SearchIcon from "../assets/icons/icon-search.svg";
 import CardList from "../components/CardList";
 import Dropdown from "../components/Dropdown";
+import RecentCardList from "../components/RecentCardList";
 import { MOCKDATA } from "../mock";
 import colors from "../styles/colors";
-import { onMobile, onTablet } from "../styles/media-queries";
+import { onMobile } from "../styles/media-queries";
 
 const DropdownList = [
   "많은 포인트 순",
@@ -27,11 +28,14 @@ function Main() {
     item.name.toLowerCase().includes(search.toLowerCase())
   );
 
-
   return (
     <StyledMainContainer>
       <StyledBoxContainer>
         <StyledBoxTitle>최근 조회한 스터디</StyledBoxTitle>
+        <RecentCardList items={items} />
+        {/* {get_local !== null
+          ? get_local.map((a, i) => <div>{get_local[i]}</div>)
+          : null} */}
       </StyledBoxContainer>
 
       <StyledBoxContainer>
