@@ -101,7 +101,6 @@ const StyledHabitTrackerContainer = styled.div`
   border-radius: 20px;
   border: 1px solid var(--gray-gray_DDDDDD, #ddd);
   background: #fff;
-  box-sizing: border-box;
 `;
 
 const StyledHabitTrackerHeader = styled.h2`
@@ -127,7 +126,6 @@ const StyledHabitName = styled.td`
   width: 246px;
   height: 64px;
   padding: 0px 24px;
-  box-sizing: border-box;
   text-align: right;
   vertical-align: middle;
   color: var(--black-black_414141, #414141);

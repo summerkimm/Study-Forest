@@ -157,7 +157,6 @@ const StyledTextArea = styled.textarea`
   border: 1px solid var(--gray-gray_DDDDDD, #ddd);
   background: #fff;
   padding: 15px 20px;
-  box-sizing: border-box;
   resize: none;
 
   color: var(--gray-gray_818181, #818181);

@@ -88,7 +88,6 @@ const StyledCardContainer = styled.div`
   border-radius: 20px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 30px;
-  box-sizing: border-box;
 
   background-color: ${({ $background }) =>
     COLORSCHEME[$background]?.backgroundColor || "rgba(65, 65, 65, 0.50)"};
