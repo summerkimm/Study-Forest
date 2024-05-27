@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Studies {
+  id             String           @id @default(uuid())
+  nickName       String           @unique
+  password       String
+  name           String
+  description    String
+  points         Int              @default(0)
+  background     Background
+  studyDays      Int              @default(1)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  Reaction       Reaction[]
+  TopReaction    TopReaction[]
+  Habit          Habit[]
+  HabitTracker   HabitTracker[]
+  CompletedHabit CompletedHabit[]
+}
+
+model Reaction {
+  id        String    @id @default(uuid())
+  emoji     String
+  emojiType EmojiType
+  count     Int
+  studies   Studies   @relation(fields: [studiesId], references: [id])
+  studiesId String
+}
+
+model TopReaction {
+  id        String  @id @default(uuid())
+  emoji     String
+  count     Int
+  studies   Studies @relation(fields: [studiesId], references: [id])
+  studiesId String
+}
+
+model Habit {
+  id             String           @id @default(uuid())
+  name           String
+  studies        Studies          @relation(fields: [studiesId], references: [id])
+  studiesId      String
+  CompletedHabit CompletedHabit[]
+}
+
+model HabitTracker {
+  id              String          @id @default(uuid())
+  name            String
+  isCompletedDays IsCompletedDays
+  studies         Studies         @relation(fields: [studiesId], references: [id])
+  studiesId       String
+}
+
+model CompletedHabit {
+  id          String   @id @default(uuid())
+  isCompleted Boolean  @default(false)
+  date        DateTime @default(now())
+  habit       Habit    @relation(fields: [habitId], references: [id])
+  studies     Studies  @relation(fields: [studiesId], references: [id])
+  habitId     String
+  studiesId   String
+}
+
+enum Background {
+  green
+  yellow
+  sky_blue
+  pink
+  image_1
+  image_2
+  image_3
+  image_4
+}
+
+enum EmojiType {
+  increase
+  decrease
+}
+
+enum IsCompletedDays {
+  Mon
+  Tue
+  Wed
+  Thu
+  Fri
+  Sat
+  Sun
+}

@@ -1,0 +1,29 @@
+GET http://localhost:3000/study?view=oldest
+
+###
+
+GET http://localhost:3000/study/33d3179b-bc5c-4aa7-ad17-6e80c111b0f8
+
+###
+
+POST http://localhost:3000/study
+Content-Type: application/json
+
+{
+  "nickName" : "육쌈",
+  "password" : "watch666",
+  "title" : "미라클모닝",
+  "description" : "6시에 일어나는 나라의 어른이 되어보자"
+}
+
+
+###
+PATCH http://localhost:3000/study/33d3179b-bc5c-4aa7-ad17-6e80c111b0f8
+Content-Type: application/json
+
+{
+  "title" : "QA 프로젝트 하기"
+}
+
+###
+DELETE http://localhost:3000/study/6939649b-9c76-4fae-9342-869366e8e99c
