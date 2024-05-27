@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import ArrowIcon from "../assets/icons/ic_arrow_right.svg";
 
-function Button({ children }) {
+function Button({ children, onClick }) {
   return (
-    <StyledButtonContainer>
+    <StyledButtonContainer onClick={onClick}>
       <StyledButtonText>{children}</StyledButtonText>
       <StyledButtonArrowIcon src={ArrowIcon} alt="오른쪽 화살표" />
     </StyledButtonContainer>
@@ -22,6 +22,7 @@ const StyledButtonContainer = styled.div`
   border: 1px solid var(--gray-gray_DDDDDD, #ddd);
   background: #fff;
   gap: 4px;
+  cursor: pointer;
 `;
 
 const StyledButtonText = styled.span`

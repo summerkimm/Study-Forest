@@ -1,6 +1,9 @@
+import { useState } from "react";
+import { createPortal } from "react-dom";
 import styled from "styled-components";
 import Button from "../components/Button";
 import HabitTracker from "../components/HabitTracker";
+import Modal from "../components/Modal";
 import PointTag from "../components/Tags/PointTag";
 
 const MOCK = {
@@ -63,26 +66,49 @@ const MOCK = {
 
 function StudyDetailPage() {
   const { nickName, name, description, point, habitTrackers } = MOCK;
-  // let { id } = useParams();
-  // console.log(id);
+  const [showHabitModal, setShowHabitModal] = useState(false);
+  const [showFocusModal, setShowFocusModal] = useState(false);
 
   return (
-    <StyledContainer>
-      <StyledHeader>
-        <StyledTitle>
-          {nickName}의 {name}
-        </StyledTitle>
-        <StyledButtonContainer>
-          <Button>오늘의 습관</Button>
-          <Button>오늘의 집중</Button>
-        </StyledButtonContainer>
-      </StyledHeader>
-      <StyledSubTitle>소개</StyledSubTitle>
-      {description}
-      <StyledSubTitle>현재까지 획득한 포인트</StyledSubTitle>
-      <PointTag points={point} />
-      <HabitTracker habits={habitTrackers} />
-    </StyledContainer>
+    <>
+      <StyledContainer>
+        <StyledHeader>
+          <StyledTitle>
+            {nickName}의 {name}
+          </StyledTitle>
+          <StyledButtonContainer>
+            <Button onClick={() => setShowHabitModal(true)}>오늘의 습관</Button>
+            <Button onClick={() => setShowFocusModal(true)}>오늘의 집중</Button>
+          </StyledButtonContainer>
+        </StyledHeader>
+        <StyledSubTitle>소개</StyledSubTitle>
+        {description}
+        <StyledSubTitle>현재까지 획득한 포인트</StyledSubTitle>
+        <PointTag points={point} />
+        <HabitTracker habits={habitTrackers} />
+      </StyledContainer>
+
+      {showHabitModal &&
+        createPortal(
+          <Modal
+            onClick={() => setShowHabitModal(false)}
+            nickName={nickName}
+            name={name}
+            text="오늘의 습관으로 가기"
+          />,
+          document.getElementById("modal-root")
+        )}
+      {showFocusModal &&
+        createPortal(
+          <Modal
+            onClick={() => setShowFocusModal(false)}
+            nickName={nickName}
+            name={name}
+            text="오늘의 집중으로 가기"
+          />,
+          document.getElementById("modal-root")
+        )}
+    </>
   );
 }
 export default StudyDetailPage;
