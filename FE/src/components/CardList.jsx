@@ -7,6 +7,7 @@ function CardList({ items }) {
     <StyledAllCardListContainer>
       {items.map((item) => (
         <Card
+          id={item.id}
           key={item.id}
           background={item.background}
           description={item.description}

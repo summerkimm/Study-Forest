@@ -1,17 +1,20 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import LogoIcon from "../assets/logoImg.svg";
-import { onMobile, onTablet } from '../styles/media-queries';
+import { onMobile, onTablet } from "../styles/media-queries";
 
 function Navbar() {
   return (
     <StyledContainer>
       <StyledWrapper>
-        <a href="/">
+        <Link to="/">
           <StyledLogo>
             <img src={LogoIcon} alt="홈페이지로 이동" />
           </StyledLogo>
-        </a>
-        <button>스터디 만들기</button>
+        </Link>
+        <Link to="/studies">
+          <button>스터디 만들기</button>
+        </Link>
       </StyledWrapper>
     </StyledContainer>
   );
@@ -52,4 +55,3 @@ const StyledLogo = styled.a`
     height: 35px;
   }
 `;
-

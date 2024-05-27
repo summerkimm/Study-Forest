@@ -7,6 +7,7 @@ import colors from "../styles/colors";
 import { onMobile, onTablet } from "../styles/media-queries";
 import EmojiTag from "./Tags/EmojiTag";
 import PointTag from "./Tags/PointTag";
+import { useNavigate } from 'react-router-dom';
 
 const COLORSCHEME = {
   green: { color: "#578246", backgroundColor: "#e1edde", status: "light" },
@@ -32,6 +33,7 @@ const COLORSCHEME = {
 };
 
 function Card({
+  id,
   name,
   nickName,
   description,
@@ -40,15 +42,21 @@ function Card({
   background,
   points,
 }) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/studies/${id}`)
+  }
+
   return (
-    <StyledCardContainer $background={background}>
+    <StyledCardContainer $background={background} onClick={handleClick}>
       <StyledCardHeader>
         <StyledCardTitleWrapper>
           <StyledCardTitle $background={background}>
             <StyledCardNickname $background={background}>
-              {name}{" "}
+              {nickName}{" "}
             </StyledCardNickname>
-            의 {nickName}
+            의 {name}
           </StyledCardTitle>
           <PointTag points={points} status={COLORSCHEME[background]?.status} />
         </StyledCardTitleWrapper>
@@ -75,10 +83,12 @@ function Card({
 export default Card;
 
 const StyledCardContainer = styled.div`
+  width: 358px;
   height: 243px;
   border-radius: 20px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 30px;
+  box-sizing: border-box;
 
   background-color: ${({ $background }) =>
     COLORSCHEME[$background]?.backgroundColor || "rgba(65, 65, 65, 0.50)"};
