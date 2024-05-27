@@ -1,6 +1,7 @@
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import Button from "../components/Button";
 import HabitTracker from "../components/HabitTracker";
+import PointTag from "../components/Tags/PointTag";
 
 const MOCK = {
   id: 129,
@@ -37,6 +38,26 @@ const MOCK = {
       name: "아침 챙겨 먹기",
       isCompleted: ["Mon", "Tue", "Wed", "Fri", "Sat", "Sun"],
     },
+    {
+      id: 3,
+      name: "스트레칭",
+      isCompleted: [],
+    },
+    {
+      id: 4,
+      name: "React 스터디 책 1챕터 읽기",
+      isCompleted: [],
+    },
+    {
+      id: 5,
+      name: "사이드 프로젝트",
+      isCompleted: [],
+    },
+    {
+      id: 6,
+      name: "물 2L 마시기",
+      isCompleted: [],
+    },
   ],
 };
 
@@ -51,15 +72,15 @@ function StudyDetailPage() {
         <StyledTitle>
           {nickName}의 {name}
         </StyledTitle>
-        <div>
-          <div>오늘의 습관</div>
-          <div>오늘의 집중</div>
-        </div>
+        <StyledButtonContainer>
+          <Button>오늘의 습관</Button>
+          <Button>오늘의 집중</Button>
+        </StyledButtonContainer>
       </StyledHeader>
       <StyledSubTitle>소개</StyledSubTitle>
       {description}
       <StyledSubTitle>현재까지 획득한 포인트</StyledSubTitle>
-      {point} 획득
+      <PointTag points={point} />
       <HabitTracker habits={habitTrackers} />
     </StyledContainer>
   );
@@ -85,43 +106,20 @@ const StyledHeader = styled.div`
   align-items: center;
 `;
 
+const StyledButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  gap: 16px;
+`;
+
 const StyledTitle = styled.h1`
   color: #414141;
-  font-family: Pretendard;
   font-size: 32px;
-  font-style: normal;
   font-weight: 800;
-  line-height: normal;
 `;
 
 const StyledSubTitle = styled.p`
   color: var(--gray-gray_818181, #818181);
-  font-family: Pretendard;
   font-size: 18px;
-  font-style: normal;
   font-weight: 400;
-  line-height: normal;
 `;
-
-// const StyledHabitTrackerHeader = styled.h2`
-//   color: var(--black-black_414141, #414141);
-//   /* text-align: right; */
-//   font-family: Pretendard;
-//   font-size: 24px;
-//   font-style: normal;
-//   font-weight: 800;
-//   line-height: normal;
-// `;
-
-// const StyledHabitTracker = styled.div`
-//   width: 100%;
-//   display: flex;
-//   padding: 24px;
-//   flex-direction: column;
-//   align-items: flex-start;
-//   gap: 10px;
-//   border-radius: 20px;
-//   border: 1px solid var(--gray-gray_DDDDDD, #ddd);
-//   background: #fff;
-//   box-sizing: border-box;
-// `;

@@ -58,8 +58,8 @@ function HabitTracker({ habits }) {
       <StyledHabitTrackerHeader>습관 기록표</StyledHabitTrackerHeader>
       <StyledHabitTrackerWrapper>
         <thead>
-          <tr style={{ border: "1px solid #000" }}>
-            <StyledDay></StyledDay>
+          <tr>
+            <StyledDayPin></StyledDayPin>
             {DaysInKorean.map((day) => (
               <StyledDay key={day}>{day}</StyledDay>
             ))}
@@ -70,7 +70,7 @@ function HabitTracker({ habits }) {
             <tr key={habit.name}>
               <StyledHabitName>{habit.name}</StyledHabitName>
               {DaysInKorean.map((day) => (
-                <td key={day}>
+                <StyledHabitStickers key={day}>
                   {habit.isCompleted.includes(DAYS[day]) ? (
                     <img
                       src={STICKERS[index % STICKERS.length]}
@@ -79,7 +79,7 @@ function HabitTracker({ habits }) {
                   ) : (
                     <img src={EMPTY} alt="습관 미완료" />
                   )}
-                </td>
+                </StyledHabitStickers>
               ))}
             </tr>
           ))}
@@ -106,44 +106,40 @@ const StyledHabitTrackerContainer = styled.div`
 
 const StyledHabitTrackerHeader = styled.h2`
   color: var(--black-black_414141, #414141);
-  /* text-align: right; */
-  font-family: Pretendard;
   font-size: 24px;
-  font-style: normal;
   font-weight: 800;
-  line-height: normal;
 `;
 
 const StyledHabitTrackerWrapper = styled.table`
   width: 100%;
+  height: auto;
 `;
 
 const StyledDay = styled.th`
-  border: 1px solid #000;
   color: var(--gray-gray_818181, #818181);
   text-align: center;
-  font-family: Pretendard;
   font-size: 18px;
-  font-style: normal;
   font-weight: 400;
   line-height: 26px; /* 144.444% */
 `;
 
 const StyledHabitName = styled.td`
-border: 1px solid #000;
-  display: flex;
   width: 246px;
   height: 64px;
   padding: 0px 24px;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-  color: var(--black-black_414141, #414141);
+  box-sizing: border-box;
   text-align: right;
-  font-family: Pretendard;
+  vertical-align: middle;
+  color: var(--black-black_414141, #414141);
   font-size: 18px;
-  font-style: normal;
   font-weight: 700;
-  line-height: normal;
+`;
+
+const StyledDayPin = styled.th`
+  width: 246px;
+`;
+
+const StyledHabitStickers = styled.td`
+  text-align: center;
+  vertical-align: middle;
 `;
