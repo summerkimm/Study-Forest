@@ -258,6 +258,10 @@ app.get(
   "/studies/:studyId/habit",
   asyncHandler(async (req, res) => {
     const { studyId } = req.params;
+    const getCurrentDay = () => {
+      const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      return days[new Date().getDay()];
+    };
 
     const study = await prisma.studies.findUnique({
       where: { id: studyId },
