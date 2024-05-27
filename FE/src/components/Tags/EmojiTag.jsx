@@ -16,7 +16,7 @@ export default EmojiTag;
 
 const StyledEmojiTagContainer = styled.div`
   display: flex;
-  width: 32px;
+  width: 48px;
   padding: 6px 8px;
   align-items: center;
   gap: 5px;
