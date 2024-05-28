@@ -2,7 +2,7 @@ GET http://localhost:3000/studies?limit=11
 
 ###
 
-GET http://localhost:3000/studies/19a98806-69b4-4064-a7e5-1ca63ef29e30
+GET http://localhost:3000/studies/200703f0-cc4c-4c64-b331-2faf456d59e1
 
 ###
 
@@ -10,20 +10,20 @@ POST http://localhost:3000/studies
 Content-Type: application/json
 
 {
-  "nickName" : "육쌈",
-  "password" : "watch666",
-  "name" : "미라클모닝",
-  "description" : "6시에 일어나는 나라의 어른이 되어보자",
+  "nickName" : "고고싱",
+  "password" : "gogo99",
+  "name" : "카페가기",
+  "description" : "일주일에 두번은 외출을 하자",
   "background" : "image_4"
 }
 
 
 ###
-PATCH http://localhost:3000/studies/19a98806-69b4-4064-a7e5-1ca63ef29e30
+PATCH http://localhost:3000/studies/17d796c1-5077-4078-871b-62e90accef4d
 Content-Type: application/json
 
 {
-  "name" : "QA 프로젝트 하기"
+  "name" : "카페 가기"
 }
 
 ###

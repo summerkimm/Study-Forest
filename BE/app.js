@@ -132,48 +132,43 @@ app.get(
   "/studies/:studyId",
   asyncHandler(async (req, res) => {
     const { studyId } = req.params;
-    const {
-      id,
-      name,
-      nickName,
-      description,
-      reaction,
-      points,
-      habit,
-      createdAt,
-    } = await prisma.studies.findUniqueOrThrow({
+    const study = await prisma.studies.findUniqueOrThrow({
       where: { id: studyId },
       include: {
         reaction: true,
-        // habit: {
-        //   include: {
-        //     completedHabit: true,
-        //   },
-        // },
+        habit: {
+          include: {
+            isCompletedHabit: true,
+          },
+        },
       },
     });
 
     const today = new Date();
-    const createdAT = new Date(createdAt);
+    const createdAT = new Date(study.createdAt);
     const studyDays = Math.floor((today - createdAT) / (1000 * 60 * 60 * 24));
 
+    const habitTrackers = study.habit.map((h) => {
+      return {
+        id : h.id,
+        name : h.name,
+        isCompleted : h.isCompletedHabit.days,
+      }
+    })
+
     const result = {
-      id,
-      name,
-      nickName,
-      description,
-      studyDays,
-      reaction: reaction.map((r) => ({
+      id : study.id,
+      name : study.name,
+      nickName : study.nickName,
+      description : study.description,
+      studyDays : study.studyDays,
+      reaction: study.reaction.map((r) => ({
         id: r.id,
         emoji: r.emoji,
         count: r.count,
       })),
-      points,
-      // habitTrackers: habit.map((h) => ({
-      //   id: h.id,
-      //   name: h.name,
-      //   isCompleted: JSON.parse(h.isCompletedDays),
-      // })),
+      points: study.points,
+      habitTrackers,
     };
 
     res.send(result);
@@ -197,7 +192,6 @@ app.post(
       createdAt: study.createdAt,
       reactions: study.reaction,
       points: study.points,
-      // habitTrackers : study.habit,
     };
 
     res.status(201).send(result);
@@ -264,56 +258,37 @@ app.post(
 );
 
 /*----                todayHabit               -----*/
-// let currentDay;
-// let lastUpdate = new Date(0);
+const getStudyWithHabits = async (studyId) => {
+  const study = await prisma.studies.findUnique({
+    where: { id: studyId },
+    include: {
+      habit: {
+        include: {
+          isCompletedHabit: true,
+        },
+      },
+    },
+  });
 
-// function getCurrentDay() {
-//   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-//   return days[new Date().getDay()];
-// }
+  const habits = study.habit.map((h) => ({
+    id: h.id,
+    name: h.name,
+    isCompletedHabit: h.isCompletedHabit.isCompleted,
+  }));
 
-// function updateCurrentDayMiddleware(req, res, next) {
-//   const now = new Date();
-//   if (now.getDate() !== lastUpdate.getDate()) {
-//     currentDay = getCurrentDay();
-//     lastUpdate = now;
-//   }
-//   next();
-// }
-
-// app.use(updateCurrentDayMiddleware);
+  return {
+    id: study.id,
+    name: study.name,
+    nickName: study.nickName,
+    habits: habits,
+  };
+};
 
 app.get(
   "/studies/:studyId/habit",
   asyncHandler(async (req, res) => {
     const { studyId } = req.params;
-
-    const study = await prisma.studies.findUnique({
-      where: { id: studyId },
-      include: {
-        habit: {
-          include : {
-            isCompletedHabit : true,
-          }
-        }
-      },
-    });
-
-    const habits = study.habit.map((h) => {
-      return {
-        id: h.id,
-        name: h.name,
-        isCompleted: h.isCompletedHabit.isCompleted
-      };
-    });
-
-    const result = {
-      id: study.id,
-      name: study.name,
-      nickName: study.nickName,
-      habits: habits,
-    };
-
+    const result = await getStudyWithHabits(studyId);
     res.send(result);
   })
 );
@@ -340,33 +315,7 @@ app.post(
         isCompletedHabit: true,
       }
     });
-
-    const study = await prisma.studies.findUnique({
-      where: { id: studyId },
-      include: {
-        habit: {
-          include: {
-            isCompletedHabit: true,
-          },
-        },
-      },
-    });
-
-    const habits = study.habit.map((h) => {    
-      return {
-        id: h.id,
-        name: h.name,
-        isCompletedHabit: h.isCompletedHabit.isCompleted
-      };
-    });
-
-    const result = {
-      id: study.id,
-      name: study.name,
-      nickName: study.nickName,
-      habits: habits,
-    };
-
+    const result = await getStudyWithHabits(studyId);
     res.send(result);
   })
 );
@@ -374,7 +323,6 @@ app.post(
 app.patch(
   "/habits/:habitId",
   asyncHandler(async (req, res) => {
-    console.log('hi')
     assert(req.body, PatchHabit);
     const { habitId } = req.params;
     const { isCompleted, ...data} = req.body;
