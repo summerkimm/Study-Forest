@@ -28,6 +28,11 @@ export const CreateHabit = s.object({
   name : s.string(),
 })
 
+export const PatchHabit = s.object({
+  name : s.optional(s.string()),
+  isCompleted : s.optional(s.boolean()),
+})
+
 export const CreateReaction = s.object({
   emoji : s.string(),
   emojiType : s.string(),

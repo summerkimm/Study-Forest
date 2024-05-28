@@ -1,0 +1,20 @@
+GET http://localhost:3000/studies/e79e5813-a84b-45ae-b732-73704e58a933/habit
+
+###
+POST http://localhost:3000/studies/200703f0-cc4c-4c64-b331-2faf456d59e1/habit
+Content-Type: application/json
+
+{
+  "name" : "로또 사기"
+}
+
+###
+PATCH http://localhost:3000/habits/ed42e270-a240-4fca-97c7-89a690e2343a
+Content-Type: application/json
+
+{
+  "isCompleted" : true
+}
+
+###
+DELETE http://localhost:3000/habits/ed42e270-a240-4fca-97c7-89a690e2343a

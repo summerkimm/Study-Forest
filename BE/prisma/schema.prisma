@@ -21,20 +21,20 @@ model User {
 }
 
 model Studies {
-  id             String           @id @default(uuid())
-  nickName       String           @unique
-  password       String
-  name           String
-  description    String
-  points         Int              @default(0)
-  background     Background
-  studyDays      Int              @default(1)
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  reaction       Reaction[]
-  habit          Habit[]
-  completedHabit CompletedHabit[]
-  user           User?
+  id               String             @id @default(uuid())
+  nickName         String             @unique
+  password         String
+  name             String
+  description      String
+  points           Int                @default(0)
+  background       Background
+  studyDays        Int                @default(1)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  reaction         Reaction[]
+  habit            Habit[]
+  isCompletedHabit IsCompletedHabit[]
+  user             User?
 }
 
 model Reaction {
@@ -42,28 +42,27 @@ model Reaction {
   emoji     String
   emojiType EmojiType
   count     Int
-  studies   Studies   @relation(fields: [studiesId], references: [id])
+  studies   Studies   @relation(fields: [studiesId], references: [id], onDelete: Cascade)
   studiesId String
 }
 
 model Habit {
-  id              String           @id @default(uuid())
-  name            String
-  isCompletedDays Json
-  changedAt       DateTime         @updatedAt
-  studies         Studies          @relation(fields: [studiesId], references: [id])
-  studiesId       String
-  completedHabit  CompletedHabit[]
+  id               String            @id @default(uuid())
+  name             String
+  changedAt        DateTime          @updatedAt
+  studies          Studies           @relation(fields: [studiesId], references: [id], onDelete: Cascade)
+  studiesId        String
+  isCompletedHabit IsCompletedHabit?
 }
 
-model CompletedHabit {
-  id          String   @id @default(uuid())
-  isCompleted Boolean  @default(false)
-  date        DateTime @default(now())
-  habit       Habit    @relation(fields: [habitId], references: [id])
-  studies     Studies  @relation(fields: [studiesId], references: [id])
-  habitId     String
+model IsCompletedHabit {
+  id          String  @id @default(uuid())
+  isCompleted Boolean @default(false)
+  days        Json
+  studies     Studies @relation(fields: [studiesId], references: [id], onDelete: Cascade)
   studiesId   String
+  habit       Habit   @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  habitId     String  @unique
 }
 
 enum Background {
