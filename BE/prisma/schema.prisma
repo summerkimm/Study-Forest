@@ -24,11 +24,10 @@ model Studies {
   studyDays      Int              @default(1)
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
-  Reaction       Reaction[]
-  TopReaction    TopReaction[]
-  Habit          Habit[]
-  HabitTracker   HabitTracker[]
-  CompletedHabit CompletedHabit[]
+  reaction       Reaction[]
+  topReaction    TopReaction[]
+  habit          Habit[]
+  completedHabit CompletedHabit[]
 }
 
 model Reaction {
@@ -49,19 +48,12 @@ model TopReaction {
 }
 
 model Habit {
-  id             String           @id @default(uuid())
-  name           String
-  studies        Studies          @relation(fields: [studiesId], references: [id])
-  studiesId      String
-  CompletedHabit CompletedHabit[]
-}
-
-model HabitTracker {
-  id              String  @id @default(uuid())
+  id              String           @id @default(uuid())
   name            String
   isCompletedDays Json
-  studies         Studies @relation(fields: [studiesId], references: [id])
+  studies         Studies          @relation(fields: [studiesId], references: [id])
   studiesId       String
+  completedHabit  CompletedHabit[]
 }
 
 model CompletedHabit {

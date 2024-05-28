@@ -72,7 +72,7 @@ app.get(
         orderBy = { point: "asc" };
         break;
     }
-    const study = await prisma.study.findMany({
+    const studies = await prisma.studies.findMany({
       orderBy,
       skip: parseInt(offset),
       take: parseInt(limit),
@@ -83,7 +83,7 @@ app.get(
         },
       },
       include : {
-        TopReaction : true,
+        topReaction : true,
       },
     });
 
@@ -96,7 +96,7 @@ app.get(
         studyDays: study.studyDays,
         background: study.background,
         points: study.points,
-        topReactions: study.TopReaction.map(reaction => ({
+        topReactions: study.topReaction.map(reaction => ({
           id: reaction.id,
           emoji: reaction.emoji,
           count: reaction.count
@@ -126,18 +126,17 @@ app.get(
       name,
       nickName,
       description,
-      TopReaction,
+      topReaction,
       points,
-      habitTrackers,
+      habit,
       createdAt,
-    } = await prisma.study.findUniqueOrThrow({
+    } = await prisma.studies.findUniqueOrThrow({
       where: { id: studyId },
       include: {
-        TopReaction: true,
-        habitTrackers: true,
+        topReaction: true,
         habit: {
           include: {
-            CompletedHabit: true,
+            completedHabit: true,
           },
         },
       },
@@ -153,16 +152,16 @@ app.get(
       nickName,
       description,
       studyDays,
-      topReactions: TopReaction.map((reaction) => ({
+      topReactions: topReaction.map((reaction) => ({
         id: reaction.id,
         emoji: reaction.emoji,
         count: reaction.count,
       })),
       points,
-      habitTrackers: habitTrackers.map((tracker) => ({
-        id: tracker.id,
-        name: tracker.name,
-        isCompleted: JSON.parse(tracker.isCompletedDays),
+      habitTrackers: habit.map((h) => ({
+        id: h.id,
+        name: h.name,
+        isCompleted: JSON.parse(h.isCompletedDays),
       })),
     };
 
@@ -174,7 +173,7 @@ app.post(
   "/studies",
   asyncHandler(async (req, res) => {
     assert(req.body, CreateStudy);
-    const study = await prisma.study.create({
+    const study = await prisma.studies.create({
       data: req.body,
     });
 
@@ -187,7 +186,7 @@ app.post(
       createdAt : study.createdAt,
       topReactions : study.topReactions,
       points : study.points,
-      habitTrackers : study.habitTrackers,
+      habitTrackers : study.habit,
     };
 
     res.status(201).send(result);
@@ -199,7 +198,7 @@ app.patch(
   asyncHandler(async (req, res) => {
     assert(req.body, PatchStudy);
     const { studyId } = req.params;
-    const study = await prisma.study.update({
+    const study = await prisma.studies.update({
       where: { studyId },
       data: req.body,
     });
@@ -268,7 +267,7 @@ app.get(
       include: {
         Habit: {
           include: {
-            CompletedHabit: true,
+            completedHabit: true,
           },
         },
       },
