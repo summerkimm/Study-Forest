@@ -2,7 +2,6 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import { PrismaClient, Prisma } from "@prisma/client";
-import cors from 'cors'
 import { assert } from "superstruct";
 import cron from "node-cron";
 import {
@@ -19,9 +18,8 @@ const prisma = new PrismaClient();
 
 const app = express();
 app.use(express.json());
-app.use(cors())
 
-/*----        오류발생으로 인한 서버가 죽는걸 방지하는 handler        -----*/
+
 function asyncHandler(handler) {
   return async function (req, res) {
     try {
@@ -44,7 +42,7 @@ function asyncHandler(handler) {
   };
 }
 
-/*----                user               -----*/
+
 app.post(
   "/studies/:studyId/userCheck",
   asyncHandler(async (req, res) => {
@@ -64,7 +62,6 @@ app.post(
   })
 );
 
-/*----                study               -----*/
 app.get(
   "/studies",
   asyncHandler(async (req, res) => {
@@ -152,18 +149,18 @@ app.get(
 
     const habitTrackers = study.habit.map((h) => {
       return {
-        id : h.id,
-        name : h.name,
-        isCompleted : h.isCompletedHabit.days,
-      }
-    })
+        id: h.id,
+        name: h.name,
+        isCompleted: h.isCompletedHabit.days,
+      };
+    });
 
     const result = {
-      id : study.id,
-      name : study.name,
-      nickName : study.nickName,
-      description : study.description,
-      studyDays : studyDays,
+      id: study.id,
+      name: study.name,
+      nickName: study.nickName,
+      description: study.description,
+      studyDays: studyDays,
       reaction: study.reaction.map((r) => ({
         id: r.id,
         emoji: r.emoji,
@@ -229,7 +226,7 @@ app.delete(
   })
 );
 
-/*----                point              -----*/
+
 app.post(
   "/:studyId/point",
   asyncHandler(async (req, res) => {
@@ -255,7 +252,7 @@ app.post(
   })
 );
 
-/*----                todayHabit               -----*/
+
 const getStudyWithHabits = async (studyId) => {
   const study = await prisma.studies.findUnique({
     where: { id: studyId },
@@ -304,7 +301,7 @@ app.post(
         isCompletedHabit: {
           create: {
             isCompleted: false,
-            days: JSON.stringify([]),
+            days: JSON.stringify({}),
             studiesId: studyId
           }
         }
@@ -367,7 +364,7 @@ app.delete(
   })
 );
 
-/*----                reaction               -----*/
+
 app.post(
   "/reactions",
   asyncHandler(async (req, res) => {
@@ -424,10 +421,11 @@ app.post(
   })
 );
 
-const DAY = ["MON", "TUE", "WEN", "THU", "FRI", "SAT", "SUN"];
+app.listen(process.env.PORT || 3000, () => console.log("Server Started"));
+
 // 매일 자정에 실행되는 작업
-console.log("매일 자정에 실행되는 작업 시작");
 cron.schedule("0 0 * * *", async () => {
+  console.log("매일 자정에 실행되는 작업 시작");
   const habits = await prisma.habit.findMany({
     include: {
       isCompletedHabit: true,
@@ -436,9 +434,9 @@ cron.schedule("0 0 * * *", async () => {
 
   for (const habit of habits) {
     if (habit.isCompletedHabit.isCompleted) {
-      const days = JSON.parse(habit.isCompletedHabit.days);
+      const days = JSON.parse(habit.isCompletedHabit.days || "{}");
       const today = new Date().getDay();
-      days.push(DAY[today]);
+      days[today] = true;
       await prisma.isCompletedHabit.update({
         where: {
           id: habit.isCompletedHabit.id,
@@ -467,10 +465,8 @@ cron.schedule("0 0 * * 0", async () => {
   console.log("매주 일요일 자정에 실행되는 작업 시작");
   await prisma.isCompletedHabit.updateMany({
     data: {
-      days: JSON.stringify([]),
+      days: JSON.stringify({}),
     },
   });
   console.log("매주 일요일 자정에 실행되는 작업 완료");
 });
-
-app.listen(process.env.PROT || 3000, () => console.log("Server Started"));

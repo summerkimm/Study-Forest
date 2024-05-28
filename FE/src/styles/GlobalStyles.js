@@ -1,21 +1,27 @@
 import { createGlobalStyle } from "styled-components";
-import reset from './reset.css'
-import COLORS from './colors';
+import COLORS from "./colors";
+import { reset } from "./reset";
 
 const GlobalStyles = createGlobalStyle`
-  @import url(${reset});
+  ${reset}
 
   @font-face {
     font-family: 'Pretendard';
-    src: url('/src/assets/fonts/PretendardVariable.woff2') format('woff2');
+    src: url('../../src/assets/fonts/PretendardVariable.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
   }
 
-  body {
-    font-family: 'Pretendard';
-    background-color: ${COLORS.backGround};
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html, body, #root {
+    font-family: "Pretendard";
+    font-weight: 400;
     color: ${COLORS.black_41};
+    background-color: ${COLORS.backGround};
   }
 `;
 

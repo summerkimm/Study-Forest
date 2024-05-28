@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Image1 from "../assets/images/image-card1.png";
 import Image2 from "../assets/images/image-card2.png";
@@ -7,7 +8,6 @@ import colors from "../styles/colors";
 import { onMobile, onTablet } from "../styles/media-queries";
 import EmojiTag from "./Tags/EmojiTag";
 import PointTag from "./Tags/PointTag";
-import { useNavigate } from 'react-router-dom';
 
 const COLORSCHEME = {
   green: { color: "#578246", backgroundColor: "#e1edde", status: "light" },
@@ -32,21 +32,29 @@ const COLORSCHEME = {
   },
 };
 
-function Card({
-  id,
-  name,
-  nickName,
-  description,
-  studyDays,
-  topReactions,
-  background,
-  points,
-}) {
+function Card({ item }) {
   const navigate = useNavigate();
+  const {
+    id,
+    name,
+    nickName,
+    description,
+    studyDays,
+    topReactions,
+    background,
+    points,
+  } = item;
 
   const handleClick = () => {
-    navigate(`/studies/${id}`)
-  }
+    // let recentCards = JSON.parse(localStorage.getItem("recentCards") || []);
+    // recentCards = [
+    //   item.id,
+    //   ...recentCards.filter((id) => id !== item.id)].slice(0, 3);
+    // localStorage.setItem("recentCards", JSON.stringify(recentCards));
+    // localStorage.setItem('recentViewedCard', id);
+
+    navigate(`/studies/${id}`);
+  };
 
   return (
     <StyledCardContainer $background={background} onClick={handleClick}>
@@ -88,7 +96,6 @@ const StyledCardContainer = styled.div`
   border-radius: 20px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 30px;
-  box-sizing: border-box;
 
   background-color: ${({ $background }) =>
     COLORSCHEME[$background]?.backgroundColor || "rgba(65, 65, 65, 0.50)"};

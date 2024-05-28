@@ -1,0 +1,6 @@
+POST http://localhost:3000/9e5bf75d-857b-4538-9092-c3688d466626/point
+Content-Type: application/json
+
+{ 
+  "additionalPoints" : 10 
+}
