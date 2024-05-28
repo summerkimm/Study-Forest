@@ -1,0 +1,8 @@
+POST http://localhost:3000/reactions
+Content-Type: application/json
+
+{ 
+  "emoji" : "🤧", 
+  "emojiType" : "decrease",
+  "studiesId" : "7be9827f-39b2-480a-aaef-a9280e242633"
+}
