@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Study" ALTER COLUMN "point" SET DEFAULT 0,
+ALTER COLUMN "image_url" SET DEFAULT '';

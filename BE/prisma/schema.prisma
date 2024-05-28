@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String  @id @default(uuid())
+  password  String  @unique
+  study     Studies @relation(fields: [studiesId], references: [id])
+  studiesId String  @unique
+}
+
+model Studies {
+  id             String           @id @default(uuid())
+  nickName       String           @unique
+  name           String
+  description    String
+  points         Int              @default(0)
+  background     Background
+  studyDays      Int              @default(1)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  reaction       Reaction[]
+  topReaction    TopReaction[]
+  habit          Habit[]
+  completedHabit CompletedHabit[]
+  user           User?
+}
+
+model Reaction {
+  id        String    @id @default(uuid())
+  emoji     String
+  emojiType EmojiType
+  count     Int
+  studies   Studies   @relation(fields: [studiesId], references: [id])
+  studiesId String
+}
+
+model TopReaction {
+  id        String  @id @default(uuid())
+  emoji     String
+  count     Int
+  studies   Studies @relation(fields: [studiesId], references: [id])
+  studiesId String
+}
+
+model Habit {
+  id              String           @id @default(uuid())
+  name            String
+  isCompletedDays Json
+  changedAt       DateTime         @updatedAt
+  studies         Studies          @relation(fields: [studiesId], references: [id])
+  studiesId       String
+  completedHabit  CompletedHabit[]
+}
+
+model CompletedHabit {
+  id          String   @id @default(uuid())
+  isCompleted Boolean  @default(false)
+  date        DateTime @default(now())
+  habit       Habit    @relation(fields: [habitId], references: [id])
+  studies     Studies  @relation(fields: [studiesId], references: [id])
+  habitId     String
+  studiesId   String
+}
+
+enum Background {
+  green
+  yellow
+  sky_blue
+  pink
+  image_1
+  image_2
+  image_3
+  image_4
+}
+
+enum EmojiType {
+  increase
+  decrease
+}
