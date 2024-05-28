@@ -302,7 +302,7 @@ app.post(
         isCompletedHabit: {
           create: {
             isCompleted: false,
-            days: JSON.stringify({}),
+            days: JSON.stringify([]),
             studiesId: studyId
           }
         }

@@ -2,7 +2,7 @@ GET http://localhost:3000/studies?limit=11
 
 ###
 
-GET http://localhost:3000/studies/200703f0-cc4c-4c64-b331-2faf456d59e1
+GET http://localhost:3000/studies/e79e5813-a84b-45ae-b732-73704e58a933
 
 ###
 
