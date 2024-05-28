@@ -23,6 +23,7 @@ model User {
 model Studies {
   id             String           @id @default(uuid())
   nickName       String           @unique
+  password       String
   name           String
   description    String
   points         Int              @default(0)
