@@ -7,6 +7,10 @@ const nickNameValidator = s.define('nickName', value => nickNamePattern.test(val
 const passwordValidator = s.define('password', value => passwordPattern.test(value));
 const nameValidator = s.define('name', value => typeof value === 'string' && value.length <= 10);
 
+export const CheckPassword = s.object({
+  password : passwordValidator,
+})
+
 export const CreateStudy = s.object({
   name: nameValidator,             
   nickName: nickNameValidator, 
@@ -24,4 +28,8 @@ export const CreateHabit = s.object({
 export const CreateReaction = s.object({
   emoji : s.string(),
   emojiType : s.string()
+})
+
+export const CreatePoint = s.object({
+  additionalPoints : s.min(s.integer(), 0)
 })

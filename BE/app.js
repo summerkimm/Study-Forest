@@ -3,7 +3,7 @@ dotenv.config();
 import express from "express";
 import { PrismaClient, Prisma } from "@prisma/client";
 import { assert } from "superstruct";
-import { CreateStudy, PatchStudy } from "./structs.js";
+import { CheckPassword, CreateStudy, PatchStudy, CreateHabit, CreateReaction, CreatePoint } from "./structs.js";
 
 const prisma = new PrismaClient();
 
@@ -35,6 +35,7 @@ function asyncHandler(handler) {
 
 /*----                user               -----*/
 app.post("studies/:studyId/userCheck", asyncHandler(async(req, res) => {
+  assert(req.body, CheckPassword)
   const { password } = req.body;
   const {studyId} = req.params;
 
@@ -230,6 +231,7 @@ app.delete(
 app.post(
   "/:studyId/point",
   asyncHandler(async (req, res) => {
+    assert(req.body, CreatePoint)
     const { studyId } = req.params;
     const { additionalPoints } = req.body;
 
@@ -308,9 +310,10 @@ app.get(
 );
 
 app.post('/studies/{studyId}/habit', asyncHandler(async(req, res) => {
+  assert(req.body, CreateHabit)
   const {studyId} = req.params;
 
-  const newHabit = await prisma.habit.create({
+  await prisma.habit.create({
     data : {
       ...req.body,
       studiesId : studyId,
@@ -348,6 +351,7 @@ app.post('/studies/{studyId}/habit', asyncHandler(async(req, res) => {
 }));
 
 app.patch('/habits/{habitId}', asyncHandler(async(req, res) => {
+  assert(req.body, CreateHabit)
   const { habitId } = req.params;
 
   const habit = await prisma.habit.update({
@@ -375,6 +379,7 @@ app.delete('/habits/{habitId}', asyncHandler(async(req, res) => {
 app.post(
   "/reactions",
   asyncHandler(async (req, res) => {
+    assert(req.body, CreateReaction)
     const { emoji, emojiType, count, studiesId } = req.body;
 
     await prisma.reaction.create({
