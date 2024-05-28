@@ -1,4 +1,7 @@
 import * as s from "superstruct";
+import isUuid from 'is-uuid';
+
+const Uuid = s.define('Uuid', (value) => isUuid.v4(value));
 
 const nickNamePattern = /^(?:[a-zA-Z0-9가-힣]{1,10})$/;
 const passwordPattern = /^(?=.*[a-z])(?=.*\d)[a-z\d]{6,}$/;
@@ -27,9 +30,10 @@ export const CreateHabit = s.object({
 
 export const CreateReaction = s.object({
   emoji : s.string(),
-  emojiType : s.string()
+  emojiType : s.string(),
+  studiesId : Uuid,
 })
 
 export const CreatePoint = s.object({
-  additionalPoints : s.min(s.integer(), 0)
+  additionalPoints : s.min(s.integer(), 0),
 })

@@ -32,7 +32,6 @@ model Studies {
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
   reaction       Reaction[]
-  topReaction    TopReaction[]
   habit          Habit[]
   completedHabit CompletedHabit[]
   user           User?
@@ -44,14 +43,6 @@ model Reaction {
   emojiType EmojiType
   count     Int
   studies   Studies   @relation(fields: [studiesId], references: [id])
-  studiesId String
-}
-
-model TopReaction {
-  id        String  @id @default(uuid())
-  emoji     String
-  count     Int
-  studies   Studies @relation(fields: [studiesId], references: [id])
   studiesId String
 }
 

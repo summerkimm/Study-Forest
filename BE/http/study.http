@@ -1,4 +1,4 @@
-GET http://localhost:3000/studies
+GET http://localhost:3000/studies?limit=11
 
 ###
 

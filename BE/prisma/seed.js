@@ -1,18 +1,13 @@
 import { PrismaClient } from '@prisma/client';
-import { Habit } from './mock.js';
+import { Reaction } from './mock.js';
 
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.habit.deleteMany();
+  await prisma.reaction.deleteMany();
 
-  const habitsWithJson = Habit.map(habit => ({
-    ...habit,
-    isCompletedDays: JSON.stringify(habit.isCompletedDays),
-  }));
-
-  await prisma.habit.createMany({
-    data: habitsWithJson,
+  await prisma.reaction.createMany({
+    data: Reaction,
     skipDuplicates: true,
   });
 }

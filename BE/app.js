@@ -81,9 +81,11 @@ app.get(
           mode: "insensitive",
         },
       },
-      // include : {
-      //   topReaction : true,
-      // },
+      include: {
+        reaction: {
+          orderBy: { count: 'desc' },
+        },
+      },
     });
 
     const formattedStudies = studies.map(study => {
@@ -95,11 +97,11 @@ app.get(
         studyDays: study.studyDays,
         background: study.background,
         points: study.points,
-        // topReactions: study.topReaction.map(reaction => ({
-        //   id: reaction.id,
-        //   emoji: reaction.emoji,
-        //   count: reaction.count
-        // }))
+        reactions: study.reaction.map(r => ({
+          id: r.id,
+          emoji: r.emoji,
+          count: r.count
+        }))
       };
     });
 
@@ -125,20 +127,20 @@ app.get(
       name,
       nickName,
       description,
-      // topReaction,
+      reaction,
       points,
       habit,
       createdAt,
     } = await prisma.studies.findUniqueOrThrow({
       where: { id: studyId },
-      // include: {
-      //   topReaction: true,
-      //   habit: {
-      //     include: {
-      //       completedHabit: true,
-      //     },
-      //   },
-      // },
+      include: {
+        reaction: true,
+        // habit: {
+        //   include: {
+        //     completedHabit: true,
+        //   },
+        // },
+      },
     });
 
     const today = new Date();
@@ -151,12 +153,12 @@ app.get(
       nickName,
       description,
       studyDays,
-      // topReactions: topReaction.map((reaction) => ({
-      //   id: reaction.id,
-      //   emoji: reaction.emoji,
-      //   count: reaction.count,
-      // })),
-      // points,
+      reaction: reaction.map((r) => ({
+        id: r.id,
+        emoji: r.emoji,
+        count: r.count,
+      })),
+      points,
       // habitTrackers: habit.map((h) => ({
       //   id: h.id,
       //   name: h.name,
@@ -183,7 +185,7 @@ app.post(
       description : study.description,
       background : study.background,
       createdAt : study.createdAt,
-      // topReactions : study.topReactions,
+      reactions : study.reaction,
       points : study.points,
       // habitTrackers : study.habit,
     };
@@ -373,50 +375,63 @@ app.post(
 //   res.sendStatus(204);
 // }))
 
-// /*----                reaction               -----*/
-// app.post(
-//   "/reactions",
-//   asyncHandler(async (req, res) => {
-//     assert(req.body, CreateReaction)
-//     const { emoji, emojiType, count, studiesId } = req.body;
+/*----                reaction               -----*/
+app.post(
+  "/reactions",
+  asyncHandler(async (req, res) => {
+    assert(req.body, CreateReaction)
+    const { emoji, emojiType, studiesId } = req.body;
 
-//     await prisma.reaction.create({
-//       data: {
-//         emoji,
-//         emojiType,
-//         count,
-//         studiesId,
-//       },
-//     });
+    let count;
+    if (emojiType === "increase") {
+      count = {increment : 1}
+    } else if (emojiType === "decrease") {
+      count = {decrement : 1}
+    }
+    
+    const existingReaction = await prisma.reaction.findFirst({
+      where: {
+        studiesId,
+        emoji,
+      },
+    });
+    
+    let newReaction;
+    if (existingReaction) {
+      newReaction = await prisma.reaction.update({
+        where: { id: existingReaction.id },
+        data: {
+          count,
+        },
+      });
+    } else {
+      newReaction = await prisma.reaction.create({
+        data: {
+          emoji,
+          emojiType,
+          studiesId,
+          count : 1,
+        },
+      });
+    }
 
-//     await updateTopReactions(studiesId);
+    if (newReaction.count === 0) {
+      await prisma.reaction.delete({
+        where: { id: newReaction.id },
+      });
+    }
+    
+    const result = {
+      id: newReaction.id,
+      studyId: newReaction.studiesId,
+      emoji: newReaction.emoji,
+      count: newReaction.count,
+    }
 
-//     res
-//       .status(201)
-//       .send({ message: "Reaction added and top reactions updated" });
-//   })
-// );
-
-// const updateTopReactions = async (studiesId) => {
-//   const topReactions = await prisma.reaction.findMany({
-//     where: { studiesId },
-//     orderBy: { count: "desc" },
-//     take: 3,
-//   });
-
-//   await prisma.topReaction.deleteMany({
-//     where: { studiesId },
-//   });
-
-//   for (const reaction of topReactions) {
-//     await prisma.topReaction.create({
-//       data: {
-//         emoji: reaction.emoji,
-//         count: reaction.count,
-//         studiesId: reaction.studiesId,
-//       },
-//     });
-//   }
-// };
+    res
+      .status(201)
+      .send(result);
+  })
+);
 
 app.listen(process.env.PROT || 3000, () => console.log("Server Started"));

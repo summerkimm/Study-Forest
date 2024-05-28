@@ -1,52 +1,74 @@
-export const Habit = [
+export const Reaction = [
   {
-    "name": "Morning Run",
-    "isCompletedDays": ["Mon", "Wed", "Fri"],
-    "studiesId": "e79e5813-a84b-45ae-b732-73704e58a933"
+    emoji: "😊",
+    emojiType: "increase",
+    count: 10,
+    studiesId: "9e5bf75d-857b-4538-9092-c3688d466626",
   },
   {
-    "name": "Read Book",
-    "isCompletedDays": ["Tue", "Thu"],
-    "studiesId": "e79e5813-a84b-45ae-b732-73704e58a933"
+    emoji: "🔥",
+    emojiType: "increase",
+    count: 5,
+    studiesId: "200703f0-cc4c-4c64-b331-2faf456d59e1",
   },
   {
-    "name": "Yoga",
-    "isCompletedDays": ["Mon", "Wed", "Sat"],
-    "studiesId": "e79e5813-a84b-45ae-b732-73704e58a933"
+    emoji: "😊",
+    emojiType: "increase",
+    count: 7,
+    studiesId: "24866536-2f37-448f-8865-77a97f718d46",
   },
   {
-    "name": "Coding Practice",
-    "isCompletedDays": ["Thu", "Fri"],
-    "studiesId": "e79e5813-a84b-45ae-b732-73704e58a933"
+    emoji: "🎃",
+    emojiType: "increase",
+    count: 15,
+    studiesId: "9e5bf75d-857b-4538-9092-c3688d466626",
   },
   {
-    "name": "Meditation",
-    "isCompletedDays": ["Tue", "Thu", "Sun"],
-    "studiesId": "f16e912d-a2a5-46d0-bb37-a5a7d0b98132"
+    emoji: "😄",
+    emojiType: "increase",
+    count: 8,
+    studiesId: "24866536-2f37-448f-8865-77a97f718d46",
   },
   {
-    "name": "Study Spanish",
-    "isCompletedDays": ["Mon", "Wed", "Fri", "Sun"],
-    "studiesId": "b5ff3c36-696d-420f-8ded-7ae7b4c7f43b"
+    emoji: "👍",
+    emojiType: "increase",
+    count: 20,
+    studiesId: "9e5bf75d-857b-4538-9092-c3688d466626",
   },
   {
-    "name": "Play Guitar",
-    "isCompletedDays": ["Tue", "Sat"],
-    "studiesId": "b5ff3c36-696d-420f-8ded-7ae7b4c7f43b"
+    emoji: "👍",
+    emojiType: "increase",
+    count: 25,
+    studiesId: "1ab222eb-b94f-4e77-8896-4ff4be82e519",
   },
   {
-    "name": "Cooking",
-    "isCompletedDays": ["Mon", "Fri"],
-    "studiesId": "9a61ea8d-8ea9-48a1-a23b-87c08ea9c70b"
+    emoji: "🙊",
+    emojiType: "increase",
+    count: 30,
+    studiesId: "200703f0-cc4c-4c64-b331-2faf456d59e1",
   },
   {
-    "name": "Blogging",
-    "isCompletedDays": ["Wed", "Sun"],
-    "studiesId": "9a61ea8d-8ea9-48a1-a23b-87c08ea9c70b"
+    emoji: "👍",
+    emojiType: "increase",
+    count: 12,
+    studiesId: "24866536-2f37-448f-8865-77a97f718d46",
   },
   {
-    "name": "Gardening",
-    "isCompletedDays": ["Thu", "Sat"],
-    "studiesId": "9a61ea8d-8ea9-48a1-a23b-87c08ea9c70b"
-  }
+    emoji: "❤️",
+    emojiType: "increase",
+    count: 25,
+    studiesId: "1ab222eb-b94f-4e77-8896-4ff4be82e519",
+  },
+  {
+    emoji: "❤️",
+    emojiType: "increase",
+    count: 15,
+    studiesId: "200703f0-cc4c-4c64-b331-2faf456d59e1",
+  },
+  {
+    emoji: "❤️",
+    emojiType: "increase",
+    count: 7,
+    studiesId: "24866536-2f37-448f-8865-77a97f718d46",
+  },
 ];
