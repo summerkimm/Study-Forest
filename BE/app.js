@@ -2,6 +2,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import { PrismaClient, Prisma } from "@prisma/client";
+import cors from 'cors'
 import { assert } from "superstruct";
 import cron from "node-cron";
 import {
@@ -18,6 +19,7 @@ const prisma = new PrismaClient();
 
 const app = express();
 app.use(express.json());
+app.use(cors())
 
 /*----        오류발생으로 인한 서버가 죽는걸 방지하는 handler        -----*/
 function asyncHandler(handler) {
@@ -422,8 +424,6 @@ app.post(
   })
 );
 
-app.listen(process.env.PROT || 3000, () => console.log("Server Started"));
-
 const DAY = ["MON", "TUE", "WEN", "THU", "FRI", "SAT", "SUN"];
 // 매일 자정에 실행되는 작업
 console.log("매일 자정에 실행되는 작업 시작");
@@ -472,3 +472,5 @@ cron.schedule("0 0 * * 0", async () => {
   });
   console.log("매주 일요일 자정에 실행되는 작업 완료");
 });
+
+app.listen(process.env.PROT || 3000, () => console.log("Server Started"));
