@@ -13,10 +13,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        String  @id @default(uuid())
+  password  String  @unique
+  study     Studies @relation(fields: [studiesId], references: [id])
+  studiesId String  @unique
+}
+
 model Studies {
   id             String           @id @default(uuid())
   nickName       String           @unique
-  password       String
   name           String
   description    String
   points         Int              @default(0)
@@ -28,6 +34,7 @@ model Studies {
   topReaction    TopReaction[]
   habit          Habit[]
   completedHabit CompletedHabit[]
+  user User?
 }
 
 model Reaction {
