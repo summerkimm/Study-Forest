@@ -116,140 +116,140 @@ app.get(
   })
 );
 
-// app.get(
-//   "/studies/:studyId",
-//   asyncHandler(async (req, res) => {
-//     const { studyId } = req.params;
-//     const {
-//       id,
-//       name,
-//       nickName,
-//       description,
-//       topReaction,
-//       points,
-//       habit,
-//       createdAt,
-//     } = await prisma.studies.findUniqueOrThrow({
-//       where: { id: studyId },
-//       include: {
-//         topReaction: true,
-//         habit: {
-//           include: {
-//             completedHabit: true,
-//           },
-//         },
-//       },
-//     });
+app.get(
+  "/studies/:studyId",
+  asyncHandler(async (req, res) => {
+    const { studyId } = req.params;
+    const {
+      id,
+      name,
+      nickName,
+      description,
+      // topReaction,
+      points,
+      habit,
+      createdAt,
+    } = await prisma.studies.findUniqueOrThrow({
+      where: { id: studyId },
+      // include: {
+      //   topReaction: true,
+      //   habit: {
+      //     include: {
+      //       completedHabit: true,
+      //     },
+      //   },
+      // },
+    });
 
-//     const today = new Date();
-//     const createdAT = new Date(createdAt);
-//     const studyDays = Math.floor((today - createdAT) / (1000 * 60 * 60 * 24));
+    const today = new Date();
+    const createdAT = new Date(createdAt);
+    const studyDays = Math.floor((today - createdAT) / (1000 * 60 * 60 * 24));
 
-//     const result = {
-//       id,
-//       name,
-//       nickName,
-//       description,
-//       studyDays,
-//       topReactions: topReaction.map((reaction) => ({
-//         id: reaction.id,
-//         emoji: reaction.emoji,
-//         count: reaction.count,
-//       })),
-//       points,
-//       habitTrackers: habit.map((h) => ({
-//         id: h.id,
-//         name: h.name,
-//         isCompleted: JSON.parse(h.isCompletedDays),
-//       })),
-//     };
+    const result = {
+      id,
+      name,
+      nickName,
+      description,
+      studyDays,
+      // topReactions: topReaction.map((reaction) => ({
+      //   id: reaction.id,
+      //   emoji: reaction.emoji,
+      //   count: reaction.count,
+      // })),
+      // points,
+      // habitTrackers: habit.map((h) => ({
+      //   id: h.id,
+      //   name: h.name,
+      //   isCompleted: JSON.parse(h.isCompletedDays),
+      // })),
+    };
 
-//     res.send(result);
-//   })
-// );
+    res.send(result);
+  })
+);
 
-// app.post(
-//   "/studies",
-//   asyncHandler(async (req, res) => {
-//     assert(req.body, CreateStudy);
-//     const study = await prisma.studies.create({
-//       data: req.body,
-//     });
+app.post(
+  "/studies",
+  asyncHandler(async (req, res) => {
+    assert(req.body, CreateStudy);
+    const study = await prisma.studies.create({
+      data: req.body,
+    });
 
-//     const result = {
-//       id : study.id,
-//       name : study.name,
-//       nickName : study.nickName,
-//       description : study.description,
-//       background : study.background,
-//       createdAt : study.createdAt,
-//       topReactions : study.topReactions,
-//       points : study.points,
-//       habitTrackers : study.habit,
-//     };
+    const result = {
+      id : study.id,
+      name : study.name,
+      nickName : study.nickName,
+      description : study.description,
+      background : study.background,
+      createdAt : study.createdAt,
+      // topReactions : study.topReactions,
+      points : study.points,
+      // habitTrackers : study.habit,
+    };
 
-//     res.status(201).send(result);
-//   })
-// );
+    res.status(201).send(result);
+  })
+);
 
-// app.patch(
-//   "/studies/:studyId",
-//   asyncHandler(async (req, res) => {
-//     assert(req.body, PatchStudy);
-//     const { studyId } = req.params;
-//     const study = await prisma.studies.update({
-//       where: { studyId },
-//       data: req.body,
-//     });
+app.patch(
+  "/studies/:studyId",
+  asyncHandler(async (req, res) => {
+    assert(req.body, PatchStudy);
+    const { studyId } = req.params;
+    const study = await prisma.studies.update({
+      where: { id : studyId },
+      data: req.body,
+    });
 
-//     const result = {
-//       id : study.id,
-//       name : study.name,
-//       nickName : study.nickName,
-//       description : study.description,
-//     }
+    const result = {
+      id : study.id,
+      name : study.name,
+      nickName : study.nickName,
+      description : study.description,
+    }
 
-//     res.send(result);
-//   })
-// );
+    res.send(result);
+  })
+);
 
-// app.delete(
-//   "/studies/:studyId",
-//   asyncHandler(async (req, res) => {
-//     const { studyId } = req.params;
-//     await prisma.study.delete({
-//       where: { studyId },
-//     });
-//     res.sendStatus(204);
-//   })
-// );
+app.delete(
+  "/studies/:studyId",
+  asyncHandler(async (req, res) => {
+    const { studyId } = req.params;
+    await prisma.studies.delete({
+      where: { id : studyId },
+    });
+    res.sendStatus(204);
+  })
+);
 
-// /*----                point              -----*/
+/*----                point              -----*/
 
-// app.post(
-//   "/:studyId/point",
-//   asyncHandler(async (req, res) => {
-//     assert(req.body, CreatePoint)
-//     const { studyId } = req.params;
-//     const { additionalPoints } = req.body;
+app.post(
+  "/:studyId/point",
+  asyncHandler(async (req, res) => {
+    assert(req.body, CreatePoint)
+    const { studyId } = req.params;
+    const { additionalPoints } = req.body;
 
-//     const { id, name, points, createdAt } = await prisma.studies.update({
-//       where: { id: studyId },
-//       data: {
-//         points: {
-//           increment: additionalPoints,
-//         },
-//       },
-//     });
+    const { id, name, points, createdAt } = await prisma.studies.update({
+      where: { id: studyId },
+      data: {
+        points: {
+          increment: additionalPoints,
+        },
+      },
+    });
 
-//     res.status(201).send({
-//       id,
-//       name,
-//       points,
-//       createdAt,
-//     });
-//   })
-// );
+    res.status(201).send({
+      id,
+      name,
+      points,
+      createdAt,
+    });
+  })
+);
 
 // /*----                todayHabit               -----*/
 // let currentDay;

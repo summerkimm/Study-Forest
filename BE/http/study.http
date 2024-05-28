@@ -2,28 +2,29 @@ GET http://localhost:3000/studies
 
 ###
 
-GET http://localhost:3000/study/33d3179b-bc5c-4aa7-ad17-6e80c111b0f8
+GET http://localhost:3000/studies/19a98806-69b4-4064-a7e5-1ca63ef29e30
 
 ###
 
-POST http://localhost:3000/study
+POST http://localhost:3000/studies
 Content-Type: application/json
 
 {
   "nickName" : "육쌈",
   "password" : "watch666",
-  "title" : "미라클모닝",
-  "description" : "6시에 일어나는 나라의 어른이 되어보자"
+  "name" : "미라클모닝",
+  "description" : "6시에 일어나는 나라의 어른이 되어보자",
+  "background" : "image_4"
 }
 
 
 ###
-PATCH http://localhost:3000/study/33d3179b-bc5c-4aa7-ad17-6e80c111b0f8
+PATCH http://localhost:3000/studies/19a98806-69b4-4064-a7e5-1ca63ef29e30
 Content-Type: application/json
 
 {
-  "title" : "QA 프로젝트 하기"
+  "name" : "QA 프로젝트 하기"
 }
 
 ###
-DELETE http://localhost:3000/study/6939649b-9c76-4fae-9342-869366e8e99c
+DELETE http://localhost:3000/studies/19a98806-69b4-4064-a7e5-1ca63ef29e30
