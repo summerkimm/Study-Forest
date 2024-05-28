@@ -34,7 +34,7 @@ model Studies {
   topReaction    TopReaction[]
   habit          Habit[]
   completedHabit CompletedHabit[]
-  user User?
+  user           User?
 }
 
 model Reaction {
@@ -58,6 +58,7 @@ model Habit {
   id              String           @id @default(uuid())
   name            String
   isCompletedDays Json
+  changedAt       DateTime         @updatedAt
   studies         Studies          @relation(fields: [studiesId], references: [id])
   studiesId       String
   completedHabit  CompletedHabit[]
