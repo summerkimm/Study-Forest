@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import SearchIcon from "../assets/icons/icon-search.svg";
 import CardList from "../components/CardList";
+import Dropdown from "../components/Dropdown";
+import RecentCardList from "../components/RecentCardList";
 import { MOCKDATA } from "../mock";
 import colors from "../styles/colors";
-import { onMobile, onTablet } from "../styles/media-queries";
+import { onMobile } from "../styles/media-queries";
+
+const DropdownList = [
+  "많은 포인트 순",
+  "적은 포인트 순",
+  "최근 순",
+  "오래된 순",
+];
 
 function Main() {
   const { studies } = MOCKDATA;
@@ -20,77 +29,66 @@ function Main() {
   );
 
   return (
-    <StyledContainer>
+    <StyledMainContainer>
       <StyledBoxContainer>
         <StyledBoxTitle>최근 조회한 스터디</StyledBoxTitle>
-        {/* <StyledBoxWrapper>
-          <Card />
-          <Card />
-          <Card />
-        </StyledBoxWrapper> */}
+        <RecentCardList items={items} />
+        {/* {get_local !== null
+          ? get_local.map((a, i) => <div>{get_local[i]}</div>)
+          : null} */}
       </StyledBoxContainer>
 
       <StyledBoxContainer>
         <StyledBoxTitle>스터디 둘러보기</StyledBoxTitle>
-        <SearchInputContainer>
-          <img src={SearchIcon} alt="검색창 아이콘" />
-          <SearchTextInput
-            value={search}
-            type="text"
-            placeholder="검색"
-            onChange={handleChangeSearch}
-          />
-        </SearchInputContainer>
+        <StyledAllCardHeader>
+          <SearchInputContainer>
+            <img src={SearchIcon} alt="검색창 아이콘" />
+            <SearchTextInput
+              value={search}
+              type="text"
+              placeholder="검색"
+              onChange={handleChangeSearch}
+            />
+          </SearchInputContainer>
+          <Dropdown list={DropdownList} />
+        </StyledAllCardHeader>
         <CardList items={filteredItems} />
       </StyledBoxContainer>
-    </StyledContainer>
+    </StyledMainContainer>
   );
 }
 
 export default Main;
 
-const StyledContainer = styled.div`
+const StyledMainContainer = styled.div`
+  width: 1200px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: center;
   gap: 40px;
+  margin: 0 auto;
 `;
 
 const StyledBoxContainer = styled.div`
   width: 100%;
-  max-width: 1200px;
-  padding: 40px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
+  gap: 24px;
   border-radius: 20px;
+  padding: 40px;
   background: ${colors.white};
-
-  ${onTablet} {
-    width: 697px;
-  }
-
-  ${onMobile} {
-    width: 344px;
-  }
 `;
 
 const StyledBoxTitle = styled.h1`
   color: ${colors.black_41};
   font-size: 24px;
   font-weight: 800;
-  margin-bottom: 30px;
 `;
 
-const StyledBoxWrapper = styled.div`
+const StyledAllCardHeader = styled.div`
   display: flex;
-  width: 100%;
-  height: auto;
-  align-items: flex-start;
-  gap: 24px;
-  flex-shrink: 0;
-  overflow-x: auto;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const SearchInputContainer = styled.div`

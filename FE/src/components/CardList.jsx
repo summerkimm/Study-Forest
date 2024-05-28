@@ -4,27 +4,17 @@ import Card from "./Card";
 
 function CardList({ items }) {
   return (
-    <StyledAllCardListContainer>
+    <StyledCardListContainer>
       {items.map((item) => (
-        <Card
-          id={item.id}
-          key={item.id}
-          background={item.background}
-          description={item.description}
-          name={item.name}
-          nickName={item.nickName}
-          points={item.points}
-          studyDays={item.studyDays}
-          topReactions={item.topReactions}
-        />
+        <Card key={item.id} item={item} />
       ))}
-    </StyledAllCardListContainer>
+    </StyledCardListContainer>
   );
 }
 
 export default CardList;
 
-const StyledAllCardListContainer = styled.div`
+const StyledCardListContainer = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
