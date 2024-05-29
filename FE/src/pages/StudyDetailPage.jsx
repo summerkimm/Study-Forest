@@ -73,12 +73,11 @@ function StudyDetailPage() {
 
   useEffect(() => {
     let get_local = JSON.parse(localStorage.getItem("watched")) || [];
-
     get_local.push(id);
     get_local = new Set(get_local);
     get_local = [...get_local];
     localStorage.setItem("watched", JSON.stringify(get_local));
-  }, []);
+  }, [id]);
 
   return (
     <>
@@ -93,7 +92,7 @@ function StudyDetailPage() {
           </StyledButtonContainer>
         </StyledHeader>
         <StyledSubTitle>소개</StyledSubTitle>
-        {description}
+        <StyledDescription>{description}</StyledDescription>
         <StyledSubTitle>현재까지 획득한 포인트</StyledSubTitle>
         <PointTag points={point} />
         <HabitTracker habits={habitTrackers} />
@@ -159,4 +158,11 @@ const StyledSubTitle = styled.p`
   color: var(--gray-gray_818181, #818181);
   font-size: 18px;
   font-weight: 400;
+`;
+
+const StyledDescription = styled.p`
+  color: var(--black-black_414141, #414141);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 26px; /* 144.444% */
 `;
