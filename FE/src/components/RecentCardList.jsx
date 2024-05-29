@@ -13,7 +13,7 @@ function RecentCardList({ items }) {
   }, []);
 
   const filteredItems = items
-    .filter((item) => recentViewedItems.reverse().includes(String(item.id)))
+    .filter((item) => recentViewedItems.includes(String(item.id)))
     .slice(0, 3);
 
   return (

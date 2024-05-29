@@ -74,7 +74,7 @@ function StudyDetailPage() {
   useEffect(() => {
     let get_local = JSON.parse(localStorage.getItem("watched")) || [];
     get_local.push(id);
-    get_local = new Set(get_local);
+    // get_local = new Set(get_local);
     get_local = [...get_local];
     localStorage.setItem("watched", JSON.stringify(get_local));
   }, [id]);
