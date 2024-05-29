@@ -1,114 +1,139 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import Image1 from "../assets/images/image-card1.png";
 import Image2 from "../assets/images/image-card2.png";
 import Image3 from "../assets/images/image-card3.png";
 import Image4 from "../assets/images/image-card4.png";
 import InputField from "../components/InputField";
-import color from "../styles/colors";
+import RadioField from "../components/RadioField";
+
+const backgroundOptions = [
+  { value: "green" },
+  { value: "yellow" },
+  { value: "sky-blue" },
+  { value: "pink" },
+  { value: "image-1", src: Image1 },
+  { value: "image-2", src: Image2 },
+  { value: "image-3", src: Image3 },
+  { value: "image-4", src: Image4 },
+];
 
 function CreateStudyPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-    nickName: "",
-    description: "",
-    background: "",
-    password: "",
+  const [selectedBackground, setSelectedBackground] = useState("");
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      nickName: "",
+      name: "",
+      description: "",
+      password: "",
+    },
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  const onSubmit = (data) => {
+    console.log(data);
   };
 
-  const handleClickBackground = (selectedBackground) => {
-    setFormData({
-      ...formData,
-      background: selectedBackground,
-    });
+  const handleBackgroundChange = (value) => {
+    setSelectedBackground(value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    console.log(formData);
-  };
+  const passwordCheck = watch("password");
 
   return (
-    <StyledContainer onSubmit={handleSubmit}>
+    <StyledContainer onSubmit={handleSubmit(onSubmit)}>
       <StyledTitle>스터디 만들기</StyledTitle>
       <InputField
         name="nickName"
-        label="닉네임"
         type="text"
+        label="닉네임"
         placeholder="닉네임을 입력해 주세요"
-        value={formData.nickName}
-        onChange={handleChange}
+        register={register}
+        validation={{
+          required: "*닉네임을 입력해 주세요",
+          maxLength: { value: 10, message: "*최대 10자까지 입력할 수 있습니다" },
+        }}
+        error={errors.nickName}
       />
       <InputField
         name="name"
-        label="스터디 이름"
         type="text"
+        label="이름"
         placeholder="스터디 이름을 입력해 주세요"
-        value={formData.name}
-        onChange={handleChange}
+        register={register}
+        validation={{
+          required: "*스터디 이름을 입력해 주세요",
+          maxLength: { value: 10, message: "*최대 10자까지 입력할 수 있습니다" },
+        }}
+        error={errors.name}
       />
+
       <StyledTextAreaContainer>
         <StyledLabel>소개</StyledLabel>
         <StyledTextArea
           name="description"
-          value={formData.description}
+          {...register("description", {
+            required: "*소개 멘트를 작성해 주세요",
+            maxLength: {
+              value: 200,
+              message: "*최대 200자까지 입력할 수 있습니다",
+            },
+          })}
           placeholder="소개 멘트를 작성해 주세요"
-          onChange={handleChange}
         />
+        {errors.description && (
+          <StyledErrorMessage>{errors.description.message}</StyledErrorMessage>
+        )}
       </StyledTextAreaContainer>
+
       <StyledLabel>배경을 선택해 주세요</StyledLabel>
       <StyledBackgroundContainer>
-        <StyledBackgroundImage onClick={() => handleClickBackground("image-1")}>
-          <img src={Image1} alt="배경이미지1" />
-        </StyledBackgroundImage>
-        <StyledBackgroundImage onClick={() => handleClickBackground("image-2")}>
-          <img src={Image2} alt="배경이미지2" />
-        </StyledBackgroundImage>
-        <StyledBackgroundImage onClick={() => handleClickBackground("image-3")}>
-          <img src={Image3} alt="배경이미지3" />
-        </StyledBackgroundImage>
-        <StyledBackgroundImage onClick={() => handleClickBackground("image-4")}>
-          <img src={Image4} alt="배경이미지4" />
-        </StyledBackgroundImage>
-        <StyledBackgroundDiv
-          style={{ background: `${color.green}` }}
-          onClick={() => handleClickBackground("green")}
-        ></StyledBackgroundDiv>
-        <StyledBackgroundDiv
-          style={{ background: `${color.pink}` }}
-          onClick={() => handleClickBackground("pink")}
-        ></StyledBackgroundDiv>
-        <StyledBackgroundDiv
-          style={{ background: `${color.blue}` }}
-          onClick={() => handleClickBackground("sky-blue")}
-        ></StyledBackgroundDiv>
-        <StyledBackgroundDiv
-          style={{ background: `${color.yellow}` }}
-          onClick={() => handleClickBackground("yellow")}
-        ></StyledBackgroundDiv>
+        {backgroundOptions.map((option) => (
+          <RadioField
+            key={option.value}
+            register={register}
+            name="background"
+            value={option.value}
+            src={option.src}
+            validation={{ required: "*배경을 선택해 주세요" }}
+            error={errors.background}
+            isSelected={selectedBackground === option.value}
+            onChange={() => handleBackgroundChange(option.value)}
+          />
+        ))}
       </StyledBackgroundContainer>
+      {errors.background && (
+        <StyledErrorMessage>{errors.background.message}</StyledErrorMessage>
+      )}
+
       <InputField
         name="password"
-        label="비밀번호"
         type="password"
+        label="비밀번호"
+        autoComplete="off"
         placeholder="비밀번호를 입력해 주세요"
-        value={formData.password}
-        onChange={handleChange}
+        register={register}
+        validation={{ required: "*비밀번호를 입력해 주세요" }}
+        error={errors.password}
       />
       <InputField
-        label="비밀번호 확인"
+        name="passwordConfirm"
         type="password"
+        label="비밀번호 확인"
+        autoComplete="off"
         placeholder="비밀번호를 다시 한 번 입력해 주세요"
-        name="confirmPassword"
+        register={register}
+        validation={{
+          required: "*비밀번호를 다시 한 번 입력해 주세요",
+          validate: (value) =>
+            value === passwordCheck || "*비밀번호가 일치하지 않습니다",
+        }}
+        error={errors.passwordConfirm}
       />
       <button type="submit">만들기</button>
     </StyledContainer>
@@ -172,14 +197,8 @@ const StyledBackgroundContainer = styled.div`
   gap: 16px;
 `;
 
-const StyledBackgroundDiv = styled.div`
-  width: 150px;
-  height: 150px;
-  border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-`;
-
-const StyledBackgroundImage = styled(StyledBackgroundDiv)`
-  overflow: hidden;
+const StyledErrorMessage = styled.p`
+  color: var(--red-error_C41013, #c41013);
+  font-size: 14px;
+  font-weight: 400;
 `;

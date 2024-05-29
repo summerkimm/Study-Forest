@@ -5,22 +5,20 @@ function InputField({
   label,
   type = "text",
   placeholder,
-  value,
-  onChange,
-  errorMessage,
-  isError,
+  register,
+  validation,
+  error,
 }) {
   return (
     <StyledInputContainer>
       <StyledInputLabel>{label}</StyledInputLabel>
       <StyledInput
-        name={name}
-        value={value}
         type={type}
         placeholder={placeholder}
-        onChange={onChange}
+        {...register(name, validation)}
+        validation={validation}
       />
-      {isError && <p>{errorMessage}</p>}
+      {error && <StyledErrorMessage>{error.message}</StyledErrorMessage>}
     </StyledInputContainer>
   );
 }
@@ -48,5 +46,11 @@ const StyledInput = styled.input`
 
   color: var(--gray-gray_818181, #818181);
   font-size: 16px;
+  font-weight: 400;
+`;
+
+const StyledErrorMessage = styled.p`
+  color: var(--red-error_C41013, #c41013);
+  font-size: 14px;
   font-weight: 400;
 `;
