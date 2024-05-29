@@ -473,4 +473,4 @@ cron.schedule("0 0 * * 0", async () => {
   console.log("매주 일요일 자정에 실행되는 작업 완료");
 });
 
-app.listen(process.env.DATABASE_URL || 3000, () => console.log("Server Started"));
+app.listen(process.env.PORT || 3000, () => console.log("Server Started"));
