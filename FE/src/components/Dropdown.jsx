@@ -2,7 +2,14 @@ import { useState } from "react";
 import styled from "styled-components";
 import ArrowToggleIcon from "../assets/icons/icon_toggle.svg";
 
-function DropDown({ value, setValue, list }) {
+const DropdownList = [
+  "많은 포인트 순",
+  "적은 포인트 순",
+  "최근 순",
+  "오래된 순",
+];
+
+function DropDown({ value, setValue }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDropdown = () => {
@@ -33,7 +40,7 @@ function DropDown({ value, setValue, list }) {
       </StyledDropdownHeader>
       {isOpen && (
         <StyledDropdownList>
-          {list.map((item, idx) => (
+          {DropdownList.map((item, idx) => (
             <StyledDropdownItem
               key={idx}
               onMouseDown={() => handleDropdownClick(item)}

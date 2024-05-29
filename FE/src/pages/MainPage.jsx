@@ -8,17 +8,11 @@ import { MOCKDATA } from "../mock";
 import colors from "../styles/colors";
 import { onMobile } from "../styles/media-queries";
 
-const DropdownList = [
-  "많은 포인트 순",
-  "적은 포인트 순",
-  "최근 순",
-  "오래된 순",
-];
-
 function Main() {
   const { studies } = MOCKDATA;
   const [items, setItems] = useState(studies);
   const [search, setSearch] = useState("");
+  const [sortValue, setSortValue] = useState("");
 
   const handleChangeSearch = (e) => {
     setSearch(e.target.value);
@@ -47,10 +41,9 @@ function Main() {
               onChange={handleChangeSearch}
             />
           </SearchInputContainer>
-          <Dropdown list={DropdownList} />
+          <Dropdown value={sortValue} />
         </StyledAllCardHeader>
         <AllCardList items={filteredItems} />
-        {/* <LoadMoreButton>더보기</LoadMoreButton> */}
       </StyledBoxContainer>
 
     </StyledMainContainer>
@@ -114,17 +107,3 @@ const SearchTextInput = styled.input`
   border: none;
 `;
 
-// const LoadMoreButton = styled.button`
-//   display: flex;
-//   width: 280px;
-//   height: 53px;
-//   justify-content: center;
-//   align-items: center;
-//   color: #578246;
-//   text-align: center;
-//   font-size: 16px;
-//   font-weight: 500;
-//   border-radius: 20px;
-//   border: 1px solid #ddd;
-//   background: #fff;
-// `;
