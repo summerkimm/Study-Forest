@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import LogoIcon from "../assets/logoImg.svg";
+import LogoIcon from "../assets/icons/logoImg.svg";
 import { onMobile, onTablet } from "../styles/media-queries";
 
 function Navbar() {

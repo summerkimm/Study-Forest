@@ -187,6 +187,8 @@ const StyledTextArea = styled.textarea`
   color: var(--gray-gray_818181, #818181);
   font-size: 16px;
   font-weight: 400;
+  overflow-y: auto;
+
 `;
 
 const StyledBackgroundContainer = styled.div`
