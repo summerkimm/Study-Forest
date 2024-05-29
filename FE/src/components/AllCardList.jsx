@@ -4,15 +4,20 @@ import Card from "./Card";
 
 function AllCardList({ items }) {
   return (
-    <div>
-      <StyledCardListContainer>
-        {items.map((item) => (
-          <Card key={item.id} item={item} />
-        ))}
-      </StyledCardListContainer>
+    <>
+      {items.length === 0 ? (
+        <StyledEmptyBoxContainer>
+          <StyledEmptyMessage>아직 둘러 볼 스터디가 없어요</StyledEmptyMessage>
+        </StyledEmptyBoxContainer>
+      ) : (
+        <StyledCardListContainer>
+          {items.map((item) => (
+            <Card key={item.id} item={item} />
+          ))}
+        </StyledCardListContainer>
+      )}
       <LoadMoreButton>더보기</LoadMoreButton>
-    </div>
-
+    </>
   );
 }
 
@@ -40,10 +45,24 @@ const LoadMoreButton = styled.button`
   justify-content: center;
   align-items: center;
   color: #578246;
-  text-align: center;
   font-size: 16px;
   font-weight: 500;
   border-radius: 20px;
   border: 1px solid #ddd;
   background: #fff;
+  margin-top: 60px;
+`;
+
+const StyledEmptyBoxContainer = styled.div`
+  width: 100%;
+  height: 740px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledEmptyMessage = styled.p`
+  color: var(--gray-gray_818181, #818181);
+  font-size: 20px;
+  font-weight: 500;
 `;

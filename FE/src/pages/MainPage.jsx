@@ -24,14 +24,14 @@ function Main() {
 
   return (
     <StyledMainContainer>
-      <StyledBoxContainer>
+      <StyledRecentCardBoxContainer>
         <StyledBoxTitle>최근 조회한 스터디</StyledBoxTitle>
         <RecentCardList items={items} />
-      </StyledBoxContainer>
+      </StyledRecentCardBoxContainer>
 
-      <StyledBoxContainer>
+      <StyledAllCardBoxContainer>
         <StyledBoxTitle>스터디 둘러보기</StyledBoxTitle>
-        <StyledAllCardHeader>
+        <StyledAllCardBoxHeader>
           <SearchInputContainer>
             <img src={SearchIcon} alt="검색창 아이콘" />
             <SearchTextInput
@@ -42,10 +42,9 @@ function Main() {
             />
           </SearchInputContainer>
           <Dropdown value={sortValue} />
-        </StyledAllCardHeader>
+        </StyledAllCardBoxHeader>
         <AllCardList items={filteredItems} />
-      </StyledBoxContainer>
-
+      </StyledAllCardBoxContainer>
     </StyledMainContainer>
   );
 }
@@ -55,8 +54,8 @@ export default Main;
 const StyledMainContainer = styled.div`
   width: 1200px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  flex-direction: column;
   gap: 40px;
   margin: 0 auto;
 `;
@@ -65,10 +64,17 @@ const StyledBoxContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 24px;
   border-radius: 20px;
   padding: 40px;
   background: ${colors.white};
+`;
+
+const StyledRecentCardBoxContainer = styled(StyledBoxContainer)`
+  gap: 30px;
+`;
+
+const StyledAllCardBoxContainer = styled(StyledBoxContainer)`
+  gap: 24px;
 `;
 
 const StyledBoxTitle = styled.h1`
@@ -77,7 +83,7 @@ const StyledBoxTitle = styled.h1`
   font-weight: 800;
 `;
 
-const StyledAllCardHeader = styled.div`
+const StyledAllCardBoxHeader = styled.div`
   display: flex;
   justify-content: space-between;
 `;
@@ -106,4 +112,3 @@ const SearchTextInput = styled.input`
   font-weight: 400;
   border: none;
 `;
-
