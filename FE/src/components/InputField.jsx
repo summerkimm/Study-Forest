@@ -16,7 +16,6 @@ function InputField({
         type={type}
         placeholder={placeholder}
         {...register(name, validation)}
-        validation={validation}
       />
       {error && <StyledErrorMessage>{error.message}</StyledErrorMessage>}
     </StyledInputContainer>

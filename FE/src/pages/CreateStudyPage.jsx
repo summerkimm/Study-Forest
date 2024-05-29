@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
+import EyeOffBtn from "../assets/icons/btn_visibility_off.svg";
+import EyeOnBtn from "../assets/icons/btn_visibility_on.svg";
 import Image1 from "../assets/images/image-card1.png";
 import Image2 from "../assets/images/image-card2.png";
 import Image3 from "../assets/images/image-card3.png";
@@ -20,6 +22,9 @@ const backgroundOptions = [
 ];
 
 function CreateStudyPage() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+
   const [selectedBackground, setSelectedBackground] = useState("");
   const {
     register,
@@ -45,6 +50,14 @@ function CreateStudyPage() {
 
   const passwordCheck = watch("password");
 
+  const handleEyeButton = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleEyeButtonConfirm = () => {
+    setShowPasswordConfirm(!showPasswordConfirm);
+  };
+
   return (
     <StyledContainer onSubmit={handleSubmit(onSubmit)}>
       <StyledTitle>스터디 만들기</StyledTitle>
@@ -56,7 +69,10 @@ function CreateStudyPage() {
         register={register}
         validation={{
           required: "*닉네임을 입력해 주세요",
-          maxLength: { value: 10, message: "*최대 10자까지 입력할 수 있습니다" },
+          maxLength: {
+            value: 10,
+            message: "*최대 10자까지 입력할 수 있습니다",
+          },
         }}
         error={errors.nickName}
       />
@@ -68,7 +84,10 @@ function CreateStudyPage() {
         register={register}
         validation={{
           required: "*스터디 이름을 입력해 주세요",
-          maxLength: { value: 10, message: "*최대 10자까지 입력할 수 있습니다" },
+          maxLength: {
+            value: 10,
+            message: "*최대 10자까지 입력할 수 있습니다",
+          },
         }}
         error={errors.name}
       />
@@ -111,30 +130,48 @@ function CreateStudyPage() {
         <StyledErrorMessage>{errors.background.message}</StyledErrorMessage>
       )}
 
-      <InputField
-        name="password"
-        type="password"
-        label="비밀번호"
-        autoComplete="off"
-        placeholder="비밀번호를 입력해 주세요"
-        register={register}
-        validation={{ required: "*비밀번호를 입력해 주세요" }}
-        error={errors.password}
-      />
-      <InputField
-        name="passwordConfirm"
-        type="password"
-        label="비밀번호 확인"
-        autoComplete="off"
-        placeholder="비밀번호를 다시 한 번 입력해 주세요"
-        register={register}
-        validation={{
-          required: "*비밀번호를 다시 한 번 입력해 주세요",
-          validate: (value) =>
-            value === passwordCheck || "*비밀번호가 일치하지 않습니다",
-        }}
-        error={errors.passwordConfirm}
-      />
+      <StyledPasswordField>
+        <InputField
+          name="password"
+          type={showPassword ? "text" : "password"}
+          label="비밀번호"
+          autoComplete="off"
+          placeholder="비밀번호를 입력해 주세요"
+          register={register}
+          validation={{ required: "*비밀번호를 입력해 주세요" }}
+          error={errors.password}
+        />
+        <StyledEyeButton type="button" onClick={handleEyeButton}>
+          <img
+            src={showPassword ? EyeOnBtn : EyeOffBtn}
+            alt={showPassword ? "비밀번호 보이기" : "비밀번호 가리기"}
+          />
+        </StyledEyeButton>
+      </StyledPasswordField>
+
+      <StyledPasswordField>
+        <InputField
+          name="passwordConfirm"
+          type={showPasswordConfirm ? "text" : "password"}
+          label="비밀번호 확인"
+          autoComplete="off"
+          placeholder="비밀번호를 다시 한 번 입력해 주세요"
+          register={register}
+          validation={{
+            required: "*비밀번호를 다시 한 번 입력해 주세요",
+            validate: (value) =>
+              value === passwordCheck || "*비밀번호가 일치하지 않습니다",
+          }}
+          error={errors.passwordConfirm}
+        />
+        <StyledEyeButton type="button" onClick={handleEyeButtonConfirm}>
+          <img
+            src={showPasswordConfirm ? EyeOnBtn : EyeOffBtn}
+            alt={showPassword ? "비밀번호 보이기" : "비밀번호 가리기"}
+          />
+        </StyledEyeButton>
+      </StyledPasswordField>
+
       <button type="submit">만들기</button>
     </StyledContainer>
   );
@@ -188,7 +225,6 @@ const StyledTextArea = styled.textarea`
   font-size: 16px;
   font-weight: 400;
   overflow-y: auto;
-
 `;
 
 const StyledBackgroundContainer = styled.div`
@@ -203,4 +239,21 @@ const StyledErrorMessage = styled.p`
   color: var(--red-error_C41013, #c41013);
   font-size: 14px;
   font-weight: 400;
+`;
+
+const StyledPasswordField = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+const StyledEyeButton = styled.div`
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 14px;
+  right: 20px;
+  cursor: pointer;
 `;
