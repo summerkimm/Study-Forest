@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import SearchIcon from "../assets/icons/icon-search.svg";
-import CardList from "../components/CardList";
+import AllCardList from "../components/AllCardList";
 import Dropdown from "../components/Dropdown";
 import RecentCardList from "../components/RecentCardList";
 import { MOCKDATA } from "../mock";
@@ -33,9 +33,6 @@ function Main() {
       <StyledBoxContainer>
         <StyledBoxTitle>최근 조회한 스터디</StyledBoxTitle>
         <RecentCardList items={items} />
-        {/* {get_local !== null
-          ? get_local.map((a, i) => <div>{get_local[i]}</div>)
-          : null} */}
       </StyledBoxContainer>
 
       <StyledBoxContainer>
@@ -52,8 +49,10 @@ function Main() {
           </SearchInputContainer>
           <Dropdown list={DropdownList} />
         </StyledAllCardHeader>
-        <CardList items={filteredItems} />
+        <AllCardList items={filteredItems} />
+        {/* <LoadMoreButton>더보기</LoadMoreButton> */}
       </StyledBoxContainer>
+
     </StyledMainContainer>
   );
 }
@@ -88,7 +87,6 @@ const StyledBoxTitle = styled.h1`
 const StyledAllCardHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
 `;
 
 const SearchInputContainer = styled.div`
@@ -115,3 +113,18 @@ const SearchTextInput = styled.input`
   font-weight: 400;
   border: none;
 `;
+
+// const LoadMoreButton = styled.button`
+//   display: flex;
+//   width: 280px;
+//   height: 53px;
+//   justify-content: center;
+//   align-items: center;
+//   color: #578246;
+//   text-align: center;
+//   font-size: 16px;
+//   font-weight: 500;
+//   border-radius: 20px;
+//   border: 1px solid #ddd;
+//   background: #fff;
+// `;
