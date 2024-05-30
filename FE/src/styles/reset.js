@@ -17,9 +17,10 @@ export const reset = css`
   body {
     -ms-overflow-style: none;
   }
-  ::-webkit-scrollbar {
+
+  /* ::-webkit-scrollbar {
     display: none;
-  }
+  } */
 
   a {
     color: inherit;

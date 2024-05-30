@@ -46,13 +46,6 @@ function Card({ item }) {
   } = item;
 
   const handleClick = () => {
-    // let recentCards = JSON.parse(localStorage.getItem("recentCards") || []);
-    // recentCards = [
-    //   item.id,
-    //   ...recentCards.filter((id) => id !== item.id)].slice(0, 3);
-    // localStorage.setItem("recentCards", JSON.stringify(recentCards));
-    // localStorage.setItem('recentViewedCard', id);
-
     navigate(`/studies/${id}`);
   };
 

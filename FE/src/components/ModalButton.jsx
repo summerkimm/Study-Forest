@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-function ModalButton({ children }) {
-  return <StyledModalButtonContainer>{children}</StyledModalButtonContainer>;
+function ModalButton({ children, type }) {
+  return <StyledModalButton type={type}>{children}</StyledModalButton>;
 }
 
 export default ModalButton;
 
-const StyledModalButtonContainer = styled.div`
+const StyledModalButton = styled.button`
   width: 100%;
   height: 58px;
   background: #99c08e;

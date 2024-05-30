@@ -1,24 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import SearchIcon from "../assets/icons/icon-search.svg";
-import CardList from "../components/CardList";
+import AllCardList from "../components/AllCardList";
 import Dropdown from "../components/Dropdown";
 import RecentCardList from "../components/RecentCardList";
 import { MOCKDATA } from "../mock";
 import colors from "../styles/colors";
 import { onMobile } from "../styles/media-queries";
 
-const DropdownList = [
-  "많은 포인트 순",
-  "적은 포인트 순",
-  "최근 순",
-  "오래된 순",
-];
-
 function Main() {
   const { studies } = MOCKDATA;
   const [items, setItems] = useState(studies);
   const [search, setSearch] = useState("");
+  const [sortValue, setSortValue] = useState("");
 
   const handleChangeSearch = (e) => {
     setSearch(e.target.value);
@@ -30,17 +24,14 @@ function Main() {
 
   return (
     <StyledMainContainer>
-      <StyledBoxContainer>
+      <StyledRecentCardBoxContainer>
         <StyledBoxTitle>최근 조회한 스터디</StyledBoxTitle>
         <RecentCardList items={items} />
-        {/* {get_local !== null
-          ? get_local.map((a, i) => <div>{get_local[i]}</div>)
-          : null} */}
-      </StyledBoxContainer>
+      </StyledRecentCardBoxContainer>
 
-      <StyledBoxContainer>
+      <StyledAllCardBoxContainer>
         <StyledBoxTitle>스터디 둘러보기</StyledBoxTitle>
-        <StyledAllCardHeader>
+        <StyledAllCardBoxHeader>
           <SearchInputContainer>
             <img src={SearchIcon} alt="검색창 아이콘" />
             <SearchTextInput
@@ -50,10 +41,10 @@ function Main() {
               onChange={handleChangeSearch}
             />
           </SearchInputContainer>
-          <Dropdown list={DropdownList} />
-        </StyledAllCardHeader>
-        <CardList items={filteredItems} />
-      </StyledBoxContainer>
+          <Dropdown value={sortValue} />
+        </StyledAllCardBoxHeader>
+        <AllCardList items={filteredItems} />
+      </StyledAllCardBoxContainer>
     </StyledMainContainer>
   );
 }
@@ -63,8 +54,8 @@ export default Main;
 const StyledMainContainer = styled.div`
   width: 1200px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  flex-direction: column;
   gap: 40px;
   margin: 0 auto;
 `;
@@ -73,10 +64,17 @@ const StyledBoxContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 24px;
   border-radius: 20px;
   padding: 40px;
   background: ${colors.white};
+`;
+
+const StyledRecentCardBoxContainer = styled(StyledBoxContainer)`
+  gap: 30px;
+`;
+
+const StyledAllCardBoxContainer = styled(StyledBoxContainer)`
+  gap: 24px;
 `;
 
 const StyledBoxTitle = styled.h1`
@@ -85,10 +83,9 @@ const StyledBoxTitle = styled.h1`
   font-weight: 800;
 `;
 
-const StyledAllCardHeader = styled.div`
+const StyledAllCardBoxHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
 `;
 
 const SearchInputContainer = styled.div`

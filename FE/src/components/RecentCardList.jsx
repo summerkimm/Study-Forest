@@ -13,22 +13,46 @@ function RecentCardList({ items }) {
   }, []);
 
   const filteredItems = items
-    .filter((item) => recentViewedItems.reverse().includes(String(item.id)))
+    .filter((item) => recentViewedItems.includes(String(item.id)))
     .slice(0, 3);
 
   return (
-    <RecentCardListContainer>
-      {filteredItems.map((item) => (
-        <Card item={item} />
-      ))}
-    </RecentCardListContainer>
+    <>
+      {filteredItems.length === 0 ? (
+        <StyledEmptyBoxContainer>
+          <StyledEmptyMessage>아직 조회한 스터디가 없어요</StyledEmptyMessage>
+        </StyledEmptyBoxContainer>
+      ) : (
+        <StyledRecentCardListContainer>
+          {filteredItems.map((item) => (
+            <Card item={item} />
+          ))}
+        </StyledRecentCardListContainer>
+      )}
+    </>
   );
 }
 
 export default RecentCardList;
 
-const RecentCardListContainer = styled.div`
+const StyledRecentCardListContainer = styled.div`
+  width: 100%;
   display: flex;
+  justify-content: start;
+  align-items: center;
   gap: 24px;
-  width: 100%
+`;
+
+const StyledEmptyBoxContainer = styled.div`
+  width: 100%;
+  height: 358px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledEmptyMessage = styled.p`
+  color: var(--gray-gray_818181, #818181);
+  font-size: 20px;
+  font-weight: 500;
 `;
