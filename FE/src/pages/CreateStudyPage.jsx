@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
+import { postStudies } from "../api/studies";
 import EyeOffBtn from "../assets/icons/btn_visibility_off.svg";
 import EyeOnBtn from "../assets/icons/btn_visibility_on.svg";
 import Image1 from "../assets/images/image-card1.png";
@@ -37,12 +38,9 @@ function CreateStudyPage() {
       name: "",
       description: "",
       password: "",
+      background: "",
     },
   });
-
-  const onSubmit = (data) => {
-    console.log(data);
-  };
 
   const handleBackgroundChange = (value) => {
     setSelectedBackground(value);
@@ -58,8 +56,28 @@ function CreateStudyPage() {
     setShowPasswordConfirm(!showPasswordConfirm);
   };
 
+  const handleOnSubmit = async (data) => {
+    const dataWithBackground = { ...data, background: selectedBackground };
+
+    const { name, background, description, password, nickName } =
+      dataWithBackground;
+
+    try {
+      const response = await postStudies({
+        name,
+        nickName,
+        description,
+        background,
+        password,
+      });
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <StyledContainer onSubmit={handleSubmit(onSubmit)}>
+    <StyledContainer onSubmit={handleSubmit(handleOnSubmit)}>
       <StyledTitle>스터디 만들기</StyledTitle>
       <InputField
         name="nickName"
