@@ -3,6 +3,6 @@ Content-Type: application/json
 
 { 
   "emoji" : "🤧", 
-  "emojiType" : "decrease",
-  "studiesId" : "7be9827f-39b2-480a-aaef-a9280e242633"
+  "emojiType" : "increase",
+  "studiesId" : "c3411728-6d54-485a-b46d-da0f212c567e"
 }

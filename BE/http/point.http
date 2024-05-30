@@ -1,4 +1,4 @@
-POST http://localhost:3000/9e5bf75d-857b-4538-9092-c3688d466626/point
+POST http://localhost:3000/c3411728-6d54-485a-b46d-da0f212c567e/point
 Content-Type: application/json
 
 { 

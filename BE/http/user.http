@@ -1,7 +1,7 @@
-POST http://localhost:3000/studies/e79e5813-a84b-45ae-b732-73704e58a933/userCheck
+POST http://localhost:3000/studies/8d723e7b-b1e1-41fa-8466-55e91aeeee40/userCheck
 Content-Type: application/json
 
 {
-  "password" : "password1"
+  "password" : "study8"
 }
 

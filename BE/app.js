@@ -181,7 +181,14 @@ app.post(
   asyncHandler(async (req, res) => {
     assert(req.body, CreateStudy);
     const study = await prisma.studies.create({
-      data: req.body,
+      data: {
+        ...req.body,
+        user: {
+          create : {
+            password : req.body.password,
+          },
+        },
+      },
     });
 
     const result = {
