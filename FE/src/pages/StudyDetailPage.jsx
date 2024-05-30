@@ -1,8 +1,10 @@
+import EmojiPicker from "emoji-picker-react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../components/Button";
+import EmojiAddButton from "../components/EmojiAddButton";
 import HabitTracker from "../components/HabitTracker";
 import Modal from "../components/Modal";
 import PointTag from "../components/Tags/PointTag";
@@ -70,6 +72,7 @@ function StudyDetailPage() {
   const [showHabitModal, setShowHabitModal] = useState(false);
   const [showFocusModal, setShowFocusModal] = useState(false);
   const { id } = useParams();
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   useEffect(() => {
     let get_local = JSON.parse(localStorage.getItem("watched")) || [];
@@ -79,9 +82,19 @@ function StudyDetailPage() {
     localStorage.setItem("watched", JSON.stringify(get_local));
   }, [id]);
 
+  const handleEmojiPicker = () => {
+    setShowEmojiPicker(!showEmojiPicker);
+  };
+
   return (
     <>
       <StyledContainer>
+        <StyledEmojiField>
+          <EmojiAddButton onClick={handleEmojiPicker} />
+          {showEmojiPicker && (
+            <EmojiPicker style={{ position: "absolute", top: "40px", left: 0 }} />
+          )}
+        </StyledEmojiField>
         <StyledHeader>
           <StyledTitle>
             {nickName}의 {name}
@@ -165,4 +178,8 @@ const StyledDescription = styled.p`
   font-size: 18px;
   font-weight: 500;
   line-height: 26px; /* 144.444% */
+`;
+
+const StyledEmojiField = styled.div`
+position: relative;
 `;
