@@ -7,7 +7,9 @@
     "is-uuid": "^1.0.2",
     "node-cron": "^3.0.3",
     "prisma": "^5.4.2",
-    "superstruct": "^1.0.3"
+    "superstruct": "^1.0.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

@@ -5,6 +5,7 @@ import { PrismaClient, Prisma } from "@prisma/client";
 import cors from 'cors'
 import { assert } from "superstruct";
 import cron from "node-cron";
+import swagger from './swagger.js'
 import {
   CheckPassword,
   CreateStudy,
@@ -78,10 +79,10 @@ app.get(
         orderBy = { createdAt: "asc" };
         break;
       case "highPoint":
-        orderBy = { point: "desc" };
+        orderBy = { points: "desc" };
         break;
       case "lowPoint":
-        orderBy = { point: "asc" };
+        orderBy = { points: "asc" };
         break;
     }
     const studies = await prisma.studies.findMany({
@@ -479,5 +480,7 @@ cron.schedule("0 0 * * 0", async () => {
   });
   console.log("매주 일요일 자정에 실행되는 작업 완료");
 });
+
+swagger(app);
 
 app.listen(process.env.PORT || 3000, () => console.log("Server Started"));
