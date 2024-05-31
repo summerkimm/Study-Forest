@@ -156,7 +156,14 @@ function CreateStudyPage() {
           autoComplete="off"
           placeholder="비밀번호를 입력해 주세요"
           register={register}
-          validation={{ required: "*비밀번호를 입력해 주세요" }}
+          validation={{
+            required: "*비밀번호를 입력해 주세요",
+            pattern: {
+              value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
+              message:
+                "*영어와 숫자를 포함한 6자 이상의 비밀번호를 입력해 주세요",
+            },
+          }}
           error={errors.password}
         />
         <StyledEyeButton type="button" onClick={handleEyeButton}>
