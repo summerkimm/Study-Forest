@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import CreateStudyPage from "./pages/CreateStudyPage";
 import MainPage from "./pages/MainPage";
 import StudyDetailPage from "./pages/StudyDetailPage";
+import TodayHabitPage from "./pages/TodayHabitPage";
 import GlobalStyles from "./styles/GlobalStyles";
 
 function App() {
@@ -14,7 +15,10 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/studies">
           <Route index element={<CreateStudyPage />} />
-          <Route path=":id" element={<StudyDetailPage />} />
+          <Route path=":id">
+            <Route index element={<StudyDetailPage />} />
+            <Route path="habit" element={<TodayHabitPage />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
