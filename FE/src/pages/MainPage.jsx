@@ -1,26 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { getStudies } from "../api/studies";
 import SearchIcon from "../assets/icons/icon-search.svg";
 import AllCardList from "../components/AllCardList";
 import Dropdown from "../components/Dropdown";
 import RecentCardList from "../components/RecentCardList";
-import { MOCKDATA } from "../mock";
 import colors from "../styles/colors";
 import { onMobile } from "../styles/media-queries";
 
 function Main() {
-  const { studies } = MOCKDATA;
-  const [items, setItems] = useState(studies);
+  // const { studies } = MOCKDATA;
+  const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
   const [sortValue, setSortValue] = useState("");
+  const limit = 6;
+  const offset = 0;
+  const view = "";
 
   const handleChangeSearch = (e) => {
     setSearch(e.target.value);
   };
 
-  const filteredItems = items.filter((item) =>
-    item.name.toLowerCase().includes(search.toLowerCase())
-  );
+  // const filteredItems = items.filter((item) =>
+  //   item.name.toLowerCase().includes(search.toLowerCase())
+  // );
+
+  const fetchData = async () => {
+    const response = await getStudies({ search, limit, offset, view });
+    console.log(response);
+    const { studies } = response.data;
+    setItems(studies);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <StyledMainContainer>
@@ -43,7 +57,7 @@ function Main() {
           </SearchInputContainer>
           <Dropdown value={sortValue} />
         </StyledAllCardBoxHeader>
-        <AllCardList items={filteredItems} />
+        <AllCardList items={items} />
       </StyledAllCardBoxContainer>
     </StyledMainContainer>
   );

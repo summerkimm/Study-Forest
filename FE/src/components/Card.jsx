@@ -14,19 +14,19 @@ const COLORSCHEME = {
   yellow: { color: "#c18e1b", backgroundColor: "#fff1cc", status: "light" },
   pink: { color: "#bc3c6a", backgroundColor: "#fde0e9", status: "light" },
   "sky-blue": { color: "#418099", backgroundColor: "#E0F1F5", status: "light" },
-  "image-1": {
+  "image_1": {
     backgroundImage: `url(${Image1})`,
     status: "dark",
   },
-  "image-2": {
+  "image_2": {
     backgroundImage: `url(${Image2})`,
     status: "dark",
   },
-  "image-3": {
+  "image_3": {
     backgroundImage: `url(${Image3})`,
     status: "dark",
   },
-  "image-4": {
+  "image_4": {
     backgroundImage: `url(${Image4})`,
     status: "dark",
   },

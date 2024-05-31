@@ -16,10 +16,10 @@ const backgroundOptions = [
   { value: "yellow" },
   { value: "sky-blue" },
   { value: "pink" },
-  { value: "image-1", src: Image1 },
-  { value: "image-2", src: Image2 },
-  { value: "image-3", src: Image3 },
-  { value: "image-4", src: Image4 },
+  { value: "image_1", src: Image1 },
+  { value: "image_2", src: Image2 },
+  { value: "image_3", src: Image3 },
+  { value: "image_4", src: Image4 },
 ];
 
 function CreateStudyPage() {
