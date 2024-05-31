@@ -12,7 +12,7 @@ function AllCardList({ items }) {
       ) : (
         <StyledCardListContainer>
           {items.map((item) => (
-            <Card key={item.id} item={item} />
+            <Card key={item.id} item={item} type="feed" />
           ))}
         </StyledCardListContainer>
       )}
@@ -35,6 +35,7 @@ const StyledCardListContainer = styled.div`
 
   ${onMobile} {
     grid-template-columns: repeat(1, 1fr);
+    gap: 16px;
   }
 `;
 

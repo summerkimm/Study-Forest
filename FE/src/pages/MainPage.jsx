@@ -6,16 +6,15 @@ import AllCardList from "../components/AllCardList";
 import Dropdown from "../components/Dropdown";
 import RecentCardList from "../components/RecentCardList";
 import colors from "../styles/colors";
-import { onMobile } from "../styles/media-queries";
+import { onMobile, onTablet } from "../styles/media-queries";
 
 function Main() {
-  // const { studies } = MOCKDATA;
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
   const [sortValue, setSortValue] = useState("");
-  const limit = 6;
-  const offset = 0;
-  const view = "";
+  // const limit = 6;
+  // const offset = 0;
+  // const view = 'newest';
 
   const handleChangeSearch = (e) => {
     setSearch(e.target.value);
@@ -26,7 +25,7 @@ function Main() {
   // );
 
   const fetchData = async () => {
-    const response = await getStudies({ search, limit, offset, view });
+    const response = await getStudies();
     console.log(response);
     const { studies } = response.data;
     setItems(studies);
@@ -72,6 +71,16 @@ const StyledMainContainer = styled.div`
   flex-direction: column;
   gap: 40px;
   margin: 0 auto;
+
+  ${onTablet} {
+    width: 696px;
+    gap: 24px;
+  }
+
+  ${onMobile} {
+    width: 344px;
+    gap: 16px;
+  }
 `;
 
 const StyledBoxContainer = styled.div`
@@ -81,34 +90,67 @@ const StyledBoxContainer = styled.div`
   border-radius: 20px;
   padding: 40px;
   background: ${colors.white};
+  margin: 0 auto;
+  flex-shrink: 1;
+
+  ${onTablet} {
+    padding: 24px;
+  }
+
+  ${onMobile} {
+    padding: 16px;
+  }
 `;
 
 const StyledRecentCardBoxContainer = styled(StyledBoxContainer)`
   gap: 30px;
+
+  ${onTablet} {
+    gap: 18px;
+  }
+
+  ${onMobile} {
+    gap: 16px;
+  }
 `;
 
 const StyledAllCardBoxContainer = styled(StyledBoxContainer)`
   gap: 24px;
+
+  ${onMobile} {
+    gap: 12px;
+  }
 `;
 
 const StyledBoxTitle = styled.h1`
   color: ${colors.black_41};
   font-size: 24px;
   font-weight: 800;
+
+  ${onMobile} {
+    font-size: 16px;
+  }
 `;
 
 const StyledAllCardBoxHeader = styled.div`
   display: flex;
   justify-content: space-between;
+
+  ${onMobile} {
+    display: grid;
+    gap: 12px;
+    justify-items: end;
+  }
 `;
 
 const SearchInputContainer = styled.div`
   display: flex;
   width: 335px;
-  height: auto;
+  height: 42px;
   padding: 12px 20px;
   align-items: flex-start;
   gap: 10px;
+  flex-shrink: 0;
 
   border-radius: 15px;
   border: 1px solid #ddd;

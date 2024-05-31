@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Card from "./Card";
+import { onMobile } from '../styles/media-queries';
 
 function RecentCardList({ items }) {
   const [recentViewedItems, setrecentViewedItems] = useState([]);
@@ -41,6 +42,15 @@ const StyledRecentCardListContainer = styled.div`
   justify-content: start;
   align-items: center;
   gap: 24px;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  ${onMobile} {
+    gap: 16px;
+  }
 `;
 
 const StyledEmptyBoxContainer = styled.div`

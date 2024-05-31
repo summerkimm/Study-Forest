@@ -8,9 +8,10 @@ function Navbar() {
     <StyledContainer>
       <StyledWrapper>
         <Link to="/">
-          <StyledLogo>
-            <img src={LogoIcon} alt="홈페이지로 이동" />
-          </StyledLogo>
+            <StyledLogo
+              src={LogoIcon}
+              alt="홈페이지로 이동"
+            />
         </Link>
         <Link to="/studies">
           <button>스터디 만들기</button>
@@ -35,9 +36,17 @@ const StyledWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  ${onTablet} {
+    width: 744px;
+  }
+
+  ${onMobile} {
+    width: 375px;
+  }
 `;
 
-const StyledLogo = styled.a`
+const StyledLogo = styled.img`
   width: 182px;
   height: 60px;
   position: relative;
