@@ -9,6 +9,7 @@ import EmojiAddButton from "../components/EmojiAddButton";
 import HabitTracker from "../components/HabitTracker";
 import Modal from "../components/Modal";
 import PointTag from "../components/Tags/PointTag";
+import { onMobile, onTablet } from "../styles/media-queries";
 
 const MOCK = {
   id: 129,
@@ -69,7 +70,7 @@ const MOCK = {
 };
 
 function StudyDetailPage() {
-  // const { nickName, name, description, points, habitTrackers } = MOCK;
+  const { nickName, name, description, points, habitTrackers } = MOCK;
   const [item, setItem] = useState();
   const [showHabitModal, setShowHabitModal] = useState(false);
   const [showFocusModal, setShowFocusModal] = useState(false);
@@ -90,7 +91,7 @@ function StudyDetailPage() {
     }
   };
 
-  const { name, description, nickName, points, habitTrackers } = item;
+  // const { name, description, nickName, points, habitTrackers } = item;
 
   useEffect(() => {
     fetchData();
@@ -124,10 +125,13 @@ function StudyDetailPage() {
             <Button onClick={() => setShowFocusModal(true)}>오늘의 집중</Button>
           </StyledButtonContainer>
         </StyledHeader>
+
         <StyledSubTitle>소개</StyledSubTitle>
         <StyledDescription>{description}</StyledDescription>
+
         <StyledSubTitle>현재까지 획득한 포인트</StyledSubTitle>
         <PointTag points={points} status="general" />
+
         <HabitTracker habits={habitTrackers} />
       </StyledContainer>
 
@@ -158,14 +162,24 @@ export default StudyDetailPage;
 
 const StyledContainer = styled.div`
   width: 1200px;
+  height: auto;
   display: flex;
   padding: 40px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
   border-radius: 20px;
   background: #fff;
   margin: 0 auto;
+
+  ${onTablet} {
+    width: 696px;
+    padding: 24px;
+  }
+
+  ${onMobile} {
+    width: 344px;
+    padding: 16px;
+  }
 `;
 
 const StyledHeader = styled.div`
@@ -173,31 +187,56 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 24px;
+
+  ${onMobile} {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
 `;
 
 const StyledButtonContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   gap: 16px;
+
+  ${onMobile} {
+    gap: 8px;
+  }
 `;
 
 const StyledTitle = styled.h1`
   color: #414141;
   font-size: 32px;
   font-weight: 800;
+
+  ${onMobile} {
+    font-size: 24px;
+  }
 `;
 
 const StyledSubTitle = styled.p`
   color: var(--gray-gray_818181, #818181);
   font-size: 18px;
   font-weight: 400;
+  margin-top: 24px;
+  margin-bottom: 8px;
+
+  ${onMobile} {
+    font-size: 16px;
+  }
 `;
 
 const StyledDescription = styled.p`
   color: var(--black-black_414141, #414141);
   font-size: 18px;
   font-weight: 500;
-  line-height: 26px; /* 144.444% */
+  line-height: 26px;
+
+  ${onMobile} {
+    font-size: 14px;
+  }
 `;
 
 const StyledEmojiField = styled.div`
