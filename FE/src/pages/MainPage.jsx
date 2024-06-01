@@ -26,7 +26,7 @@ function Main() {
 
   const fetchData = async () => {
     const response = await getStudies();
-    console.log(response);
+
     const { studies } = response.data;
     setItems(studies);
   };

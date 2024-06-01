@@ -30,3 +30,7 @@ export const postStudies = async ({
     background,
   });
 };
+
+export const getStudiesId = async (id) => {
+  return await instance.get(`/studies/${id}`);
+};

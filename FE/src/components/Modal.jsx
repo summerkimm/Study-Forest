@@ -35,33 +35,14 @@ function Modal({ nickName, name, onClick, text }) {
             {nickName}의 {name}
           </StyledModalTitle>
           <StyledModalText>권한이 필요해요!</StyledModalText>
-
           <InputField
             name="password"
             label="비밀번호"
-            type={showPassword ? "text" : "password"}
+            type="password"
             autoComplete="off"
             placeholder="비밀번호를 입력해 주세요"
             register={register}
             validation={{ required: "비밀번호를 입력해 주세요" }}
-            error={errors.password}
-          />
-
-          <InputField
-            name="password"
-            type="password"
-            label="비밀번호"
-            autoComplete="off"
-            placeholder="비밀번호를 입력해 주세요"
-            register={register}
-            validation={{
-              required: "*비밀번호를 입력해 주세요",
-              pattern: {
-                value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-                message:
-                  "*영어와 숫자를 포함한 6자 이상의 비밀번호를 입력해 주세요",
-              },
-            }}
             error={errors.password}
             showPassword={showPassword}
             handleEyeButton={handleShowPassword}
