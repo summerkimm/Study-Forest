@@ -18,7 +18,7 @@ import Purple_300 from "../assets/icons/sticker_purple_300.svg";
 import Yellow_100 from "../assets/icons/sticker_yellow_100.svg";
 import Yellow_200 from "../assets/icons/sticker_yellow_200.svg";
 import Yellow_300 from "../assets/icons/sticker_yellow_300.svg";
-import { onMobile, onPC } from "../styles/media-queries";
+import { onMobile, onPC, onTablet } from "../styles/media-queries";
 
 const STICKERS = [
   LightGreen_100,
@@ -171,6 +171,11 @@ const StyledHabitStickers = styled.td`
   height: 64px;
   padding: 14px 41px;
   flex-shrink: 0;
+
+  ${onTablet} {
+    width: 64px;
+    padding: 14px;
+  }
 
   ${onMobile} {
     width: 64px;

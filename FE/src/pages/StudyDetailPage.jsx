@@ -74,6 +74,7 @@ function StudyDetailPage() {
   const [item, setItem] = useState();
   const [showHabitModal, setShowHabitModal] = useState(false);
   const [showFocusModal, setShowFocusModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const { id } = useParams();
 
@@ -85,7 +86,6 @@ function StudyDetailPage() {
     try {
       const response = await getStudiesId(id);
       setItem(response.data);
-      console.log(item);
     } catch (error) {
       console.log(error);
     }
@@ -124,7 +124,7 @@ function StudyDetailPage() {
           <StyledHeaderOptionsMenu>
             <StyledHeaderOptionsMenuList>공유하기</StyledHeaderOptionsMenuList>
             <StyledMenuListSpace></StyledMenuListSpace>
-            <StyledHeaderOptionsMenuList>수정하기</StyledHeaderOptionsMenuList>
+            <StyledHeaderOptionsMenuList onClick={() => setShowEditModal(true)}>수정하기</StyledHeaderOptionsMenuList>
             <StyledMenuListSpace></StyledMenuListSpace>
             <StyledHeaderOptionsMenuList>
               스터디 삭제하기
@@ -150,6 +150,16 @@ function StudyDetailPage() {
         <HabitTracker habits={habitTrackers} />
       </StyledContainer>
 
+      {showEditModal &&
+        createPortal(
+          <Modal
+            onClick={() => setShowEditModal(false)}
+            nickName={nickName}
+            name={name}
+            text="수정하러 가기"
+          />,
+          document.getElementById("modal-root")
+        )}
       {showHabitModal &&
         createPortal(
           <Modal
@@ -225,6 +235,7 @@ const StyledHeaderOptionsMenuList = styled.li`
   text-align: center;
   font-size: 16px;
   font-weight: 500;
+  cursor: pointer;
 
   &:last-child {
     color: var(--gray-gray_818181, #818181);

@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { postPasswordConfirm } from "../api/studies";
 import InputField from "./InputField";
 import ModalButton from "./ModalButton";
 
 function Modal({ nickName, name, onClick, text }) {
+  const { id } = useParams();
   const [showPassword, setShowPassword] = useState(false);
   const {
     handleSubmit,
@@ -22,8 +25,14 @@ function Modal({ nickName, name, onClick, text }) {
     setShowPassword(!showPassword);
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (password) => {
+    try {
+      const data = { id, password };
+      const response = await postPasswordConfirm(data);
+      console.log(response.message);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
