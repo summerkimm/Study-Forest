@@ -16,12 +16,12 @@ datasource db {
 model User {
   id        String  @id @default(uuid())
   password  String  @unique
-  study     Studies @relation(fields: [studiesId], references: [id])
-  studiesId String  @unique
+  study     Studies @relation(fields: [studiesId], references: [id], onDelete: Cascade)
+  studiesId Int     @unique
 }
 
 model Studies {
-  id               String             @id @default(uuid())
+  id               Int                @id @default(autoincrement())
   nickName         String             @unique
   password         String
   name             String
@@ -43,7 +43,7 @@ model Reaction {
   emojiType EmojiType
   count     Int
   studies   Studies   @relation(fields: [studiesId], references: [id], onDelete: Cascade)
-  studiesId String
+  studiesId Int
 }
 
 model Habit {
@@ -51,7 +51,7 @@ model Habit {
   name             String
   changedAt        DateTime          @updatedAt
   studies          Studies           @relation(fields: [studiesId], references: [id], onDelete: Cascade)
-  studiesId        String
+  studiesId        Int
   isCompletedHabit IsCompletedHabit?
 }
 
@@ -60,7 +60,7 @@ model IsCompletedHabit {
   isCompleted Boolean @default(false)
   days        Json
   studies     Studies @relation(fields: [studiesId], references: [id], onDelete: Cascade)
-  studiesId   String
+  studiesId   Int
   habit       Habit   @relation(fields: [habitId], references: [id], onDelete: Cascade)
   habitId     String  @unique
 }

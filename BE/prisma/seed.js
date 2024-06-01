@@ -1,13 +1,12 @@
-import { PrismaClient } from '@prisma/client';
-import { Reaction } from './mock.js';
+import { PrismaClient } from "@prisma/client";
+import { Habit } from "./mock.js";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.reaction.deleteMany();
-
-  await prisma.reaction.createMany({
-    data: Reaction,
+  await prisma.habit.deleteMany();
+  await prisma.habit.createMany({
+    data: Habit,
     skipDuplicates: true,
   });
 }
