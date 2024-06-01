@@ -10,7 +10,66 @@ import HabitTracker from "../components/HabitTracker";
 import Modal from "../components/Modal";
 import PointTag from "../components/Tags/PointTag";
 
+const MOCK = {
+  id: 129,
+  name: "개발 공장",
+  nickName: "연우",
+  description: "Slow And Steady Wins The Race! 다들 오늘 하루도 화이팅 :)",
+  studyDays: 62,
+  topReactions: [
+    {
+      id: 27,
+      emoji: "👩🏻",
+      count: 37,
+    },
+    {
+      id: 39,
+      emoji: "🔥",
+      count: 26,
+    },
+    {
+      id: 31,
+      emoji: "🤍",
+      count: 14,
+    },
+  ],
+  points: 50,
+  habitTrackers: [
+    {
+      id: 1,
+      name: "미라클모닝 6시 기상",
+      isCompleted: ["Mon", "Tue", "Thu", "Sat", "Sun"],
+    },
+    {
+      id: 2,
+      name: "아침 챙겨 먹기",
+      isCompleted: ["Mon", "Tue", "Wed", "Fri", "Sat", "Sun"],
+    },
+    {
+      id: 3,
+      name: "스트레칭",
+      isCompleted: [],
+    },
+    {
+      id: 4,
+      name: "React 스터디 책 1챕터 읽기",
+      isCompleted: [],
+    },
+    {
+      id: 5,
+      name: "사이드 프로젝트",
+      isCompleted: [],
+    },
+    {
+      id: 6,
+      name: "물 2L 마시기",
+      isCompleted: [],
+    },
+  ],
+};
+
 function StudyDetailPage() {
+  // const { nickName, name, description, points, habitTrackers } = MOCK;
   const [item, setItem] = useState();
   const [showHabitModal, setShowHabitModal] = useState(false);
   const [showFocusModal, setShowFocusModal] = useState(false);
@@ -25,6 +84,7 @@ function StudyDetailPage() {
     try {
       const response = await getStudiesId(id);
       setItem(response.data);
+      console.log(item);
     } catch (error) {
       console.log(error);
     }
