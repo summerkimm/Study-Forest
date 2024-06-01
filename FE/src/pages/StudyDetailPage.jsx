@@ -108,14 +108,29 @@ function StudyDetailPage() {
   return (
     <>
       <StyledContainer>
-        <StyledEmojiField>
-          <EmojiAddButton onClick={handleEmojiPicker} />
-          {showEmojiPicker && (
-            <EmojiPicker
-              style={{ position: "absolute", top: "40px", left: 0 }}
-            />
-          )}
-        </StyledEmojiField>
+        <StyledHeaderOptions>
+          <StyledEmojiField>
+            <EmojiAddButton onClick={handleEmojiPicker} />
+            {showEmojiPicker && (
+              <EmojiPicker
+                style={{
+                  position: "absolute",
+                  top: "40px",
+                  left: 0,
+                }}
+              />
+            )}
+          </StyledEmojiField>
+          <StyledHeaderOptionsMenu>
+            <StyledHeaderOptionsMenuList>공유하기</StyledHeaderOptionsMenuList>
+            <StyledMenuListSpace></StyledMenuListSpace>
+            <StyledHeaderOptionsMenuList>수정하기</StyledHeaderOptionsMenuList>
+            <StyledMenuListSpace></StyledMenuListSpace>
+            <StyledHeaderOptionsMenuList>
+              스터디 삭제하기
+            </StyledHeaderOptionsMenuList>
+          </StyledHeaderOptionsMenu>
+        </StyledHeaderOptions>
         <StyledHeader>
           <StyledTitle>
             {nickName}의 {name}
@@ -180,6 +195,50 @@ const StyledContainer = styled.div`
     width: 344px;
     padding: 16px;
   }
+`;
+
+const StyledHeaderOptions = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  ${onMobile} {
+    flex-direction: column-reverse;
+    gap: 8px;
+    align-items: flex-end;
+  }
+`;
+
+const StyledHeaderOptionsMenu = styled.ul`
+  display: flex;
+  gap: 16px;
+  align-items: center;
+
+  ${onMobile} {
+    gap: 8px;
+  }
+`;
+
+const StyledHeaderOptionsMenuList = styled.li`
+  color: var(--green-green_text_578246, #578246);
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+
+  &:last-child {
+    color: var(--gray-gray_818181, #818181);
+  }
+
+  ${onMobile} {
+    font-size: 12px;
+  }
+`;
+
+const StyledMenuListSpace = styled.span`
+  width: 1.5px;
+  height: 16px;
+  background-color: #578246;
 `;
 
 const StyledHeader = styled.div`
