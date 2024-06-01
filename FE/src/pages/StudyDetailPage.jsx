@@ -3,76 +3,38 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { getStudiesId } from "../api/studies";
 import Button from "../components/Button";
 import EmojiAddButton from "../components/EmojiAddButton";
 import HabitTracker from "../components/HabitTracker";
 import Modal from "../components/Modal";
 import PointTag from "../components/Tags/PointTag";
 
-const MOCK = {
-  id: 129,
-  name: "개발 공장",
-  nickName: "연우",
-  description: "Slow And Steady Wins The Race! 다들 오늘 하루도 화이팅 :)",
-  studyDays: 62,
-  topReactions: [
-    {
-      id: 27,
-      emoji: "👩🏻",
-      count: 37,
-    },
-    {
-      id: 39,
-      emoji: "🔥",
-      count: 26,
-    },
-    {
-      id: 31,
-      emoji: "🤍",
-      count: 14,
-    },
-  ],
-  point: 50,
-  habitTrackers: [
-    {
-      id: 1,
-      name: "미라클모닝 6시 기상",
-      isCompleted: ["Mon", "Tue", "Thu", "Sat", "Sun"],
-    },
-    {
-      id: 2,
-      name: "아침 챙겨 먹기",
-      isCompleted: ["Mon", "Tue", "Wed", "Fri", "Sat", "Sun"],
-    },
-    {
-      id: 3,
-      name: "스트레칭",
-      isCompleted: [],
-    },
-    {
-      id: 4,
-      name: "React 스터디 책 1챕터 읽기",
-      isCompleted: [],
-    },
-    {
-      id: 5,
-      name: "사이드 프로젝트",
-      isCompleted: [],
-    },
-    {
-      id: 6,
-      name: "물 2L 마시기",
-      isCompleted: [],
-    },
-  ],
-};
-
 function StudyDetailPage() {
-  const { nickName, name, description, point, habitTrackers } = MOCK;
+  const [item, setItem] = useState();
   const [showHabitModal, setShowHabitModal] = useState(false);
   const [showFocusModal, setShowFocusModal] = useState(false);
-  const { id } = useParams();
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const { id } = useParams();
+
+  const handleEmojiPicker = () => {
+    setShowEmojiPicker(!showEmojiPicker);
+  };
+
+  const fetchData = async () => {
+    try {
+      const response = await getStudiesId(id);
+      setItem(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const { name, description, nickName, points, habitTrackers } = item;
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   useEffect(() => {
     let get_local = JSON.parse(localStorage.getItem("watched")) || [];
@@ -82,17 +44,15 @@ function StudyDetailPage() {
     localStorage.setItem("watched", JSON.stringify(get_local));
   }, [id]);
 
-  const handleEmojiPicker = () => {
-    setShowEmojiPicker(!showEmojiPicker);
-  };
-
   return (
     <>
       <StyledContainer>
         <StyledEmojiField>
           <EmojiAddButton onClick={handleEmojiPicker} />
           {showEmojiPicker && (
-            <EmojiPicker style={{ position: "absolute", top: "40px", left: 0 }} />
+            <EmojiPicker
+              style={{ position: "absolute", top: "40px", left: 0 }}
+            />
           )}
         </StyledEmojiField>
         <StyledHeader>
@@ -107,7 +67,7 @@ function StudyDetailPage() {
         <StyledSubTitle>소개</StyledSubTitle>
         <StyledDescription>{description}</StyledDescription>
         <StyledSubTitle>현재까지 획득한 포인트</StyledSubTitle>
-        <PointTag points={point} />
+        <PointTag points={points} status="general" />
         <HabitTracker habits={habitTrackers} />
       </StyledContainer>
 
@@ -181,5 +141,5 @@ const StyledDescription = styled.p`
 `;
 
 const StyledEmojiField = styled.div`
-position: relative;
+  position: relative;
 `;

@@ -34,7 +34,7 @@ const COLORSCHEME = {
 
 function Card({ item, type = "default" }) {
   const navigate = useNavigate();
-  console.log(item);
+  
   const {
     id,
     name,
