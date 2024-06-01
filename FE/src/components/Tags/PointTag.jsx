@@ -13,9 +13,9 @@ function PointTag({ points, status }) {
 export default PointTag;
 
 const StyledPointTagContainer = styled.div`
-  width: 86px;
-  height: 22px;
-  padding: 4px 8px;
+  width: ${({ status }) => (status === "general" ? "116px" : "86px")};
+  height: auto;
+  padding: ${({ status }) => (status === "general" ? "8px 12px" : "4px 8px")};
   border-radius: 50px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   background: ${({ status }) =>
@@ -27,11 +27,11 @@ const StyledPointTagContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 4px;
-  font-size: 12px;
+  font-size: ${({ status }) => (status === "general" ? "16px" : "12px")};
   font-weight: 500;
 `;
 
 const StyledPointTagWrapper = styled.img`
-  width: 14px;
-  height: 14px;
+  width: ${({ status }) => (status === "general" ? "19px" : "14px")};
+  height: ${({ status }) => (status === "general" ? "19px" : "14px")}
 `;

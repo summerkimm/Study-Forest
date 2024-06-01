@@ -5,6 +5,7 @@ import MainPage from "./pages/MainPage";
 import StudyDetailPage from "./pages/StudyDetailPage";
 import TodayHabitPage from "./pages/TodayHabitPage";
 import GlobalStyles from "./styles/GlobalStyles";
+import TodayFocusPage from './pages/TodayFocusPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path=":id">
             <Route index element={<StudyDetailPage />} />
             <Route path="habit" element={<TodayHabitPage />} />
+            <Route path="focus" element={<TodayFocusPage />} />
           </Route>
         </Route>
       </Routes>

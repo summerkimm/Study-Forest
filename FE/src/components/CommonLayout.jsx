@@ -1,21 +1,25 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../components/Button";
 import { onMobile, onTablet } from "../styles/media-queries";
-import DateTag from "./Tags/DateTag";
 
-function CommonLayout({ title, children, leftBtn }) {
+function CommonLayout({ title, children, leftBtn, subTitle }) {
+  const navigate = useNavigate();
+
+  const handleClickHome = () => {
+    navigate("/");
+  };
   return (
     <StyledLayoutContainer>
       <StyledLayoutHeader>
         <StyledLayoutTitle>{title}</StyledLayoutTitle>
         <StyledLayoutButtonContainer>
           <Button>{leftBtn}</Button>
-          <Button>홈</Button>
+          <Button onClick={handleClickHome}>홈</Button>
         </StyledLayoutButtonContainer>
       </StyledLayoutHeader>
-      <StyledLayoutSubtitle>현재 시간</StyledLayoutSubtitle>
-      <DateTag>2024-01-04 오후 3:06</DateTag>
-      <StyledLayoutWrapper>{children}</StyledLayoutWrapper>
+      {children}
+      {/* <StyledLayoutWrapper>{children}</StyledLayoutWrapper> */}
     </StyledLayoutContainer>
   );
 }
@@ -74,12 +78,12 @@ const StyledLayoutButtonContainer = styled.div`
   gap: 16px;
 `;
 
-const StyledLayoutSubtitle = styled.p`
-  color: var(--gray-gray_818181, #818181);
-  font-size: 18px;
-  font-weight: 400;
-  margin-bottom: 8px;
-`;
+// const StyledLayoutSubtitle = styled.p`
+//   color: var(--gray-gray_818181, #818181);
+//   font-size: 18px;
+//   font-weight: 400;
+//   margin-bottom: 8px;
+// `;
 
 const StyledLayoutWrapper = styled.div`
   display: flex;
