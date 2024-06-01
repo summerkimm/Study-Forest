@@ -1,32 +1,34 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import styled, { css } from "styled-components";
 import { postStudies } from "../api/studies";
-import EyeOffBtn from "../assets/icons/btn_visibility_off.svg";
-import EyeOnBtn from "../assets/icons/btn_visibility_on.svg";
 import Image1 from "../assets/images/image-card1.png";
 import Image2 from "../assets/images/image-card2.png";
 import Image3 from "../assets/images/image-card3.png";
 import Image4 from "../assets/images/image-card4.png";
 import InputField from "../components/InputField";
 import RadioField from "../components/RadioField";
+import { onMobile, onTablet } from "../styles/media-queries";
 
 const backgroundOptions = [
   { value: "green" },
   { value: "yellow" },
   { value: "sky-blue" },
   { value: "pink" },
-  { value: "image-1", src: Image1 },
-  { value: "image-2", src: Image2 },
-  { value: "image-3", src: Image3 },
-  { value: "image-4", src: Image4 },
+  { value: "image_1", src: Image1 },
+  { value: "image_2", src: Image2 },
+  { value: "image_3", src: Image3 },
+  { value: "image_4", src: Image4 },
 ];
 
 function CreateStudyPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+  const [selectedBackground, setSelectedBackground] = useState("green");
+  const navigate = useNavigate();
+  const [id, setId] = useState(null);
 
-  const [selectedBackground, setSelectedBackground] = useState("");
   const {
     register,
     handleSubmit,
@@ -48,11 +50,11 @@ function CreateStudyPage() {
 
   const passwordCheck = watch("password");
 
-  const handleEyeButton = () => {
+  const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleEyeButtonConfirm = () => {
+  const handleShowPasswordConfirm = () => {
     setShowPasswordConfirm(!showPasswordConfirm);
   };
 
@@ -70,6 +72,8 @@ function CreateStudyPage() {
         background,
         password,
       });
+      setId(response.id);
+      navigate(`/studies/${id}`);
       console.log(response);
     } catch (error) {
       console.error(error);
@@ -109,7 +113,6 @@ function CreateStudyPage() {
         }}
         error={errors.name}
       />
-
       <StyledTextAreaContainer>
         <StyledLabel>소개</StyledLabel>
         <StyledTextArea
@@ -122,12 +125,12 @@ function CreateStudyPage() {
             },
           })}
           placeholder="소개 멘트를 작성해 주세요"
+          hasError={!!errors.description}
         />
         {errors.description && (
           <StyledErrorMessage>{errors.description.message}</StyledErrorMessage>
         )}
       </StyledTextAreaContainer>
-
       <StyledLabel>배경을 선택해 주세요</StyledLabel>
       <StyledBackgroundContainer>
         {backgroundOptions.map((option) => (
@@ -147,48 +150,41 @@ function CreateStudyPage() {
       {errors.background && (
         <StyledErrorMessage>{errors.background.message}</StyledErrorMessage>
       )}
-
-      <StyledPasswordField>
-        <InputField
-          name="password"
-          type={showPassword ? "text" : "password"}
-          label="비밀번호"
-          autoComplete="off"
-          placeholder="비밀번호를 입력해 주세요"
-          register={register}
-          validation={{ required: "*비밀번호를 입력해 주세요" }}
-          error={errors.password}
-        />
-        <StyledEyeButton type="button" onClick={handleEyeButton}>
-          <img
-            src={showPassword ? EyeOnBtn : EyeOffBtn}
-            alt={showPassword ? "비밀번호 보이기" : "비밀번호 가리기"}
-          />
-        </StyledEyeButton>
-      </StyledPasswordField>
-
-      <StyledPasswordField>
-        <InputField
-          name="passwordConfirm"
-          type={showPasswordConfirm ? "text" : "password"}
-          label="비밀번호 확인"
-          autoComplete="off"
-          placeholder="비밀번호를 다시 한 번 입력해 주세요"
-          register={register}
-          validation={{
-            required: "*비밀번호를 다시 한 번 입력해 주세요",
-            validate: (value) =>
-              value === passwordCheck || "*비밀번호가 일치하지 않습니다",
-          }}
-          error={errors.passwordConfirm}
-        />
-        <StyledEyeButton type="button" onClick={handleEyeButtonConfirm}>
-          <img
-            src={showPasswordConfirm ? EyeOnBtn : EyeOffBtn}
-            alt={showPassword ? "비밀번호 보이기" : "비밀번호 가리기"}
-          />
-        </StyledEyeButton>
-      </StyledPasswordField>
+      <InputField
+        name="password"
+        type="password"
+        label="비밀번호"
+        autoComplete="off"
+        placeholder="비밀번호를 입력해 주세요"
+        register={register}
+        validation={{
+          required: "*비밀번호를 입력해 주세요",
+          pattern: {
+            value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
+            message:
+              "*영어와 숫자를 포함한 6자 이상의 비밀번호를 입력해 주세요",
+          },
+        }}
+        error={errors.password}
+        showPassword={showPassword}
+        handleEyeButton={handleShowPassword}
+      />
+      <InputField
+        name="passwordConfirm"
+        type="password"
+        label="비밀번호 확인"
+        autoComplete="off"
+        placeholder="비밀번호를 다시 한 번 입력해 주세요"
+        register={register}
+        validation={{
+          required: "*비밀번호를 다시 한 번 입력해 주세요",
+          validate: (value) =>
+            value === passwordCheck || "*비밀번호가 일치하지 않습니다",
+        }}
+        error={errors.passwordConfirm}
+        showPassword={showPasswordConfirm}
+        handleEyeButton={handleShowPasswordConfirm}
+      />
 
       <button type="submit">만들기</button>
     </StyledContainer>
@@ -198,8 +194,8 @@ function CreateStudyPage() {
 export default CreateStudyPage;
 
 const StyledContainer = styled.form`
-  margin: 0 auto;
-  width: 700px;
+  margin: 40px auto 0 auto;
+  width: 696px;
   height: auto;
   border-radius: 20px;
   background: #fff;
@@ -209,12 +205,26 @@ const StyledContainer = styled.form`
   flex-direction: column;
   align-items: flex-start;
   gap: 24px;
+
+  ${onTablet} {
+    margin: 20px auto 0 auto;
+  }
+
+  ${onMobile} {
+    width: 344px;
+    padding: 16px 16px 20px 16px;
+    margin: 20px auto 0 auto;
+  }
 `;
 
 const StyledTitle = styled.h1`
   color: #414141;
   font-size: 24px;
   font-weight: 800;
+
+  ${onMobile} {
+    font-size: 16px;
+  }
 `;
 
 const StyledTextAreaContainer = styled.div`
@@ -228,6 +238,10 @@ const StyledLabel = styled.label`
   color: #414141;
   font-size: 18px;
   font-weight: 600;
+
+  ${onMobile} {
+    font-size: 16px;
+  }
 `;
 
 const StyledTextArea = styled.textarea`
@@ -243,6 +257,16 @@ const StyledTextArea = styled.textarea`
   font-size: 16px;
   font-weight: 400;
   overflow-y: auto;
+
+  ${(props) =>
+    props.hasError &&
+    css`
+      border-color: var(--red-error_C41013, #c41013);
+    `}
+
+  ${onMobile} {
+    font-size: 14px;
+  }
 `;
 
 const StyledBackgroundContainer = styled.div`
@@ -251,27 +275,15 @@ const StyledBackgroundContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
+
+  ${onMobile} {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 const StyledErrorMessage = styled.p`
   color: var(--red-error_C41013, #c41013);
   font-size: 14px;
   font-weight: 400;
-`;
-
-const StyledPasswordField = styled.div`
-  position: relative;
-  width: 100%;
-`;
-
-const StyledEyeButton = styled.div`
-  width: 24px;
-  height: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  bottom: 14px;
-  right: 20px;
-  cursor: pointer;
+  margin-top: -8px;
 `;

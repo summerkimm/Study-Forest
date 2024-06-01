@@ -13,8 +13,9 @@ function Button({ children, onClick }) {
 export default Button;
 
 const StyledButtonContainer = styled.div`
-  width: 144px;
-  height: 48px;
+  width: fit-content;
+  /* height: 48px; */
+  padding: 12px 16px;
   display: flex;
   align-items: center;
   justify-content: center;

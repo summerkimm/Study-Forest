@@ -9,7 +9,7 @@ export default Chip;
 
 const StyledChip = styled.div`
   display: flex;
-  width: 400px;
+  width: 100%;
   height: 54px;
   flex-direction: column;
   justify-content: center;
