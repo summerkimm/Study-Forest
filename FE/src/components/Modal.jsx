@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { postPasswordConfirm } from "../api/studies";
 import InputField from "./InputField";
 import ModalButton from "./ModalButton";
 
 function Modal({ nickName, name, onClick, text }) {
+  const { id } = useParams();
   const [showPassword, setShowPassword] = useState(false);
   const {
     handleSubmit,
@@ -22,8 +25,14 @@ function Modal({ nickName, name, onClick, text }) {
     setShowPassword(!showPassword);
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (password) => {
+    try {
+      const data = { id, password };
+      const response = await postPasswordConfirm(data);
+      console.log(response.message);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -35,33 +44,14 @@ function Modal({ nickName, name, onClick, text }) {
             {nickName}의 {name}
           </StyledModalTitle>
           <StyledModalText>권한이 필요해요!</StyledModalText>
-
           <InputField
             name="password"
             label="비밀번호"
-            type={showPassword ? "text" : "password"}
+            type="password"
             autoComplete="off"
             placeholder="비밀번호를 입력해 주세요"
             register={register}
             validation={{ required: "비밀번호를 입력해 주세요" }}
-            error={errors.password}
-          />
-
-          <InputField
-            name="password"
-            type="password"
-            label="비밀번호"
-            autoComplete="off"
-            placeholder="비밀번호를 입력해 주세요"
-            register={register}
-            validation={{
-              required: "*비밀번호를 입력해 주세요",
-              pattern: {
-                value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-                message:
-                  "*영어와 숫자를 포함한 6자 이상의 비밀번호를 입력해 주세요",
-              },
-            }}
             error={errors.password}
             showPassword={showPassword}
             handleEyeButton={handleShowPassword}

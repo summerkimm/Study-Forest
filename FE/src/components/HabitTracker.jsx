@@ -18,6 +18,7 @@ import Purple_300 from "../assets/icons/sticker_purple_300.svg";
 import Yellow_100 from "../assets/icons/sticker_yellow_100.svg";
 import Yellow_200 from "../assets/icons/sticker_yellow_200.svg";
 import Yellow_300 from "../assets/icons/sticker_yellow_300.svg";
+import { onMobile, onPC, onTablet } from "../styles/media-queries";
 
 const STICKERS = [
   LightGreen_100,
@@ -101,17 +102,30 @@ const StyledHabitTrackerContainer = styled.div`
   border-radius: 20px;
   border: 1px solid var(--gray-gray_DDDDDD, #ddd);
   background: #fff;
+  margin-top: 24px;
+  overflow: auto;
+
+  ${onPC} {
+    margin-top: 40px;
+  }
+
+  ${onMobile} {
+    gap: 3px;
+  }
 `;
 
 const StyledHabitTrackerHeader = styled.h2`
   color: var(--black-black_414141, #414141);
   font-size: 24px;
   font-weight: 800;
+
+  ${onMobile} {
+    font-size: 18px;
+  }
 `;
 
 const StyledHabitTrackerWrapper = styled.table`
   width: 100%;
-  height: auto;
 `;
 
 const StyledDay = styled.th`
@@ -119,18 +133,33 @@ const StyledDay = styled.th`
   text-align: center;
   font-size: 18px;
   font-weight: 400;
-  line-height: 26px; /* 144.444% */
+  line-height: 26px;
+
+  ${onMobile} {
+    font-size: 14px;
+  }
 `;
 
 const StyledHabitName = styled.td`
   width: 246px;
   height: 64px;
   padding: 0px 24px;
-  text-align: right;
-  vertical-align: middle;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  justify-content: flex-end;
   color: var(--black-black_414141, #414141);
   font-size: 18px;
   font-weight: 700;
+  text-align: right;
+
+  ${onMobile} {
+    width: 122px;
+    padding: 0 16px;
+    font-size: 14px;
+  }
 `;
 
 const StyledDayPin = styled.th`
@@ -138,6 +167,18 @@ const StyledDayPin = styled.th`
 `;
 
 const StyledHabitStickers = styled.td`
-  text-align: center;
-  vertical-align: middle;
+  width: 118px;
+  height: 64px;
+  padding: 14px 41px;
+  flex-shrink: 0;
+
+  ${onTablet} {
+    width: 64px;
+    padding: 14px;
+  }
+
+  ${onMobile} {
+    width: 64px;
+    padding: 14px;
+  }
 `;
