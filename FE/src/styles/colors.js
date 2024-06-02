@@ -10,7 +10,7 @@ const COLORS = {
   red: "#f50e0e",
   green: "#e1edde",
   yellow: "#fff1cc",
-  "sky-blue": "#e0f1f5",
+  "sky_blue": "#e0f1f5",
   pink: "#fde0e9",
   green_text: "#578246",
   yellow_text: "#c18e1b",

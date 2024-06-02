@@ -41,3 +41,7 @@ export const postPasswordConfirm = async ({ id, password }) => {
     password,
   });
 };
+
+export const getStudyIdHabit = async (id) => {
+  return await instance.get(`/studies/${id}/habit`);
+};

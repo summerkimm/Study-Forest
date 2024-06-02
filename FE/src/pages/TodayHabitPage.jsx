@@ -1,12 +1,27 @@
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { getStudyIdHabit } from "../api/studies";
 import Chip from "../components/Chip";
 import CommonLayout from "../components/CommonLayout";
 import DateTag from "../components/Tags/DateTag";
 import { onMobile, onTablet } from "../styles/media-queries";
 
 function TodayHabitPage() {
+  const { id } = useParams();
+  console.log(id);
+
+  // const fetchData = async () => {
+  //   const response = await getStudyIdHabit(id);
+  //   console.log(response);
+  // };
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+
   return (
-    <CommonLayout title="연우의 개발공장" leftBtn="오늘의 습관">
+    <CommonLayout title="연우의 개발공장" leftBtn="오늘의 집중">
       <StyledLayoutSubtitle>현재 시간</StyledLayoutSubtitle>
       <DateTag>2024-01-04 오후 3:06</DateTag>
       <StyledLayoutWrapper>

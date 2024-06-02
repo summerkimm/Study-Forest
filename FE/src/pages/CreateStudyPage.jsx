@@ -14,7 +14,7 @@ import { onMobile, onTablet } from "../styles/media-queries";
 const backgroundOptions = [
   { value: "green" },
   { value: "yellow" },
-  { value: "sky-blue" },
+  { value: "sky_blue" },
   { value: "pink" },
   { value: "image_1", src: Image1 },
   { value: "image_2", src: Image2 },
