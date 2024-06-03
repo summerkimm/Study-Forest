@@ -57,20 +57,19 @@ function TodayHabitPage() {
   const [item, setItem] = useState();
   const { id } = useParams();
 
+  // const { habits, name, nickName } = MOCK;
 
-  const { habits, name, nickName } = MOCK;
+  const fetchData = async () => {
+    const response = await getStudyIdHabit(id);
+    setItem(response.data);
+    console.log(item);
+  };
 
-  // const fetchData = async () => {
-  //   const response = await getStudyIdHabit(id);
-  //   setItem(response.data);
-  //   console.log(item);
-  // };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-
-  // const { habits, name, nickName } = item;
+  const { habits, name, nickName } = item;
 
   const TITLE = `${nickName}의 ${name}`;
 

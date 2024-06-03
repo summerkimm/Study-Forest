@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { postPasswordConfirm } from "../api/studies";
 import InputField from "./InputField";
 import ModalButton from "./ModalButton";
 
-function Modal({ nickName, name, onClick, text }) {
+function Modal({ nickName, name, onClick, text, page }) {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const {
     handleSubmit,
@@ -25,11 +26,29 @@ function Modal({ nickName, name, onClick, text }) {
     setShowPassword(!showPassword);
   };
 
-  const onSubmit = async (password) => {
+  const onSubmit = async (data) => {
+    const password = data.password;
+
     try {
       const data = { id, password };
       const response = await postPasswordConfirm(data);
-      console.log(response.message);
+      console.log(response.data);
+      
+      if (response.data.message === "비밀번호가 일치합니다.") {
+        switch (page) {
+          case "edit":
+            navigate(`/studies/${id}`);
+            break;
+          case "habit":
+            navigate(`/studies/${id}/habit`);
+            break;
+          case "focus":
+            navigate(`/studies/${id}/focus`);
+            break;
+          default:
+            navigate("/");
+        }
+      }
     } catch (error) {
       console.log(error);
     }

@@ -32,10 +32,7 @@ export const getStudiesId = async (id) => {
 };
 
 export const postPasswordConfirm = async ({ id, password }) => {
-  console.log(id, password);
-  return await instance.post(`/studies/${id}/userCheck`, {
-    password,
-  });
+  return await instance.post(`/studies/${id}/userCheck`, { password });
 };
 
 export const getStudyIdHabit = async (id) => {

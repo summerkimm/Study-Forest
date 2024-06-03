@@ -67,8 +67,8 @@ function StudyDetailPage() {
     console.log(item);
   };
 
-    // const { name, description, nickName, points, habitTrackers } = item;
-    const { name, description, nickName, points, habitTrackers } = MOCK;
+    const { name, description, nickName, points, habitTrackers } = item;
+    // const { name, description, nickName, points, habitTrackers } = MOCK;
 
   useEffect(() => {
     fetchData();
@@ -136,6 +136,7 @@ function StudyDetailPage() {
             nickName={nickName}
             name={name}
             text="수정하러 가기"
+            page="edit"
           />,
           document.getElementById("modal-root")
         )}
@@ -146,6 +147,7 @@ function StudyDetailPage() {
             nickName={nickName}
             name={name}
             text="오늘의 습관으로 가기"
+            page="habit"
           />,
           document.getElementById("modal-root")
         )}
@@ -156,6 +158,7 @@ function StudyDetailPage() {
             nickName={nickName}
             name={name}
             text="오늘의 집중으로 가기"
+            page="focus"
           />,
           document.getElementById("modal-root")
         )}
