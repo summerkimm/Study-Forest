@@ -12,23 +12,25 @@ function Main() {
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
   const [sortValue, setSortValue] = useState("");
-  // const limit = 6;
-  // const offset = 0;
-  // const view = 'newest';
+  const offset = 0;
+  const [view, setView] = useState("newest");
 
   const handleChangeSearch = (e) => {
     setSearch(e.target.value);
   };
 
-  // const filteredItems = items.filter((item) =>
-  //   item.name.toLowerCase().includes(search.toLowerCase())
-  // );
-
   const fetchData = async () => {
-    const response = await getStudies();
+    const response = await getStudies({ search, offset, view });
 
     const { studies } = response.data;
     setItems(studies);
+    console.log(items);
+  };
+
+  const handleSearchInputKeyPress = async (e) => {
+    if (e.key === "Enter") {
+      fetchData({ search });
+    }
   };
 
   useEffect(() => {
@@ -52,6 +54,7 @@ function Main() {
               type="text"
               placeholder="검색"
               onChange={handleChangeSearch}
+              onKeyDown={handleSearchInputKeyPress}
             />
           </SearchInputContainer>
           <Dropdown value={sortValue} />

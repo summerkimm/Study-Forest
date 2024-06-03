@@ -57,18 +57,18 @@ function TodayHabitPage() {
   const { id } = useParams();
   console.log(id);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [habits, setHabit] = useState([]);
+  // const [habits, setHabit] = useState([]);
 
-  // const fetchData = async () => {
-  //   const response = await getStudyIdHabit(id);
-  //   console.log(response);
-  // };
+  const fetchData = async () => {
+    const response = await getStudyIdHabit(id);
+    console.log(response);
+  };
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  // const { habits } = MOCK;
+  const { habits } = MOCK;
 
   const handleEditModalClick = () => {
     setShowEditModal(!showEditModal);
