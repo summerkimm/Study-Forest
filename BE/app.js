@@ -53,11 +53,14 @@ app.post(
     const { password } = req.body;
     const { studyId } = req.params;
 
-    const user = await prisma.user.findUnique({
-      where: { studiesId: parseInt(studyId) },
+    const study = await prisma.studies.findUnique({
+      where: { id: parseInt(studyId) },
+      include: {
+        user : true
+      }
     });
 
-    if (user.password === password) {
+    if (study.user.password === password) {
       return res.status(200).send({ message: "비밀번호가 일치합니다." });
     } else {
       return res.status(401).send({ message: "비밀번호가 일치하지 않습니다." });
