@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { patchHabits } from "../api/habits";
+import { patchHabits } from "../api/index";
 import COLORS from "../styles/colors";
 
 function Chip({ id, isActive, children }) {

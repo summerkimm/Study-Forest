@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getStudiesId } from "../api/studies";
+import { getStudiesId } from "../api/index";
 import Button from "../components/Button";
 import EmojiAddButton from "../components/EmojiAddButton";
 import HabitTracker from "../components/HabitTracker";
@@ -25,9 +25,7 @@ function StudyDetailPage() {
 
   const fetchData = async () => {
     const response = await getStudiesId(id);
-    console.log(response);
     setItem(response?.data);
-    console.log(item);
   };
 
   const { name, description, nickName, points, habitTrackers } = item;
@@ -88,8 +86,7 @@ function StudyDetailPage() {
         <StyledSubTitle>현재까지 획득한 포인트</StyledSubTitle>
         <PointTag points={points} status="general" />
 
-          <HabitTracker habits={habitTrackers} />
-
+        <HabitTracker habits={habitTrackers} />
       </StyledContainer>
 
       {showEditModal &&

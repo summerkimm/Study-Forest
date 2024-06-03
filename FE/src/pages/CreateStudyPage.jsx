@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
-import { postStudies } from "../api/studies";
+import { postStudies } from "../api/index";
 import Image1 from "../assets/images/image-card1.png";
 import Image2 from "../assets/images/image-card2.png";
 import Image3 from "../assets/images/image-card3.png";

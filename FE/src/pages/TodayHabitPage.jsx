@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getStudyIdHabit } from "../api/studies";
+import { getStudyIdHabit } from "../api/index";
 import Chip from "../components/Chip";
 import CommonLayout from "../components/CommonLayout";
 import CurrentDateTime from "../components/CurrentDateTime";

@@ -42,3 +42,13 @@ export const getStudyIdHabit = async (id) => {
 export const postStudiesHabit = async ({ id, name }) => {
   return await instance.post(`/studies/${id}/habit`, { name });
 };
+
+export const patchHabits = async (id) => {
+  return await instance.patch(`/habits/${id}`, {
+    isCompleted: true,
+  });
+};
+
+export const deleteHabits = async (id) => {
+  return instance.delete(`/habits/${id}`);
+};
