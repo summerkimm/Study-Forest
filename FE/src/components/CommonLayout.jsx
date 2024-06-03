@@ -1,20 +1,21 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../components/Button";
 import { onMobile, onTablet } from "../styles/media-queries";
 
-function CommonLayout({ title, children, leftBtn, subTitle }) {
+function CommonLayout({ title, children, leftBtn, onClick }) {
   const navigate = useNavigate();
 
   const handleClickHome = () => {
     navigate("/");
   };
+
   return (
     <StyledLayoutContainer>
       <StyledLayoutHeader>
         <StyledLayoutTitle>{title}</StyledLayoutTitle>
         <StyledLayoutButtonContainer>
-          <Button>{leftBtn}</Button>
+          <Button onClick={onClick}>{leftBtn}</Button>
           <Button onClick={handleClickHome}>홈</Button>
         </StyledLayoutButtonContainer>
       </StyledLayoutHeader>

@@ -26,7 +26,7 @@ function RecentCardList({ items }) {
       ) : (
         <StyledRecentCardListContainer>
           {filteredItems.map((item) => (
-            <Card item={item} />
+            <Card key={item.id} item={item} />
           ))}
         </StyledRecentCardListContainer>
       )}

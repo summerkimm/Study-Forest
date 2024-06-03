@@ -11,29 +11,33 @@ import { onMobile, onTablet } from "../styles/media-queries";
 function Main() {
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
-  const [sortValue, setSortValue] = useState("");
-  // const limit = 6;
-  // const offset = 0;
-  // const view = 'newest';
-
-  const handleChangeSearch = (e) => {
-    setSearch(e.target.value);
-  };
-
-  // const filteredItems = items.filter((item) =>
-  //   item.name.toLowerCase().includes(search.toLowerCase())
-  // );
+  const offset = 0;
+  const [view, setView] = useState("newest");
 
   const fetchData = async () => {
-    const response = await getStudies();
-
+    const response = await getStudies({ search, offset, view });
     const { studies } = response.data;
     setItems(studies);
   };
 
+  const handleChangeSearch = (e) => {
+    setSearch(e.target.value);
+  };
+  
+  const handleSearchInputKeyPress = async (e) => {
+    if (e.key === "Enter") {
+      fetchData({ search });
+    }
+  };
+
+  const handleChangeView = (val) => {
+    setView(val);
+    fetchData({ view });
+  };
+
   useEffect(() => {
     fetchData();
-  }, []);
+  },[]);
 
   return (
     <StyledMainContainer>
@@ -52,9 +56,10 @@ function Main() {
               type="text"
               placeholder="검색"
               onChange={handleChangeSearch}
+              onKeyDown={handleSearchInputKeyPress}
             />
           </SearchInputContainer>
-          <Dropdown value={sortValue} />
+          <Dropdown handleChangeView={handleChangeView} />
         </StyledAllCardBoxHeader>
         <AllCardList items={items} />
       </StyledAllCardBoxContainer>

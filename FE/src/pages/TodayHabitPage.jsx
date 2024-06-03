@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { getStudyIdHabit } from "../api/studies";
 import Chip from "../components/Chip";
 import CommonLayout from "../components/CommonLayout";
+import CurrentDateTime from "../components/CurrentDateTime";
 import HabitEditModal from "../components/HabitEditModal";
 import DateTag from "../components/Tags/DateTag";
 import { onMobile, onTablet } from "../styles/media-queries";
-import { getStudyIdHabit } from '../api/studies';
-
 
 const MOCK = {
   id: 129,
@@ -54,31 +54,41 @@ const MOCK = {
 };
 
 function TodayHabitPage() {
-  const { id } = useParams();
-  console.log(id);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [habits, setHabit] = useState([]);
+  const [item, setItem] = useState();
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  // const fetchData = async () => {
-  //   const response = await getStudyIdHabit(id);
-  //   console.log(response);
-  // };
+  const fetchData = async () => {
+    const response = await getStudyIdHabit(id);
+    setItem(response.data);
+    console.log(item);
+  };
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  // const { habits } = MOCK;
+  // const { habits, name, nickName } = MOCK;
+  const { habits, name, nickName } = item;
+
+  const TITLE = `${nickName}의 ${name}`;
 
   const handleEditModalClick = () => {
     setShowEditModal(!showEditModal);
   };
 
+  const handleNavigateFocus = (id) => {
+    navigate(`/studies/${id}/focus`)
+  };
+
   return (
     <>
-      <CommonLayout title="연우의 개발공장" leftBtn="오늘의 집중">
+      <CommonLayout title={TITLE} leftBtn="오늘의 집중" onClick={handleNavigateFocus}>
         <StyledLayoutSubtitle>현재 시간</StyledLayoutSubtitle>
-        <DateTag>2024-01-04 오후 3:06</DateTag>
+        <DateTag>
+          <CurrentDateTime />
+        </DateTag>
         <StyledLayoutWrapper>
           <StyledTodayHabitTitle>오늘의 습관</StyledTodayHabitTitle>
 
@@ -91,11 +101,20 @@ function TodayHabitPage() {
               document.getElementById("modal-root")
             )}
 
-          <StyledChipContainer>
-            {habits.map((habit) => (
-              <Chip isActive={habit.isCompleted}>{habit.name}</Chip>
-            ))}
-          </StyledChipContainer>
+          {habits.length === 0 ? (
+            <StyledEmptyContainer>
+              <StyledEmptyMessage>아직 습관이 없어요</StyledEmptyMessage>
+              <StyledEmptyMessage>
+                목록 수정을 눌러 습관을 생성해보세요
+              </StyledEmptyMessage>
+            </StyledEmptyContainer>
+          ) : (
+            <StyledChipContainer>
+              {habits.map((habit) => (
+                <Chip id={habit.id} isActive={habit.isCompleted}>{habit.name}</Chip>
+              ))}
+            </StyledChipContainer>
+          )}
         </StyledLayoutWrapper>
       </CommonLayout>
     </>
@@ -151,4 +170,24 @@ const StyledEditButton = styled.button`
   text-align: center;
   font-size: 14px;
   font-weight: 500;
+`;
+
+const StyledEmptyContainer = styled.div`
+  width: 100%;
+  height: 498px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledEmptyMessage = styled.p`
+  color: var(--gray-gray_818181, #818181);
+  text-align: center;
+  font-size: 20px;
+  font-weight: 500;
+
+  ${onMobile} {
+    font-size: 16px;
+  }
 `;

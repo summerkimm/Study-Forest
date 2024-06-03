@@ -1,18 +1,14 @@
 import instance from "./axiosInstance";
 
-// export const getStudies = async ({
-//   search = "",
-//   offset = 0,
-//   limit = 6,
-//   view = "newest",
-// }) => {
-//   return await instance.get(
-//     `/studies?search=${search}&limit=${limit}&offset=${offset}&view=${view}`
-//   );
-// };
-
-export const getStudies = async () => {
-  return await instance.get("/studies");
+export const getStudies = async ({
+  search = "",
+  offset = 0,
+  limit = 6,
+  view = "newest",
+}) => {
+  return await instance.get(
+    `/studies?search=${search}&limit=${limit}&offset=${offset}&view=${view}`
+  );
 };
 
 export const postStudies = async ({
@@ -36,10 +32,7 @@ export const getStudiesId = async (id) => {
 };
 
 export const postPasswordConfirm = async ({ id, password }) => {
-  console.log(id, password);
-  return await instance.post(`/studies/${id}/userCheck`, {
-    password,
-  });
+  return await instance.post(`/studies/${id}/userCheck`, { password });
 };
 
 export const getStudyIdHabit = async (id) => {
