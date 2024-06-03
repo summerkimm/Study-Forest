@@ -10,8 +10,8 @@ POST http://localhost:3000/studies
 Content-Type: application/json
 
 {
-  "nickName" : "study8",
-  "password" : "study8",
+  "nickName" : "study11",
+  "password" : "study11",
   "name" : "릴스 그만보기",
   "description" : "도파민 중독에서 벗어나자",
   "background" : "green"
