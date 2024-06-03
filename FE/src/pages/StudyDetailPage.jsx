@@ -11,46 +11,9 @@ import PointTag from "../components/Tags/PointTag";
 import { onMobile, onTablet } from "../styles/media-queries";
 import {getStudiesId} from '../api/studies';
 
-const MOCK = {
-  id: 129,
-  name: "개발 공장",
-  nickName: "연우",
-  description: "Slow And Steady Wins The Race! 다들 오늘 하루도 화이팅 :)",
-  studyDays: 62,
-  topReactions: [
-    {
-      id: 27,
-      emoji: "👩🏻",
-      count: 37,
-    },
-    {
-      id: 39,
-      emoji: "🔥",
-      count: 26,
-    },
-    {
-      id: 31,
-      emoji: "🤍",
-      count: 14,
-    },
-  ],
-  points: 50,
-  habitTrackers: [
-    {
-      id: 1,
-      name: "미라클모닝 6시 기상",
-      isCompleted: ["Mon", "Tue", "Thu", "Sat", "Sun"],
-    },
-    {
-      id: 2,
-      name: "아침 챙겨 먹기",
-      isCompleted: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-    },
-  ],
-};
 
 function StudyDetailPage() {
-  const [item, setItem] = useState();
+  const [item, setItem] = useState({});
   const [showHabitModal, setShowHabitModal] = useState(false);
   const [showFocusModal, setShowFocusModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -64,12 +27,11 @@ function StudyDetailPage() {
   const fetchData = async () => {
     const response = await getStudiesId(id);
     console.log(response);
-    setItem(response.data);
+    setItem(response?.data);
     console.log(item);
   };
 
-    // const { name, description, nickName, points, habitTrackers } = item;
-    const { name, description, nickName, points, habitTrackers } = MOCK;
+    const { name, description, nickName, points, habitTrackers } = item;
 
   useEffect(() => {
     fetchData();

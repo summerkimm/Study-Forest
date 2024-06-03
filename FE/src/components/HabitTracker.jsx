@@ -67,7 +67,7 @@ function HabitTracker({ habits }) {
           </tr>
         </thead>
         <tbody>
-          {habits.map((habit, index) => (
+          {habits?.map((habit, index) => (
             <tr key={habit.name}>
               <StyledHabitName>{habit.name}</StyledHabitName>
               {DaysInKorean.map((day) => (
