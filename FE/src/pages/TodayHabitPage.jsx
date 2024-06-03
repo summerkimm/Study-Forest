@@ -19,15 +19,9 @@ function TodayHabitPage() {
   const fetchData = async () => {
     const response = await getStudyIdHabit(id);
     setItem(response.data);
-    console.log(item);
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const { habits, name, nickName } = item;
-  console.log(habits);
 
   const TITLE = `${nickName}의 ${name}`;
 
@@ -38,6 +32,10 @@ function TodayHabitPage() {
   const handleNavigateFocus = (id) => {
     navigate(`/studies/${id}/focus`)
   };
+  
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>
