@@ -136,7 +136,7 @@ app.get(
   asyncHandler(async (req, res) => {
     const { studyId } = req.params;
     const study = await prisma.studies.findUniqueOrThrow({
-      where: { id: studyId },
+      where: { id: parseInt(studyId) },
       include: {
         reaction: true,
         habit: {
