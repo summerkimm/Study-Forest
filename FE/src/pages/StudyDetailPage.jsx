@@ -3,14 +3,13 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { getStudiesId } from "../api/studies";
 import Button from "../components/Button";
 import EmojiAddButton from "../components/EmojiAddButton";
 import HabitTracker from "../components/HabitTracker";
 import Modal from "../components/Modal";
 import PointTag from "../components/Tags/PointTag";
 import { onMobile, onTablet } from "../styles/media-queries";
-import {getStudiesId} from '../api/studies';
-
 
 function StudyDetailPage() {
   const [item, setItem] = useState({});
@@ -31,7 +30,7 @@ function StudyDetailPage() {
     console.log(item);
   };
 
-    const { name, description, nickName, points, habitTrackers } = item;
+  const { name, description, nickName, points, habitTrackers } = item;
 
   useEffect(() => {
     fetchData();
@@ -89,7 +88,8 @@ function StudyDetailPage() {
         <StyledSubTitle>현재까지 획득한 포인트</StyledSubTitle>
         <PointTag points={points} status="general" />
 
-        <HabitTracker habits={habitTrackers} />
+          <HabitTracker habits={habitTrackers} />
+
       </StyledContainer>
 
       {showEditModal &&

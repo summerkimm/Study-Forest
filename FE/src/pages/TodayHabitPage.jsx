@@ -27,6 +27,7 @@ function TodayHabitPage() {
   }, []);
 
   const { habits, name, nickName } = item;
+  console.log(habits);
 
   const TITLE = `${nickName}의 ${name}`;
 
@@ -53,7 +54,7 @@ function TodayHabitPage() {
           </StyledEditButton>
           {showEditModal &&
             createPortal(
-              <HabitEditModal onClick={handleEditModalClick} habits={habits} />,
+              <HabitEditModal id={id} onClick={handleEditModalClick} habits={habits} />,
               document.getElementById("modal-root")
             )}
 

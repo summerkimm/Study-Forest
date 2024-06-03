@@ -37,7 +37,7 @@ function Modal({ nickName, name, onClick, text, page }) {
       if (response.data.message === "비밀번호가 일치합니다.") {
         switch (page) {
           case "edit":
-            navigate(`/studies/${id}`);
+            navigate(`/studies`);
             break;
           case "habit":
             navigate(`/studies/${id}/habit`);

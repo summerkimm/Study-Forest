@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { postStudiesHabit } from "../api/studies";
 import AddIcon from "../assets/icons/ic_plus.svg";
 import DeleteIcon from "../assets/icons/ic_trash.svg";
 import { onMobile } from "../styles/media-queries";
 
-function HabitEditModal({ onClick, habits }) {
-  const [habitItems, setHabitItems] = useState(habits);
+function HabitEditModal({ id, onClick, habits }) {
+  const [inputs, setInputs] = useState([]);
 
   const handleBackgroundClick = (e) => {
     e.preventDefault();
@@ -17,31 +17,65 @@ function HabitEditModal({ onClick, habits }) {
   };
 
   const handleAddHabit = () => {
-    const newHabitItem = {
-      name: "",
-    };
-    setHabitItems([...habitItems, newHabitItem]);
+    setInputs([...inputs, { id: inputs.length + 1 + habits.length, name: "" }]);
   };
 
-  // const handleDeleteHabit = (index) => {
-  //   setHabitItems(habitItems.filter((_, i) => i !== index));
-  // };
+  const handleHabitInputChange = (inputId, event) => {
+    const newInputs = inputs.map((input) =>
+      input.id === inputId ? { ...input, name: event.target.value } : input
+    );
+    setInputs(newInputs);
+  };
 
-  console.log(habitItems);
+  const handleInputBlur = async (inputId) => {
+    const input = inputs.find((input) => input.id === inputId);
+    console.log(id);
+    console.log(input.name);
+    if (input.name.trim()) {
+      try {
+        const response = await postStudiesHabit({ id, name: input.name });
+        console.log("Post response:", response.data);
+      } catch (error) {
+        console.error("Error posting data:", error);
+      }
+    }
+  };
+
+  const handleInputKeyPress = async (inputId, e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      await handleInputBlur(inputId);
+    }
+  };
 
   return (
     <StyledModalBackground onClick={handleBackgroundClick}>
       <StyledModalContainer>
         <StyledModalTitle>습관 목록</StyledModalTitle>
         <StyledHabitListContainer>
-          {/* {habitItems.map((habit, index) => (
-            <StyledHabitContainer key={index}>
+          {habits?.map((habit) => (
+            <StyledHabitContainer key={habit.id}>
               <StyledHabit>{habit.name}</StyledHabit>
-              <StyledHabitDeleteIcon onClick={() => handleDeleteHabit(index)}>
+              <StyledHabitDeleteIcon>
                 <img src={DeleteIcon} alt="습관 삭제하기" />
               </StyledHabitDeleteIcon>
             </StyledHabitContainer>
-          ))} */}
+          ))}
+          {inputs.map((input) => (
+            <StyledHabitContainer>
+              <StyledHabitInput
+                key={input.id}
+                type="text"
+                value={input.name}
+                onChange={(e) => handleHabitInputChange(input.id, e)}
+                onBlur={() => handleInputBlur(input.id)}
+                onKeyDown={(e) => handleInputKeyPress(input.id, e)}
+              />
+              <StyledHabitDeleteIcon>
+                <img src={DeleteIcon} alt="습관 삭제하기" />
+              </StyledHabitDeleteIcon>
+            </StyledHabitContainer>
+          ))}
           <StyledAddHabitButton onClick={handleAddHabit}>
             <img src={AddIcon} alt="습관 추가하기" />
           </StyledAddHabitButton>
@@ -120,6 +154,27 @@ const StyledHabit = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 20px;
+  background: var(--gray-gray_EEEEEE, #eee);
+  color: var(--gray-gray_818181, #818181);
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration-line: underline;
+  flex-shrink: 0;
+
+  ${onMobile} {
+    width: 256px;
+    font-size: 14px;
+  }
+`;
+
+const StyledHabitInput = styled.input`
+  width: 400px;
+  height: 54px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  text-align: center;
   background: var(--gray-gray_EEEEEE, #eee);
   color: var(--gray-gray_818181, #818181);
   font-size: 16px;
