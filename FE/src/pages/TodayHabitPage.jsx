@@ -1,14 +1,13 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { getStudyIdHabit } from "../api/studies";
 import Chip from "../components/Chip";
 import CommonLayout from "../components/CommonLayout";
 import HabitEditModal from "../components/HabitEditModal";
 import DateTag from "../components/Tags/DateTag";
 import { onMobile, onTablet } from "../styles/media-queries";
-import { getStudyIdHabit } from '../api/studies';
-
 
 const MOCK = {
   id: 129,
@@ -54,29 +53,59 @@ const MOCK = {
 };
 
 function TodayHabitPage() {
-  const { id } = useParams();
-  console.log(id);
   const [showEditModal, setShowEditModal] = useState(false);
-  // const [habits, setHabit] = useState([]);
+  const [item, setItem] = useState();
+  const { id } = useParams();
 
-  const fetchData = async () => {
-    const response = await getStudyIdHabit(id);
-    console.log(response);
-  };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const { habits, name, nickName } = MOCK;
 
-  const { habits } = MOCK;
+  // const fetchData = async () => {
+  //   const response = await getStudyIdHabit(id);
+  //   setItem(response.data);
+  //   console.log(item);
+  // };
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+
+  // const { habits, name, nickName } = item;
+
+  const TITLE = `${nickName}의 ${name}`;
 
   const handleEditModalClick = () => {
     setShowEditModal(!showEditModal);
   };
 
+  const getCurrentDateTime = () => {
+    const now = new Date();
+
+    // 날짜를 YYYY-MM-DD 형식으로 포맷팅
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const date = String(now.getDate()).padStart(2, "0");
+
+    // 시간을 HH:MM 형식으로 포맷팅
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const ampm = hours >= 12 ? "오후" : "오전";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // 0이면 12로 변경
+
+    // 결과 문자열 조합
+    const formattedDate = `${year}-${month}-${date}`;
+    const formattedTime = `${ampm} ${hours}:${minutes}`;
+
+    return `${formattedDate} ${formattedTime}`;
+  };
+
+  // 사용 예제
+  console.log(getCurrentDateTime());
+
   return (
     <>
-      <CommonLayout title="연우의 개발공장" leftBtn="오늘의 집중">
+      <CommonLayout title={TITLE} leftBtn="오늘의 집중">
         <StyledLayoutSubtitle>현재 시간</StyledLayoutSubtitle>
         <DateTag>2024-01-04 오후 3:06</DateTag>
         <StyledLayoutWrapper>

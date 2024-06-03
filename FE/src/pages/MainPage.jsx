@@ -14,26 +14,25 @@ function Main() {
   const offset = 0;
   const [view, setView] = useState("newest");
 
-  const handleChangeSearch = (e) => {
-    setSearch(e.target.value);
-  };
-
-  const handleChangeView = (val) => {
-    setView(val);
-
-    fetchData({ view });
-  };
-
   const fetchData = async () => {
     const response = await getStudies({ search, offset, view });
     const { studies } = response.data;
     setItems(studies);
   };
 
+  const handleChangeSearch = (e) => {
+    setSearch(e.target.value);
+  };
+  
   const handleSearchInputKeyPress = async (e) => {
     if (e.key === "Enter") {
       fetchData({ search });
     }
+  };
+
+  const handleChangeView = (val) => {
+    setView(val);
+    fetchData({ view });
   };
 
   useEffect(() => {

@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getStudiesId } from "../api/studies";
 import Button from "../components/Button";
 import EmojiAddButton from "../components/EmojiAddButton";
 import HabitTracker from "../components/HabitTracker";
 import Modal from "../components/Modal";
 import PointTag from "../components/Tags/PointTag";
 import { onMobile, onTablet } from "../styles/media-queries";
+import {getStudiesId} from '../api/studies';
 
 const MOCK = {
   id: 129,
@@ -44,33 +44,12 @@ const MOCK = {
     {
       id: 2,
       name: "아침 챙겨 먹기",
-      isCompleted: ["Mon", "Tue", "Wed", "Fri", "Sat", "Sun"],
-    },
-    {
-      id: 3,
-      name: "스트레칭",
-      isCompleted: [],
-    },
-    {
-      id: 4,
-      name: "React 스터디 책 1챕터 읽기",
-      isCompleted: [],
-    },
-    {
-      id: 5,
-      name: "사이드 프로젝트",
-      isCompleted: [],
-    },
-    {
-      id: 6,
-      name: "물 2L 마시기",
-      isCompleted: [],
+      isCompleted: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     },
   ],
 };
 
 function StudyDetailPage() {
-  const { nickName, name, description, points, habitTrackers } = MOCK;
   const [item, setItem] = useState();
   const [showHabitModal, setShowHabitModal] = useState(false);
   const [showFocusModal, setShowFocusModal] = useState(false);
@@ -83,15 +62,13 @@ function StudyDetailPage() {
   };
 
   const fetchData = async () => {
-    try {
-      const response = await getStudiesId(id);
-      setItem(response.data);
-    } catch (error) {
-      console.log(error);
-    }
+    const response = await getStudiesId(id);
+    setItem(response.data);
+    console.log(item);
   };
 
-  // const { name, description, nickName, points, habitTrackers } = item;
+    // const { name, description, nickName, points, habitTrackers } = item;
+    const { name, description, nickName, points, habitTrackers } = MOCK;
 
   useEffect(() => {
     fetchData();
@@ -100,7 +77,7 @@ function StudyDetailPage() {
   useEffect(() => {
     let get_local = JSON.parse(localStorage.getItem("watched")) || [];
     get_local.push(id);
-    // get_local = new Set(get_local);
+    get_local = new Set(get_local);
     get_local = [...get_local];
     localStorage.setItem("watched", JSON.stringify(get_local));
   }, [id]);
@@ -124,7 +101,9 @@ function StudyDetailPage() {
           <StyledHeaderOptionsMenu>
             <StyledHeaderOptionsMenuList>공유하기</StyledHeaderOptionsMenuList>
             <StyledMenuListSpace></StyledMenuListSpace>
-            <StyledHeaderOptionsMenuList onClick={() => setShowEditModal(true)}>수정하기</StyledHeaderOptionsMenuList>
+            <StyledHeaderOptionsMenuList onClick={() => setShowEditModal(true)}>
+              수정하기
+            </StyledHeaderOptionsMenuList>
             <StyledMenuListSpace></StyledMenuListSpace>
             <StyledHeaderOptionsMenuList>
               스터디 삭제하기
