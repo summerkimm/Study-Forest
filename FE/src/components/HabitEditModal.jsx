@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { deleteHabits } from "../api/habits";
 import { postStudiesHabit } from "../api/studies";
 import AddIcon from "../assets/icons/ic_plus.svg";
 import DeleteIcon from "../assets/icons/ic_trash.svg";
@@ -29,12 +30,9 @@ function HabitEditModal({ id, onClick, habits }) {
 
   const handleInputBlur = async (inputId) => {
     const input = inputs.find((input) => input.id === inputId);
-    console.log(id);
-    console.log(input.name);
     if (input.name.trim()) {
       try {
         const response = await postStudiesHabit({ id, name: input.name });
-        console.log("Post response:", response.data);
       } catch (error) {
         console.error("Error posting data:", error);
       }
@@ -48,13 +46,25 @@ function HabitEditModal({ id, onClick, habits }) {
     }
   };
 
+  const handleDeleteHabit = async (habitId) => {
+    try {
+      const data = await deleteHabits(habitId);
+      console.log(`Delete habit with id ${habitId}`);
+    } catch (error) {
+      console.error("Error deleting habit:", error);
+    }
+  };
+
   return (
     <StyledModalBackground onClick={handleBackgroundClick}>
       <StyledModalContainer>
         <StyledModalTitle>습관 목록</StyledModalTitle>
         <StyledHabitListContainer>
           {habits?.map((habit) => (
-            <StyledHabitContainer key={habit.id}>
+            <StyledHabitContainer
+              key={habit.id}
+              onClick={() => handleDeleteHabit(habit.id)}
+            >
               <StyledHabit>{habit.name}</StyledHabit>
               <StyledHabitDeleteIcon>
                 <img src={DeleteIcon} alt="습관 삭제하기" />

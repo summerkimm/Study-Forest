@@ -5,3 +5,7 @@ export const patchHabits = async (id) => {
     isCompleted: true,
   });
 };
+
+export const deleteHabits = async (id) => {
+  return axios.delete(`/habits/${id}`);
+}
