@@ -3,22 +3,21 @@ import styled from "styled-components";
 import ArrowToggleIcon from "../assets/icons/icon_toggle.svg";
 
 const DropdownList = [
-  "많은 포인트 순",
-  "적은 포인트 순",
-  "최근 순",
-  "오래된 순",
+  { label: "많은 포인트 순", value: "highPoint" },
+  { label: "적은 포인트 순", value: "lowPoint" },
+  { label: "최근 순", value: "latest" },
+  { label: "오래된 순", value: "oldest" },
 ];
 
-function DropDown({ value, setValue }) {
+function DropDown({ handleChangeView }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDropdown = () => {
     setIsOpen((prev) => !prev);
   };
 
-
   const handleDropdownClick = (val) => {
-    setValue(val);
+    handleChangeView(val);
   };
 
   return (
@@ -43,9 +42,9 @@ function DropDown({ value, setValue }) {
           {DropdownList.map((item, idx) => (
             <StyledDropdownItem
               key={idx}
-              onMouseDown={() => handleDropdownClick(item)}
+              onClick={() => handleDropdownClick(item.value)}
             >
-              {item}
+              {item.label}
             </StyledDropdownItem>
           ))}
         </StyledDropdownList>

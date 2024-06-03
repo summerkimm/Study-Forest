@@ -11,7 +11,6 @@ import { onMobile, onTablet } from "../styles/media-queries";
 function Main() {
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
-  const [sortValue, setSortValue] = useState("");
   const offset = 0;
   const [view, setView] = useState("newest");
 
@@ -19,12 +18,16 @@ function Main() {
     setSearch(e.target.value);
   };
 
+  const handleChangeView = (val) => {
+    setView(val);
+
+    fetchData({ view });
+  };
+
   const fetchData = async () => {
     const response = await getStudies({ search, offset, view });
-
     const { studies } = response.data;
     setItems(studies);
-    console.log(items);
   };
 
   const handleSearchInputKeyPress = async (e) => {
@@ -35,7 +38,7 @@ function Main() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  },[]);
 
   return (
     <StyledMainContainer>
@@ -57,7 +60,7 @@ function Main() {
               onKeyDown={handleSearchInputKeyPress}
             />
           </SearchInputContainer>
-          <Dropdown value={sortValue} />
+          <Dropdown handleChangeView={handleChangeView} />
         </StyledAllCardBoxHeader>
         <AllCardList items={items} />
       </StyledAllCardBoxContainer>
