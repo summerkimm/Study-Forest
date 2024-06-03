@@ -54,7 +54,7 @@ app.post(
     const { studyId } = req.params;
 
     const user = await prisma.user.findUnique({
-      where: { studiesId: studyId },
+      where: { studiesId: parseInt(studyId) },
     });
 
     if (user.password === password) {
@@ -212,7 +212,7 @@ app.patch(
     assert(req.body, PatchStudy);
     const { studyId } = req.params;
     const study = await prisma.studies.update({
-      where: { id: studyId },
+      where: { id: parseInt(studyId) },
       data: req.body,
     });
 
@@ -231,7 +231,7 @@ app.delete(
   asyncHandler(async (req, res) => {
     const { studyId } = req.params;
     await prisma.studies.delete({
-      where: { id: studyId },
+      where: { id: parseInt(studyId) },
     });
     res.sendStatus(204);
   })
@@ -246,7 +246,7 @@ app.post(
     const { additionalPoints } = req.body;
 
     const { id, name, points, createdAt } = await prisma.studies.update({
-      where: { id: studyId },
+      where: { id: parseInt(studyId) },
       data: {
         points: {
           increment: additionalPoints,
@@ -266,7 +266,7 @@ app.post(
 /*----                todayHabit               -----*/
 const getStudyWithHabits = async (studyId) => {
   const study = await prisma.studies.findUnique({
-    where: { id: studyId },
+    where: { id: parseInt(studyId) },
     include: {
       habit: {
         include: {
@@ -391,7 +391,7 @@ app.post(
 
     const existingReaction = await prisma.reaction.findFirst({
       where: {
-        studiesId,
+        studiesId : parseInt(studiesId),
         emoji,
       },
     });
