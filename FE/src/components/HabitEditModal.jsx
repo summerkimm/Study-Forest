@@ -7,12 +7,6 @@ import { onMobile } from "../styles/media-queries";
 
 function HabitEditModal({ onClick, habits }) {
   const [habitItems, setHabitItems] = useState(habits);
-  const [isEditing, setIsEditing] = useState(false);
-
-  const { id } = useParams();
-  console.log(id);
-
-  console.log(habitItems);
 
   const handleBackgroundClick = (e) => {
     e.preventDefault();
@@ -29,13 +23,9 @@ function HabitEditModal({ onClick, habits }) {
     setHabitItems([...habitItems, newHabitItem]);
   };
 
-  const handleDeleteHabit = (index) => {
-    setHabitItems(habitItems.filter((_, i) => i !== index));
-  };
-
-  const handleEditClick = () => {
-    setIsEditing(true);
-  };
+  // const handleDeleteHabit = (index) => {
+  //   setHabitItems(habitItems.filter((_, i) => i !== index));
+  // };
 
   console.log(habitItems);
 
@@ -44,20 +34,20 @@ function HabitEditModal({ onClick, habits }) {
       <StyledModalContainer>
         <StyledModalTitle>습관 목록</StyledModalTitle>
         <StyledHabitListContainer>
-          {habitItems.map((habit, index) => (
+          {/* {habitItems.map((habit, index) => (
             <StyledHabitContainer key={index}>
-              <StyledHabit onClick={handleEditClick}>{habit.name}</StyledHabit>
+              <StyledHabit>{habit.name}</StyledHabit>
               <StyledHabitDeleteIcon onClick={() => handleDeleteHabit(index)}>
                 <img src={DeleteIcon} alt="습관 삭제하기" />
               </StyledHabitDeleteIcon>
             </StyledHabitContainer>
-          ))}
+          ))} */}
           <StyledAddHabitButton onClick={handleAddHabit}>
             <img src={AddIcon} alt="습관 추가하기" />
           </StyledAddHabitButton>
         </StyledHabitListContainer>
 
-        <button>수정 완료</button>
+        <button onClick={() => onClick()}>수정 완료</button>
       </StyledModalContainer>
     </StyledModalBackground>
   );

@@ -68,8 +68,8 @@ function StudyDetailPage() {
     console.log(item);
   };
 
-    const { name, description, nickName, points, habitTrackers } = item;
-    // const { name, description, nickName, points, habitTrackers } = MOCK;
+    // const { name, description, nickName, points, habitTrackers } = item;
+    const { name, description, nickName, points, habitTrackers } = MOCK;
 
   useEffect(() => {
     fetchData();

@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getStudyIdHabit } from "../api/studies";
+import Chip from "../components/Chip";
 import CommonLayout from "../components/CommonLayout";
 import CurrentDateTime from "../components/CurrentDateTime";
 import HabitEditModal from "../components/HabitEditModal";
 import DateTag from "../components/Tags/DateTag";
 import { onMobile, onTablet } from "../styles/media-queries";
-import Chip from '../components/Chip';
 
 const MOCK = {
   id: 129,
@@ -57,6 +57,7 @@ function TodayHabitPage() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [item, setItem] = useState();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     const response = await getStudyIdHabit(id);
@@ -77,9 +78,13 @@ function TodayHabitPage() {
     setShowEditModal(!showEditModal);
   };
 
+  const handleNavigateFocus = (id) => {
+    navigate(`/studies/${id}/focus`)
+  };
+
   return (
     <>
-      <CommonLayout title={TITLE} leftBtn="오늘의 집중">
+      <CommonLayout title={TITLE} leftBtn="오늘의 집중" onClick={handleNavigateFocus}>
         <StyledLayoutSubtitle>현재 시간</StyledLayoutSubtitle>
         <DateTag>
           <CurrentDateTime />
@@ -95,6 +100,7 @@ function TodayHabitPage() {
               <HabitEditModal onClick={handleEditModalClick} habits={habits} />,
               document.getElementById("modal-root")
             )}
+
           {habits.length === 0 ? (
             <StyledEmptyContainer>
               <StyledEmptyMessage>아직 습관이 없어요</StyledEmptyMessage>
@@ -105,7 +111,7 @@ function TodayHabitPage() {
           ) : (
             <StyledChipContainer>
               {habits.map((habit) => (
-                <Chip isActive={habit.isCompleted}>{habit.name}</Chip>
+                <Chip id={habit.id} isActive={habit.isCompleted}>{habit.name}</Chip>
               ))}
             </StyledChipContainer>
           )}
