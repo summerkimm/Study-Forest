@@ -3,11 +3,12 @@ import { createPortal } from "react-dom";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getStudyIdHabit } from "../api/studies";
-import Chip from "../components/Chip";
 import CommonLayout from "../components/CommonLayout";
+import CurrentDateTime from "../components/CurrentDateTime";
 import HabitEditModal from "../components/HabitEditModal";
 import DateTag from "../components/Tags/DateTag";
 import { onMobile, onTablet } from "../styles/media-queries";
+import Chip from '../components/Chip';
 
 const MOCK = {
   id: 129,
@@ -57,8 +58,6 @@ function TodayHabitPage() {
   const [item, setItem] = useState();
   const { id } = useParams();
 
-  // const { habits, name, nickName } = MOCK;
-
   const fetchData = async () => {
     const response = await getStudyIdHabit(id);
     setItem(response.data);
@@ -69,6 +68,7 @@ function TodayHabitPage() {
     fetchData();
   }, []);
 
+  // const { habits, name, nickName } = MOCK;
   const { habits, name, nickName } = item;
 
   const TITLE = `${nickName}의 ${name}`;
@@ -77,36 +77,13 @@ function TodayHabitPage() {
     setShowEditModal(!showEditModal);
   };
 
-  const getCurrentDateTime = () => {
-    const now = new Date();
-
-    // 날짜를 YYYY-MM-DD 형식으로 포맷팅
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, "0");
-    const date = String(now.getDate()).padStart(2, "0");
-
-    // 시간을 HH:MM 형식으로 포맷팅
-    let hours = now.getHours();
-    const minutes = String(now.getMinutes()).padStart(2, "0");
-    const ampm = hours >= 12 ? "오후" : "오전";
-    hours = hours % 12;
-    hours = hours ? hours : 12; // 0이면 12로 변경
-
-    // 결과 문자열 조합
-    const formattedDate = `${year}-${month}-${date}`;
-    const formattedTime = `${ampm} ${hours}:${minutes}`;
-
-    return `${formattedDate} ${formattedTime}`;
-  };
-
-  // 사용 예제
-  console.log(getCurrentDateTime());
-
   return (
     <>
       <CommonLayout title={TITLE} leftBtn="오늘의 집중">
         <StyledLayoutSubtitle>현재 시간</StyledLayoutSubtitle>
-        <DateTag>2024-01-04 오후 3:06</DateTag>
+        <DateTag>
+          <CurrentDateTime />
+        </DateTag>
         <StyledLayoutWrapper>
           <StyledTodayHabitTitle>오늘의 습관</StyledTodayHabitTitle>
 
@@ -118,12 +95,20 @@ function TodayHabitPage() {
               <HabitEditModal onClick={handleEditModalClick} habits={habits} />,
               document.getElementById("modal-root")
             )}
-
-          <StyledChipContainer>
-            {habits.map((habit) => (
-              <Chip isActive={habit.isCompleted}>{habit.name}</Chip>
-            ))}
-          </StyledChipContainer>
+          {habits.length === 0 ? (
+            <StyledEmptyContainer>
+              <StyledEmptyMessage>아직 습관이 없어요</StyledEmptyMessage>
+              <StyledEmptyMessage>
+                목록 수정을 눌러 습관을 생성해보세요
+              </StyledEmptyMessage>
+            </StyledEmptyContainer>
+          ) : (
+            <StyledChipContainer>
+              {habits.map((habit) => (
+                <Chip isActive={habit.isCompleted}>{habit.name}</Chip>
+              ))}
+            </StyledChipContainer>
+          )}
         </StyledLayoutWrapper>
       </CommonLayout>
     </>
@@ -179,4 +164,24 @@ const StyledEditButton = styled.button`
   text-align: center;
   font-size: 14px;
   font-weight: 500;
+`;
+
+const StyledEmptyContainer = styled.div`
+  width: 100%;
+  height: 498px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledEmptyMessage = styled.p`
+  color: var(--gray-gray_818181, #818181);
+  text-align: center;
+  font-size: 20px;
+  font-weight: 500;
+
+  ${onMobile} {
+    font-size: 16px;
+  }
 `;

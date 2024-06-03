@@ -63,6 +63,7 @@ function StudyDetailPage() {
 
   const fetchData = async () => {
     const response = await getStudiesId(id);
+    console.log(response);
     setItem(response.data);
     console.log(item);
   };
