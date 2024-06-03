@@ -13,7 +13,7 @@ const COLORSCHEME = {
   green: { color: "#578246", backgroundColor: "#e1edde", status: "light" },
   yellow: { color: "#c18e1b", backgroundColor: "#fff1cc", status: "light" },
   pink: { color: "#bc3c6a", backgroundColor: "#fde0e9", status: "light" },
-  "sky-blue": { color: "#418099", backgroundColor: "#E0F1F5", status: "light" },
+  "sky_blue": { color: "#418099", backgroundColor: "#E0F1F5", status: "light" },
   image_1: {
     backgroundImage: `url(${Image1})`,
     status: "dark",

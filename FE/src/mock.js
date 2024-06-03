@@ -6,7 +6,7 @@ export const MOCKDATA = {
       nickName: "이유디",
       description: "Slow And Steady Wins The Race!!",
       studyDays: 62,
-      background: "sky-blue",
+      background: "sky_blue",
       points: 310,
       topReactions: [
         {
@@ -84,7 +84,7 @@ export const MOCKDATA = {
       nickName: "이유디",
       description: "Slow And Steady Wins The Race!!",
       studyDays: 62,
-      background: "sky-blue",
+      background: "sky_blue",
       points: 310,
       topReactions: [
         {

@@ -19,7 +19,6 @@ function CommonLayout({ title, children, leftBtn, subTitle }) {
         </StyledLayoutButtonContainer>
       </StyledLayoutHeader>
       {children}
-      {/* <StyledLayoutWrapper>{children}</StyledLayoutWrapper> */}
     </StyledLayoutContainer>
   );
 }
@@ -28,7 +27,7 @@ export default CommonLayout;
 
 const StyledLayoutContainer = styled.div`
   width: 1248px;
-  height: 700px;
+  height: auto;
   padding: 40px;
   gap: 10px;
   border-radius: 20px;
@@ -76,28 +75,4 @@ const StyledLayoutTitle = styled.h1`
 const StyledLayoutButtonContainer = styled.div`
   display: flex;
   gap: 16px;
-`;
-
-// const StyledLayoutSubtitle = styled.p`
-//   color: var(--gray-gray_818181, #818181);
-//   font-size: 18px;
-//   font-weight: 400;
-//   margin-bottom: 8px;
-// `;
-
-const StyledLayoutWrapper = styled.div`
-  display: flex;
-  height: auto;
-  padding: 40px 24px;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  border-radius: 20px;
-  border: 1px solid var(--gray-gray_DDDDDD, #ddd);
-  background: #fff;
-  margin-top: 24px;
-
-  ${onTablet} {
-    margin-top: 40px;
-  }
 `;
