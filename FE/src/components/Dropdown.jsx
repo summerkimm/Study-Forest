@@ -5,7 +5,7 @@ import ArrowToggleIcon from "../assets/icons/icon_toggle.svg";
 const DropdownList = [
   { label: "많은 포인트 순", value: "highPoint" },
   { label: "적은 포인트 순", value: "lowPoint" },
-  { label: "최근 순", value: "latest" },
+  // { label: "최근 순", value: "newest" },
   { label: "오래된 순", value: "oldest" },
 ];
 
@@ -20,7 +20,7 @@ function DropDown({ handleChangeView }) {
   return (
     <StyledDropdownContainer>
       <StyledDropdownHeader onClick={() => setIsOpen((prev) => !prev)}>
-        포인트 순
+        최근 순
         {isOpen ? (
           <img
             src={ArrowToggleIcon}
