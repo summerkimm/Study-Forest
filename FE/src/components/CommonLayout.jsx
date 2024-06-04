@@ -6,7 +6,6 @@ import { onMobile, onTablet } from "../styles/media-queries";
 function CommonLayout({ title, children, leftBtn }) {
   const navigate = useNavigate();
   const { id } = useParams();
-  console.log(id);
 
   const handleClickHome = () => {
     navigate("/");

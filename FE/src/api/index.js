@@ -58,7 +58,7 @@ export const deleteHabits = async (id) => {
 };
 
 export const postStudyIdPoints = async (id, points) => {
-  return instance.post(`/${id}/points`, {
+  return instance.post(`/${id}/point`, {
     additionalPoints: points,
   });
 };
