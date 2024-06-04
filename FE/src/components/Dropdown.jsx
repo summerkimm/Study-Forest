@@ -12,28 +12,25 @@ const DropdownList = [
 function DropDown({ handleChangeView }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleDropdown = () => {
-    setIsOpen((prev) => !prev);
-  };
-
   const handleDropdownClick = (val) => {
     handleChangeView(val);
+    setIsOpen(false);
   };
 
   return (
     <StyledDropdownContainer>
-      <StyledDropdownHeader onClick={handleDropdown}>
+      <StyledDropdownHeader onClick={() => setIsOpen((prev) => !prev)}>
         포인트 순
         {isOpen ? (
           <img
             src={ArrowToggleIcon}
-            alt="드롭다운이 열려있음을 나타내는 아이콘"
+            alt="드롭다운 열기"
             style={{ rotate: "180deg" }}
           />
         ) : (
           <img
             src={ArrowToggleIcon}
-            alt="드롭다운이 닫혀있음을 나타내는 아이콘"
+            alt="드롭다운 닫기"
           />
         )}
       </StyledDropdownHeader>
