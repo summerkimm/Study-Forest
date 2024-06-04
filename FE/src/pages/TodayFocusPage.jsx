@@ -3,6 +3,7 @@ import styled from "styled-components";
 import CommonLayout from "../components/CommonLayout";
 import PointTag from "../components/Tags/PointTag";
 import { onTablet } from "../styles/media-queries";
+import Timer from '../components/Timer';
 
 function TodayFocusPage() {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ function TodayFocusPage() {
       <PointTag status="general" points="310" />
       <StyledLayoutWrapper>
         <StyledTodayFocusTitle>오늘의 집중</StyledTodayFocusTitle>
+        <Timer />
       </StyledLayoutWrapper>
     </CommonLayout>
   );
