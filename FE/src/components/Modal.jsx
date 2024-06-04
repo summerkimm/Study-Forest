@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { postPasswordConfirm } from "../api";
+import { deleteStudiesId, postPasswordConfirm } from "../api/index";
 import InputField from "./InputField";
 import ModalButton from "./ModalButton";
 
@@ -32,7 +32,6 @@ function Modal({ nickName, name, onClick, text, page }) {
     try {
       const data = { id, password };
       const response = await postPasswordConfirm(data);
-      console.log(response.data);
 
       if (response.data.message === "비밀번호가 일치합니다.") {
         switch (page) {
@@ -44,6 +43,10 @@ function Modal({ nickName, name, onClick, text, page }) {
             break;
           case "focus":
             navigate(`/studies/${id}/focus`);
+            break;
+          case "delete":
+            await deleteStudiesId(id);
+            navigate("/");
             break;
           default:
             navigate("/");
