@@ -11,33 +11,39 @@ import { onMobile, onTablet } from "../styles/media-queries";
 function Main() {
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
-  const offset = 0;
+  const [offset, setOffset] = useState(0);
   const [view, setView] = useState("newest");
 
   const fetchData = async () => {
     const response = await getStudies({ search, offset, view });
-    const { studies } = response.data;
-    setItems(studies);
+    const { studies } = response?.data;
+    setItems([...items, ...studies]);
   };
 
   const handleChangeSearch = (e) => {
     setSearch(e.target.value);
   };
-  
+
   const handleSearchInputKeyPress = async (e) => {
     if (e.key === "Enter") {
-      fetchData({ search });
+      setOffset(0);
+      fetchData();
     }
   };
 
   const handleChangeView = (val) => {
     setView(val);
-    fetchData({ view });
+    setOffset(0);
+    fetchData();
+  };
+
+  const handleLoadMore = () => {
+    setOffset((prevOffset) => prevOffset + 6);
   };
 
   useEffect(() => {
     fetchData();
-  },[]);
+  }, [offset, view]);
 
   return (
     <StyledMainContainer>
@@ -61,7 +67,7 @@ function Main() {
           </SearchInputContainer>
           <Dropdown handleChangeView={handleChangeView} />
         </StyledAllCardBoxHeader>
-        <AllCardList items={items} />
+        <AllCardList items={items} handleLoadMore={handleLoadMore} />
       </StyledAllCardBoxContainer>
     </StyledMainContainer>
   );

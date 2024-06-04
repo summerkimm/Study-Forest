@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { onMobile, onTablet } from "../styles/media-queries";
 import Card from "./Card";
 
-function AllCardList({ items }) {
+function AllCardList({ items, handleLoadMore }) {
   return (
     <>
       {items.length === 0 ? (
@@ -16,7 +16,7 @@ function AllCardList({ items }) {
           ))}
         </StyledCardListContainer>
       )}
-      <LoadMoreButton>더보기</LoadMoreButton>
+      <LoadMoreButton onClick={handleLoadMore}>더보기</LoadMoreButton>
     </>
   );
 }
