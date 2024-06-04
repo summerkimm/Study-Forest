@@ -30,16 +30,20 @@ function TodayHabitPage() {
   };
 
   const handleNavigateFocus = (id) => {
-    navigate(`/studies/${id}/focus`)
+    navigate(`/studies/${id}/focus`);
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
 
   return (
     <>
-      <CommonLayout title={TITLE} leftBtn="오늘의 집중" onClick={handleNavigateFocus}>
+      <CommonLayout
+        title={TITLE}
+        leftBtn="오늘의 집중"
+        onClick={handleNavigateFocus}
+      >
         <StyledLayoutSubtitle>현재 시간</StyledLayoutSubtitle>
         <DateTag>
           <CurrentDateTime />
@@ -52,7 +56,11 @@ function TodayHabitPage() {
           </StyledEditButton>
           {showEditModal &&
             createPortal(
-              <HabitEditModal id={id} onClick={handleEditModalClick} habits={habits} />,
+              <HabitEditModal
+                id={id}
+                onClick={handleEditModalClick}
+                habits={habits}
+              />,
               document.getElementById("modal-root")
             )}
 
@@ -66,7 +74,9 @@ function TodayHabitPage() {
           ) : (
             <StyledChipContainer>
               {habits?.map((habit) => (
-                <Chip id={habit.id} isActive={habit.isCompleted}>{habit.name}</Chip>
+                <Chip id={habit.id} isActive={habit.isCompleted}>
+                  {habit.name}
+                </Chip>
               ))}
             </StyledChipContainer>
           )}

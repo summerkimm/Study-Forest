@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { postStudyIdPoints } from "../api";
 import PlayIcon from "../assets/icons/ic_play.svg";
 import PauseIcon from "../assets/icons/icon_pause.svg";
 import ResetIcon from "../assets/icons/icon_reset.svg";
 import { onMobile, onTablet } from "../styles/media-queries";
 
 function Timer() {
+  const { id } = useParams();
   const [minutes, setMinutes] = useState("00");
   const [seconds, setSeconds] = useState("00");
   const [initialMinutes, setInitialMinutes] = useState(0);
   const [initialSeconds, setInitialSeconds] = useState(0);
   const [timerOn, setTimerOn] = useState(false);
+  const [isTimerCompleted, setIsTimerCompleted] = useState(false);
 
   useEffect(() => {
     if (timerOn) {
@@ -19,6 +23,7 @@ function Timer() {
           if (minutes === "00") {
             clearTimeout(timer);
             setTimerOn(false);
+            setIsTimerCompleted(true); // 타이머 종료 상태 설정
           } else {
             setMinutes((prevMinutes) => {
               const newMinutes = parseInt(prevMinutes, 10) - 1;
@@ -37,6 +42,33 @@ function Timer() {
       return () => clearTimeout(timer);
     }
   }, [seconds, minutes, timerOn]);
+
+  useEffect(() => {
+    if (isTimerCompleted) {
+      // 타이머 종료 시 포인트 부여 로직 실행
+      awardPoints();
+    }
+  }, [isTimerCompleted, id]);
+
+  const awardPoints = async () => {
+    try {
+      const totalMinutes = initialMinutes + (initialSeconds > 0 ? 1 : 0);
+      const basePoints = 3; //  기본 포인트
+      const additionalPoints = Math.floor(totalMinutes / 10); // 10분당 추가 포인트
+
+      const totalPoints = basePoints + additionalPoints;
+
+      await postStudyIdPoints(id, totalPoints);
+      console.log(`${totalPoints} 포인트가 부여되었습니다.`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    setInitialMinutes(parseInt(minutes, 10));
+    setInitialSeconds(parseInt(seconds, 10));
+  }, [minutes, seconds]);
 
   const startTimer = () => {
     if (minutes === "00" && seconds === "00") return;

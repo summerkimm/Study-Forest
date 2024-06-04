@@ -1,23 +1,16 @@
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import CommonLayout from "../components/CommonLayout";
 import PointTag from "../components/Tags/PointTag";
+import Timer from "../components/Timer";
 import { onTablet } from "../styles/media-queries";
-import Timer from '../components/Timer';
 
 function TodayFocusPage() {
-  const navigate = useNavigate();
-
-  const handleNavigateHabit = (id) => {
-    navigate(`/studies/${id}/habit`);
-  };
+  const { id } = useParams();
+  console.log(id);
 
   return (
-    <CommonLayout
-      title="연우의 개발공장"
-      leftBtn="오늘의 습관"
-      onClick={handleNavigateHabit}
-    >
+    <CommonLayout title="연우의 개발공장" leftBtn="오늘의 습관">
       <StyledLayoutSubtitle>현재까지 획득한 포인트</StyledLayoutSubtitle>
       <PointTag status="general" points="310" />
       <StyledLayoutWrapper>

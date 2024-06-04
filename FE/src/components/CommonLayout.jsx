@@ -3,11 +3,21 @@ import styled from "styled-components";
 import Button from "../components/Button";
 import { onMobile, onTablet } from "../styles/media-queries";
 
-function CommonLayout({ title, children, leftBtn, onClick }) {
+function CommonLayout({ title, children, leftBtn }) {
   const navigate = useNavigate();
+  const { id } = useParams();
+  console.log(id);
 
   const handleClickHome = () => {
     navigate("/");
+  };
+
+  const handleNavigate = () => {
+    if (leftBtn === "오늘의 집중") {
+      navigate(`/studies/${id}/focus`);
+    } else if (leftBtn === "오늘의 습관") {
+      navigate(`/studies/${id}/habit`);
+    }
   };
 
   return (
@@ -15,7 +25,7 @@ function CommonLayout({ title, children, leftBtn, onClick }) {
       <StyledLayoutHeader>
         <StyledLayoutTitle>{title}</StyledLayoutTitle>
         <StyledLayoutButtonContainer>
-          <Button onClick={onClick}>{leftBtn}</Button>
+          <Button onClick={handleNavigate}>{leftBtn}</Button>
           <Button onClick={handleClickHome}>홈</Button>
         </StyledLayoutButtonContainer>
       </StyledLayoutHeader>

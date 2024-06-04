@@ -56,3 +56,9 @@ export const patchHabits = async (id) => {
 export const deleteHabits = async (id) => {
   return instance.delete(`/habits/${id}`);
 };
+
+export const postStudyIdPoints = async (id, points) => {
+  return instance.post(`/${id}/points`, {
+    additionalPoints: points,
+  });
+};
