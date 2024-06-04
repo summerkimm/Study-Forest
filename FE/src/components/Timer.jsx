@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { postStudyIdPoints } from "../api";
 import PlayIcon from "../assets/icons/ic_play.svg";
@@ -7,8 +6,7 @@ import PauseIcon from "../assets/icons/icon_pause.svg";
 import ResetIcon from "../assets/icons/icon_reset.svg";
 import { onMobile, onTablet } from "../styles/media-queries";
 
-function Timer() {
-  const { id } = useParams();
+function Timer({ id, updatePoints }) {
   const [minutes, setMinutes] = useState("00");
   const [seconds, setSeconds] = useState("00");
   const [initialMinutes, setInitialMinutes] = useState(0);
@@ -48,7 +46,7 @@ function Timer() {
       // 타이머 종료 시 포인트 부여 로직 실행
       awardPoints();
     }
-  }, [isTimerCompleted, id]);
+  }, [isTimerCompleted]);
 
   const awardPoints = async () => {
     try {
@@ -59,7 +57,7 @@ function Timer() {
       const totalPoints = basePoints + additionalPoints;
 
       await postStudyIdPoints(id, totalPoints);
-      console.log(`${totalPoints} 포인트가 부여되었습니다.`);
+      updatePoints(totalPoints);
     } catch (error) {
       console.log(error);
     }
@@ -93,22 +91,20 @@ function Timer() {
           value={minutes}
           onChange={(e) => setMinutes(e.target.value)}
           disabled={timerOn}
+          $timerOn={timerOn}
         />
-        <TimeInputSpan>:</TimeInputSpan>
+        <TimeInputSpan $timerOn={timerOn}>:</TimeInputSpan>
         <TimeInput
           type="number"
           value={seconds}
           onChange={(e) => setSeconds(e.target.value)}
           disabled={timerOn}
+          $timerOn={timerOn}
         />
       </TimeInputContainer>
       <StyledTimeButtonContainer>
         {timerOn && (
-          <StyledPauseButton
-            onClick={pauseTimer}
-            disabled={!timerOn}
-            $timerOn={timerOn}
-          >
+          <StyledPauseButton onClick={pauseTimer} disabled={!timerOn}>
             <StyledPauseImg src={PauseIcon} alt="타이머 일시정지" />
           </StyledPauseButton>
         )}
@@ -157,7 +153,7 @@ const TimeInputContainer = styled.div`
 const TimeInputSpan = styled.span`
   font-weight: 800;
   font-size: 150px;
-  color: var(--black-black_414141, #414141);
+  color: ${({ $timerOn }) => ($timerOn ? "#F50E0E" : "#414141")};
 
   ${onTablet} {
     font-size: 120px;
@@ -173,9 +169,9 @@ const TimeInput = styled.input`
   height: auto;
   font-size: 150px;
   text-align: center;
-  color: var(--black-black_414141, #414141);
   font-weight: 800;
   background-color: transparent;
+  color: ${({ $timerOn }) => ($timerOn ? "#F50E0E" : "#414141")};
 
   &::-webkit-inner-spin-button {
     appearance: none;

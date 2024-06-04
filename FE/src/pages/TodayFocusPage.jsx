@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { getStudiesId } from "../api";
 import CommonLayout from "../components/CommonLayout";
 import PointTag from "../components/Tags/PointTag";
 import Timer from "../components/Timer";
@@ -7,15 +9,34 @@ import { onTablet } from "../styles/media-queries";
 
 function TodayFocusPage() {
   const { id } = useParams();
-  console.log(id);
+  const [item, setItem] = useState({});
+  const [points, setpoints] = useState(0);
+
+  const fetchData = async () => {
+    const response = await getStudiesId(id);
+    const data = response?.data;
+    setItem(data);
+    setpoints(data?.points);
+  };
+
+  const updatePoints = (newPoints) => {
+    setpoints((prevPoints) => prevPoints + newPoints);
+  };
+  
+  const { name, nickName } = item;
+  const TITLE = `${nickName}의 ${name}`;
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
-    <CommonLayout title="연우의 개발공장" leftBtn="오늘의 습관">
+    <CommonLayout title={TITLE} leftBtn="오늘의 습관">
       <StyledLayoutSubtitle>현재까지 획득한 포인트</StyledLayoutSubtitle>
-      <PointTag status="general" points="310" />
+      <PointTag status="general" points={points} />
       <StyledLayoutWrapper>
         <StyledTodayFocusTitle>오늘의 집중</StyledTodayFocusTitle>
-        <Timer />
+        <Timer id={id} updatePoints={updatePoints} />
       </StyledLayoutWrapper>
     </CommonLayout>
   );
@@ -34,6 +55,7 @@ const StyledLayoutSubtitle = styled.p`
   font-size: 18px;
   font-weight: 400;
   margin-bottom: 8px;
+  margin-top: 16px;
 `;
 
 const StyledLayoutWrapper = styled.div`
