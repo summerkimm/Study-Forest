@@ -18,9 +18,10 @@ function TodayHabitPage() {
 
   const fetchData = async () => {
     const response = await getStudyIdHabit(id);
-    setItem(response.data);
+    setItem(response?.data);
   };
 
+  console.log(item);
   const { habits, name, nickName } = item;
 
   const TITLE = `${nickName}의 ${name}`;
@@ -74,7 +75,7 @@ function TodayHabitPage() {
           ) : (
             <StyledChipContainer>
               {habits?.map((habit) => (
-                <Chip id={habit.id} isActive={habit.isCompleted}>
+                <Chip id={habit.id} isCompleted={habit.isCompletedHabit}>
                   {habit.name}
                 </Chip>
               ))}

@@ -32,7 +32,7 @@ function HabitEditModal({ id, onClick, habits }) {
     const input = inputs.find((input) => input.id === inputId);
     if (input.name.trim()) {
       try {
-        const response = await postStudiesHabit({ id, name: input.name });
+        await postStudiesHabit({ id, name: input.name });
       } catch (error) {
         console.error("Error posting data:", error);
       }
@@ -48,8 +48,9 @@ function HabitEditModal({ id, onClick, habits }) {
 
   const handleDeleteHabit = async (habitId) => {
     try {
-      const data = await deleteHabits(habitId);
+      await deleteHabits(habitId);
       console.log(`Delete habit with id ${habitId}`);
+      setInputs(inputs.filter(input => input.id !== habitId));
     } catch (error) {
       console.error("Error deleting habit:", error);
     }
