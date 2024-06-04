@@ -25,9 +25,8 @@ const backgroundOptions = [
 function CreateStudyPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
-  const [selectedBackground, setSelectedBackground] = useState("green");
+  const [selectedBackground, setSelectedBackground] = useState("");
   const navigate = useNavigate();
-  const [id, setId] = useState(null);
 
   const {
     register,
@@ -72,9 +71,11 @@ function CreateStudyPage() {
         background,
         password,
       });
-      setId(response.id);
-      navigate(`/studies/${id}`);
-      console.log(response);
+
+      if (response.status === 201) {
+        const newId = response?.data.id;
+        navigate(`/studies/${newId}`);
+      }
     } catch (error) {
       console.error(error);
     }

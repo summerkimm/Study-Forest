@@ -31,14 +31,6 @@ function StudyDetailPage() {
 
   const { name, description, nickName, points, habitTrackers } = item;
 
-  // const handleDeleteStudies = async (id) => {
-  //   try {
-  //     const resonse = await deleteStudiesId(id);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-
   useEffect(() => {
     fetchData();
   }, []);
