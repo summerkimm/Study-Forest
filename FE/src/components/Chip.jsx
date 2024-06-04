@@ -3,11 +3,13 @@ import { patchHabits } from "../api/index";
 
 function Chip({ id, isCompleted, children }) {
   const handleChipClick = async () => {
-    try {
-      await patchHabits(id);
-      window.location.reload();
-    } catch (error) {
-      console.error(error);
+    if (!isCompleted) {
+      try {
+        await patchHabits(id);
+        window.location.reload();
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 

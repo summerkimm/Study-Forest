@@ -21,9 +21,9 @@ function HabitEditModal({ id, onClick, habits }) {
     setInputs([...inputs, { id: inputs.length + 1 + habits.length, name: "" }]);
   };
 
-  const handleHabitInputChange = (inputId, event) => {
+  const handleHabitInputChange = (inputId, e) => {
     const newInputs = inputs.map((input) =>
-      input.id === inputId ? { ...input, name: event.target.value } : input
+      input.id === inputId ? { ...input, name: e.target.value } : input
     );
     setInputs(newInputs);
   };
@@ -34,7 +34,7 @@ function HabitEditModal({ id, onClick, habits }) {
       try {
         await postStudiesHabit({ id, name: input.name });
       } catch (error) {
-        console.error("Error posting data:", error);
+        console.error(error);
       }
     }
   };
