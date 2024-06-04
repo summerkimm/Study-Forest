@@ -31,6 +31,10 @@ export const getStudiesId = async (id) => {
   return await instance.get(`/studies/${id}`);
 };
 
+export const deleteStudiesId = async (id) => {
+  return await instance.delete(`/studies/${id}`);
+};
+
 export const postPasswordConfirm = async ({ id, password }) => {
   return await instance.post(`/studies/${id}/userCheck`, { password });
 };
@@ -51,4 +55,10 @@ export const patchHabits = async (id) => {
 
 export const deleteHabits = async (id) => {
   return instance.delete(`/habits/${id}`);
+};
+
+export const postStudyIdPoints = async (id, points) => {
+  return instance.post(`/${id}/points`, {
+    additionalPoints: points,
+  });
 };

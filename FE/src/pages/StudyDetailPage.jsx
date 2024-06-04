@@ -16,6 +16,7 @@ function StudyDetailPage() {
   const [showHabitModal, setShowHabitModal] = useState(false);
   const [showFocusModal, setShowFocusModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const { id } = useParams();
 
@@ -65,9 +66,22 @@ function StudyDetailPage() {
               수정하기
             </StyledHeaderOptionsMenuList>
             <StyledMenuListSpace></StyledMenuListSpace>
-            <StyledHeaderOptionsMenuList>
+            <StyledHeaderOptionsMenuList
+              onClick={() => setShowDeleteModal(true)}
+            >
               스터디 삭제하기
             </StyledHeaderOptionsMenuList>
+            {showDeleteModal &&
+              createPortal(
+                <Modal
+                  onClick={() => setShowEditModal(false)}
+                  nickName={nickName}
+                  name={name}
+                  text="스터디 삭제하기"
+                  page="delete"
+                />,
+                document.getElementById("modal-root")
+              )}
           </StyledHeaderOptionsMenu>
         </StyledHeaderOptions>
         <StyledHeader>
