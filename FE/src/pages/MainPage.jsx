@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { getStudies } from "../api/studies";
+import { getStudies } from "../api/index";
 import SearchIcon from "../assets/icons/icon-search.svg";
 import AllCardList from "../components/AllCardList";
 import Dropdown from "../components/Dropdown";

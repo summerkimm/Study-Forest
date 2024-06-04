@@ -1,29 +1,19 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { patchHabits } from "../api/habits";
+import { patchHabits } from "../api/index";
 import COLORS from "../styles/colors";
 
-function Chip({ isActive, children }) {
-  // const { id } = useParams();
-  const [active, setActive] = useState(isActive);
-
-  // const fetchData = async (id) => {
-  //   const response = await patchHabits(id);
-  //   console.log(response);
-  // };
-
-  // const handleHabitCompletedClick = () => {
-  //   fetchData(id);
-  //   setActive(true);
-  // };
-
-  // useEffect(() => {
-  //   handleHabitCompletedClick();
-  // }, []);
+function Chip({ id, isActive, children }) {
+  const handleChipClick = async () => {
+    try {
+      const response = await patchHabits(id);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
-    <StyledChip $active={active}>
+    <StyledChip $active={isActive} onClick={handleChipClick}>
       {children}
     </StyledChip>
   );

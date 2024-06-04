@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getStudyIdHabit } from "../api/studies";
+import { getStudyIdHabit } from "../api/index";
 import Chip from "../components/Chip";
 import CommonLayout from "../components/CommonLayout";
 import CurrentDateTime from "../components/CurrentDateTime";
@@ -10,66 +10,17 @@ import HabitEditModal from "../components/HabitEditModal";
 import DateTag from "../components/Tags/DateTag";
 import { onMobile, onTablet } from "../styles/media-queries";
 
-const MOCK = {
-  id: 129,
-  name: "개발 공장",
-  nickName: "연우",
-  habits: [
-    {
-      id: 1,
-      name: "미라클모닝 6시 기상",
-      isCompleted: true,
-    },
-    {
-      id: 2,
-      name: "아침 챙겨 먹기",
-      isCompleted: true,
-    },
-    {
-      id: 3,
-      name: "React 스터디 책 1챕터 읽기",
-      isCompleted: true,
-    },
-    {
-      id: 4,
-      name: "스트레칭",
-      isCompleted: false,
-    },
-    {
-      id: 5,
-      name: "영양제 챙겨 먹기",
-      isCompleted: true,
-    },
-    {
-      id: 6,
-      name: "사이드 프로젝트",
-      isCompleted: false,
-    },
-    {
-      id: 7,
-      name: "물 2L 먹기",
-      isCompleted: false,
-    },
-  ],
-};
-
 function TodayHabitPage() {
   const [showEditModal, setShowEditModal] = useState(false);
-  const [item, setItem] = useState();
+  const [item, setItem] = useState({});
   const { id } = useParams();
   const navigate = useNavigate();
 
   const fetchData = async () => {
     const response = await getStudyIdHabit(id);
     setItem(response.data);
-    console.log(item);
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  // const { habits, name, nickName } = MOCK;
   const { habits, name, nickName } = item;
 
   const TITLE = `${nickName}의 ${name}`;
@@ -81,6 +32,10 @@ function TodayHabitPage() {
   const handleNavigateFocus = (id) => {
     navigate(`/studies/${id}/focus`)
   };
+  
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -97,11 +52,11 @@ function TodayHabitPage() {
           </StyledEditButton>
           {showEditModal &&
             createPortal(
-              <HabitEditModal onClick={handleEditModalClick} habits={habits} />,
+              <HabitEditModal id={id} onClick={handleEditModalClick} habits={habits} />,
               document.getElementById("modal-root")
             )}
 
-          {habits.length === 0 ? (
+          {habits?.length === 0 ? (
             <StyledEmptyContainer>
               <StyledEmptyMessage>아직 습관이 없어요</StyledEmptyMessage>
               <StyledEmptyMessage>
@@ -110,7 +65,7 @@ function TodayHabitPage() {
             </StyledEmptyContainer>
           ) : (
             <StyledChipContainer>
-              {habits.map((habit) => (
+              {habits?.map((habit) => (
                 <Chip id={habit.id} isActive={habit.isCompleted}>{habit.name}</Chip>
               ))}
             </StyledChipContainer>
