@@ -17,12 +17,20 @@ function StudyDetailPage() {
   const [showFocusModal, setShowFocusModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const { id } = useParams();
 
-  const handleEmojiPicker = () => {
-    setShowEmojiPicker(!showEmojiPicker);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [selectedEmoji, setSelectedEmoji] = useState();
+
+  const handleEmojiClick = (emojiObject) => {
+    setSelectedEmoji(emojiObject.emoji);
   };
+
+  useEffect(() => {
+    if (selectedEmoji) {
+      console.log(selectedEmoji);
+    }
+  }, [selectedEmoji]);
 
   const fetchData = async () => {
     const response = await getStudiesId(id);
@@ -47,18 +55,22 @@ function StudyDetailPage() {
     <>
       <StyledContainer>
         <StyledHeaderOptions>
-          <StyledEmojiField>
-            <EmojiAddButton onClick={handleEmojiPicker} />
+          <StyledReactionContainer>
+            <EmojiAddButton
+              onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+            />
             {showEmojiPicker && (
-              <EmojiPicker
-                style={{
-                  position: "absolute",
-                  top: "40px",
-                  left: 0,
-                }}
-              />
+              <StyledEmojiPickerWrapper>
+                <EmojiPicker
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                  }}
+                  onEmojiClick={handleEmojiClick}
+                />
+              </StyledEmojiPickerWrapper>
             )}
-          </StyledEmojiField>
+          </StyledReactionContainer>
           <StyledHeaderOptionsMenu>
             <StyledHeaderOptionsMenuList>공유하기</StyledHeaderOptionsMenuList>
             <StyledMenuListSpace></StyledMenuListSpace>
@@ -265,6 +277,14 @@ const StyledDescription = styled.p`
   }
 `;
 
-const StyledEmojiField = styled.div`
+const StyledReactionContainer = styled.div`
   position: relative;
+`;
+
+const StyledEmojiPickerWrapper = styled.div`
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 307px;
+  height: 392px;
 `;
