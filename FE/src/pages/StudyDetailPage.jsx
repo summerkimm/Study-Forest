@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getStudiesId } from "../api/index";
+import { getStudiesId, postEmojiReactions } from "../api/index";
 import Button from "../components/Button";
 import EmojiAddButton from "../components/EmojiAddButton";
 import HabitTracker from "../components/HabitTracker";
@@ -20,17 +20,28 @@ function StudyDetailPage() {
   const { id } = useParams();
 
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [selectedEmoji, setSelectedEmoji] = useState();
+  const [selectedEmoji, setSelectedEmoji] = useState(null);
 
   const handleEmojiClick = (emojiObject) => {
     setSelectedEmoji(emojiObject.emoji);
   };
 
   useEffect(() => {
-    if (selectedEmoji) {
-      console.log(selectedEmoji);
-    }
-  }, [selectedEmoji]);
+    const sendEmojiReaction = async () => {
+      if (selectedEmoji) {
+        try {
+          const response = await postEmojiReactions(id, {
+            emoji: selectedEmoji,
+            type: "increase",
+          });
+          console.log(response);
+        } catch (error) {
+          console.error("Error posting emoji reaction:", error);
+        }
+      }
+    };
+    sendEmojiReaction();
+  }, [selectedEmoji, id]);
 
   const fetchData = async () => {
     const response = await getStudiesId(id);
