@@ -21,7 +21,8 @@ function StudyDetailPage() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [selectedEmoji, setSelectedEmoji] = useState(null);
+  const [increasedEmoji, setIncreasedEmoji] = useState(null);
+  const [decreasedEmoji, setDecreasedEmoji] = useState(null);
   const [showHiddenReactions, setshowHiddenReactions] = useState(false);
 
   useEffect(() => {
@@ -37,22 +38,23 @@ function StudyDetailPage() {
   }, [id]);
 
   useEffect(() => {
-    const sendEmojiReaction = async () => {
-      if (selectedEmoji) {
+    const sendEmojiIncrease = async () => {
+      if (increasedEmoji) {
         try {
           const response = await postEmojiReactions({
             id,
-            emoji: selectedEmoji,
+            emoji: increasedEmoji,
             emojiType: "increase",
           });
           console.log(response);
+          window.location.reload();
         } catch (error) {
           console.error(error);
         }
       }
     };
-    sendEmojiReaction();
-  }, [selectedEmoji, id]);
+    sendEmojiIncrease();
+  }, [increasedEmoji, id]);
 
   useEffect(() => {
     let get_local = JSON.parse(localStorage.getItem("watched")) || [];
@@ -62,8 +64,23 @@ function StudyDetailPage() {
     localStorage.setItem("watched", JSON.stringify(get_local));
   }, [id]);
 
-  const handleEmojiClick = (emojiObject) => {
-    setSelectedEmoji(emojiObject.emoji);
+  const handleEmojiIncrease = (emojiObject) => {
+    setIncreasedEmoji(emojiObject.emoji);
+  };
+
+  const handleEmojiDecrease = async (emoji, id) => {
+    console.log(emoji, id);
+    try {
+      const response = await postEmojiReactions({
+        id: id,
+        emoji: emoji,
+        emojiType: "decrease",
+      });
+      console.log(response);
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const { name, description, nickName, points, habitTrackers, reaction } = item;
@@ -77,7 +94,12 @@ function StudyDetailPage() {
         <StyledHeaderOptions>
           <StyledReactionContainer>
             {visibleReactions?.map((emoji, index) => (
-              <EmojiTag key={index} reactions={emoji} status="general" />
+              <EmojiTag
+                key={index}
+                reactions={emoji}
+                status="general"
+                onClick={() => handleEmojiDecrease(emoji.emoji, emoji.id)}
+              />
             ))}
             {hiddenReactions?.length !== 0 && (
               <StyledHiddenEmojiTag
@@ -109,7 +131,7 @@ function StudyDetailPage() {
                       width: "100%",
                       height: "100%",
                     }}
-                    onEmojiClick={handleEmojiClick}
+                    onEmojiClick={handleEmojiIncrease}
                   />
                 </StyledEmojiPickerWrapper>
               )}
@@ -330,7 +352,6 @@ const StyledReactionContainer = styled.div`
 const StyledEmojiAddButton = styled.div`
   position: relative;
 `;
-
 
 const StyledEmojiPickerWrapper = styled.div`
   position: absolute;

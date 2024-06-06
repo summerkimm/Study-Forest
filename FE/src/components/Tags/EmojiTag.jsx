@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import COLORS from "../../styles/colors";
 
-function EmojiTag({ reactions, status }) {
+function EmojiTag({ reactions, status, onClick }) {
   const { emoji, count } = reactions;
 
   return (
-    <StyledEmojiTagContainer status={status}>
+    <StyledEmojiTagContainer status={status} onClick={onClick}>
       <StyledEmoji status={status}>{emoji}</StyledEmoji>
       <StyledEmojiNumber status={status}>{count}</StyledEmojiNumber>
     </StyledEmojiTagContainer>
