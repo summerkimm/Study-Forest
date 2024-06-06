@@ -46,8 +46,6 @@ function Card({ item, type = "default" }) {
     points,
   } = item;
 
-  console.log(background);
-
   const sortedReactions = reactions?.slice(0, 3);
 
   const handleClick = () => {

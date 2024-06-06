@@ -153,7 +153,7 @@ function StudyDetailPage() {
             {showDeleteModal &&
               createPortal(
                 <Modal
-                  onClick={() => setShowEditModal(false)}
+                  onClick={() => setShowDeleteModal(false)}
                   nickName={nickName}
                   name={name}
                   text="스터디 삭제하기"
