@@ -46,6 +46,8 @@ function Card({ item, type = "default" }) {
     points,
   } = item;
 
+  console.log(background);
+
   const sortedReactions = reactions?.slice(0, 3);
 
   const handleClick = () => {
@@ -66,7 +68,7 @@ function Card({ item, type = "default" }) {
             </StyledCardNickname>
             의 {name}
           </StyledCardTitle>
-          <PointTag points={points} status={COLORSCHEME[background]?.status} />
+          <PointTag points={points} $status={COLORSCHEME[background]?.status} />
         </StyledCardTitleWrapper>
         <StyledProgressDay $background={background}>
           <span>{studyDays}</span>일 째 진행 중
