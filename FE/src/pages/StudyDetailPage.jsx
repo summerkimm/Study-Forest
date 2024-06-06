@@ -4,27 +4,37 @@ import { createPortal } from "react-dom";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getStudiesId, postEmojiReactions } from "../api/index";
+import PlusIcon from "../assets/icons/ic_plus_light.svg";
 import Button from "../components/Button";
 import EmojiAddButton from "../components/EmojiAddButton";
 import HabitTracker from "../components/HabitTracker";
 import Modal from "../components/Modal";
+import EmojiTag from "../components/Tags/EmojiTag";
 import PointTag from "../components/Tags/PointTag";
 import { onMobile, onTablet } from "../styles/media-queries";
 
 function StudyDetailPage() {
+  const { id } = useParams();
   const [item, setItem] = useState({});
   const [showHabitModal, setShowHabitModal] = useState(false);
   const [showFocusModal, setShowFocusModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const { id } = useParams();
-
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [selectedEmoji, setSelectedEmoji] = useState(null);
+  const [showHiddenReactions, setshowHiddenReactions] = useState(false);
 
-  const handleEmojiClick = (emojiObject) => {
-    setSelectedEmoji(emojiObject.emoji);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getStudiesId(id);
+        setItem(response?.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [id]);
 
   useEffect(() => {
     const sendEmojiReaction = async () => {
@@ -37,23 +47,12 @@ function StudyDetailPage() {
           });
           console.log(response);
         } catch (error) {
-          console.error("Error posting emoji reaction:", error);
+          console.error(error);
         }
       }
     };
     sendEmojiReaction();
   }, [selectedEmoji, id]);
-
-  const fetchData = async () => {
-    const response = await getStudiesId(id);
-    setItem(response?.data);
-  };
-
-  const { name, description, nickName, points, habitTrackers } = item;
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   useEffect(() => {
     let get_local = JSON.parse(localStorage.getItem("watched")) || [];
@@ -63,25 +62,58 @@ function StudyDetailPage() {
     localStorage.setItem("watched", JSON.stringify(get_local));
   }, [id]);
 
+  const handleEmojiClick = (emojiObject) => {
+    setSelectedEmoji(emojiObject.emoji);
+  };
+
+  const { name, description, nickName, points, habitTrackers, reaction } = item;
+  const sortedReactions = reaction?.sort((a, b) => b.count - a.count);
+  const visibleReactions = sortedReactions?.slice(0, 3);
+  const hiddenReactions = sortedReactions?.slice(3);
+
   return (
     <>
       <StyledContainer>
         <StyledHeaderOptions>
           <StyledReactionContainer>
-            <EmojiAddButton
-              onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-            />
-            {showEmojiPicker && (
-              <StyledEmojiPickerWrapper>
-                <EmojiPicker
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                  }}
-                  onEmojiClick={handleEmojiClick}
-                />
-              </StyledEmojiPickerWrapper>
+            {visibleReactions?.map((emoji, index) => (
+              <EmojiTag key={index} reactions={emoji} status="general" />
+            ))}
+            {hiddenReactions?.length !== 0 && (
+              <StyledHiddenEmojiTag
+                onClick={() => setshowHiddenReactions(!showHiddenReactions)}
+              >
+                <img src={PlusIcon} alt="추가 이모지" />
+                <StyledHiddenEmojiTagText>{`${hiddenReactions?.length}..`}</StyledHiddenEmojiTagText>
+                {showHiddenReactions && (
+                  <StyledHiddenReactions>
+                    {hiddenReactions?.map((emoji, index) => (
+                      <EmojiTag
+                        key={index}
+                        reactions={emoji}
+                        status="general"
+                      />
+                    ))}
+                  </StyledHiddenReactions>
+                )}
+              </StyledHiddenEmojiTag>
             )}
+            <StyledEmojiAddButton>
+              <EmojiAddButton
+                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+              />
+              {showEmojiPicker && (
+                <StyledEmojiPickerWrapper>
+                  <EmojiPicker
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                    }}
+                    onEmojiClick={handleEmojiClick}
+                  />
+                </StyledEmojiPickerWrapper>
+              )}
+            </StyledEmojiAddButton>
           </StyledReactionContainer>
           <StyledHeaderOptionsMenu>
             <StyledHeaderOptionsMenuList>공유하기</StyledHeaderOptionsMenuList>
@@ -290,13 +322,62 @@ const StyledDescription = styled.p`
 `;
 
 const StyledReactionContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;
+
+const StyledEmojiAddButton = styled.div`
   position: relative;
 `;
+
 
 const StyledEmojiPickerWrapper = styled.div`
   position: absolute;
   top: 40px;
-  left: 0;
-  width: 307px;
-  height: 392px;
+  left: 0px;
+  width: 300px;
+  height: 360px;
+
+  ${onMobile} {
+    left: -230px;
+  }
+`;
+
+const StyledHiddenEmojiTag = styled.button`
+  width: 55px;
+  height: 31px;
+  display: flex;
+  padding: 6px 8px;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border-radius: 50px;
+  background: rgba(0, 0, 0, 0.3);
+  position: relative;
+`;
+
+const StyledHiddenEmojiTagText = styled.span`
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  margin-top: 2px;
+`;
+
+const StyledHiddenReactions = styled.div`
+  display: flex;
+  width: 270px;
+  height: auto;
+  padding: 12px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 4px;
+  border-radius: 15px;
+  border: 1px solid var(--gray-gray_DDDDDD, #ddd);
+  background: #fff;
+  box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.08);
+  position: absolute;
+  top: 39px;
+  right: 0;
+  cursor: auto;
 `;

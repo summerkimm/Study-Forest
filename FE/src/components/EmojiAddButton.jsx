@@ -14,9 +14,10 @@ export default EmojiAddButton;
 
 const EmojiAddButtonContainer = styled.div`
   display: flex;
-  width: fit-content;
+  width: 67px;
+  height: 31px;
   padding: 6px 8px;
-  align-items: flex-start;
+  align-items: center;
   gap: 5px;
   color: var(--black-black_414141, #414141);
   font-size: 16px;

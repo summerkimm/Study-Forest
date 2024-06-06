@@ -13,7 +13,7 @@ const COLORSCHEME = {
   green: { color: "#578246", backgroundColor: "#e1edde", status: "light" },
   yellow: { color: "#c18e1b", backgroundColor: "#fff1cc", status: "light" },
   pink: { color: "#bc3c6a", backgroundColor: "#fde0e9", status: "light" },
-  "sky_blue": { color: "#418099", backgroundColor: "#E0F1F5", status: "light" },
+  sky_blue: { color: "#418099", backgroundColor: "#E0F1F5", status: "light" },
   image_1: {
     backgroundImage: `url(${Image1})`,
     status: "dark",
@@ -34,7 +34,7 @@ const COLORSCHEME = {
 
 function Card({ item, type = "default" }) {
   const navigate = useNavigate();
-  
+
   const {
     id,
     name,
@@ -45,6 +45,8 @@ function Card({ item, type = "default" }) {
     background,
     points,
   } = item;
+
+  const sortedReactions = reactions?.slice(0, 3);
 
   const handleClick = () => {
     navigate(`/studies/${id}`);
@@ -74,7 +76,7 @@ function Card({ item, type = "default" }) {
         {description}
       </StyledCardDescription>
       <StyledEmojiTagWrapper>
-        {reactions?.map((reactions) => (
+        {sortedReactions?.map((reactions) => (
           <EmojiTag
             key={reactions.id}
             reactions={reactions}
