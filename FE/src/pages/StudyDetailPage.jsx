@@ -30,9 +30,10 @@ function StudyDetailPage() {
     const sendEmojiReaction = async () => {
       if (selectedEmoji) {
         try {
-          const response = await postEmojiReactions(id, {
+          const response = await postEmojiReactions({
+            id,
             emoji: selectedEmoji,
-            type: "increase",
+            emojiType: "increase",
           });
           console.log(response);
         } catch (error) {
