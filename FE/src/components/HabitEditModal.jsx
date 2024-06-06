@@ -50,7 +50,7 @@ function HabitEditModal({ id, onClick, habits }) {
     try {
       await deleteHabits(habitId);
       console.log(`Delete habit with id ${habitId}`);
-      setInputs(inputs.filter(input => input.id !== habitId));
+      setInputs(inputs.filter((input) => input.id !== habitId));
     } catch (error) {
       console.error("Error deleting habit:", error);
     }
@@ -92,7 +92,12 @@ function HabitEditModal({ id, onClick, habits }) {
           </StyledAddHabitButton>
         </StyledHabitListContainer>
 
-        <button onClick={() => onClick()}>수정 완료</button>
+        <StyledHabitModalButtonContainer>
+          <StyledCancelButton onClick={() => onClick()}>취소</StyledCancelButton>
+          <StyledCompleteButton onClick={() => onClick()}>
+            수정 완료
+          </StyledCompleteButton>
+        </StyledHabitModalButtonContainer>
       </StyledModalContainer>
     </StyledModalBackground>
   );
@@ -225,4 +230,38 @@ const StyledAddHabitButton = styled.button`
   ${onMobile} {
     width: 312px;
   }
+`;
+
+const StyledHabitModalButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 12px;
+`;
+
+const StyledHabitModalButton = styled.button`
+  display: flex;
+  width: 288px;
+  height: 58px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  text-align: center;
+  font-family: EF_jejudoldam;
+  font-size: 18px;
+  font-weight: 400;
+  color: #fff;
+  border-radius: 12px;
+
+  ${onMobile} {
+    width: 140px;
+  }
+`;
+
+const StyledCompleteButton = styled(StyledHabitModalButton)`
+  background: #99c08e;
+`;
+
+const StyledCancelButton = styled(StyledHabitModalButton)`
+  background: #dddddd;
 `;
