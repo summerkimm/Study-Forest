@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getStudiesId } from "../api/index";
+import { getStudiesId, postEmojiReactions } from "../api/index";
 import Button from "../components/Button";
 import EmojiAddButton from "../components/EmojiAddButton";
 import HabitTracker from "../components/HabitTracker";
@@ -17,12 +17,32 @@ function StudyDetailPage() {
   const [showFocusModal, setShowFocusModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const { id } = useParams();
 
-  const handleEmojiPicker = () => {
-    setShowEmojiPicker(!showEmojiPicker);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [selectedEmoji, setSelectedEmoji] = useState(null);
+
+  const handleEmojiClick = (emojiObject) => {
+    setSelectedEmoji(emojiObject.emoji);
   };
+
+  useEffect(() => {
+    const sendEmojiReaction = async () => {
+      if (selectedEmoji) {
+        try {
+          const response = await postEmojiReactions({
+            id,
+            emoji: selectedEmoji,
+            emojiType: "increase",
+          });
+          console.log(response);
+        } catch (error) {
+          console.error("Error posting emoji reaction:", error);
+        }
+      }
+    };
+    sendEmojiReaction();
+  }, [selectedEmoji, id]);
 
   const fetchData = async () => {
     const response = await getStudiesId(id);
@@ -47,18 +67,22 @@ function StudyDetailPage() {
     <>
       <StyledContainer>
         <StyledHeaderOptions>
-          <StyledEmojiField>
-            <EmojiAddButton onClick={handleEmojiPicker} />
+          <StyledReactionContainer>
+            <EmojiAddButton
+              onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+            />
             {showEmojiPicker && (
-              <EmojiPicker
-                style={{
-                  position: "absolute",
-                  top: "40px",
-                  left: 0,
-                }}
-              />
+              <StyledEmojiPickerWrapper>
+                <EmojiPicker
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                  }}
+                  onEmojiClick={handleEmojiClick}
+                />
+              </StyledEmojiPickerWrapper>
             )}
-          </StyledEmojiField>
+          </StyledReactionContainer>
           <StyledHeaderOptionsMenu>
             <StyledHeaderOptionsMenuList>공유하기</StyledHeaderOptionsMenuList>
             <StyledMenuListSpace></StyledMenuListSpace>
@@ -265,6 +289,14 @@ const StyledDescription = styled.p`
   }
 `;
 
-const StyledEmojiField = styled.div`
+const StyledReactionContainer = styled.div`
   position: relative;
+`;
+
+const StyledEmojiPickerWrapper = styled.div`
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 307px;
+  height: 392px;
 `;

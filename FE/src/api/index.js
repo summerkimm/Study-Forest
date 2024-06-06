@@ -62,3 +62,11 @@ export const postStudyIdPoints = async (id, points) => {
     additionalPoints: points,
   });
 };
+
+export const postEmojiReactions = async ({ id, emoji, emojiType }) => {
+  return await instance.post(`/reactions`, {
+    emoji,
+    emojiType,
+    studiesId : id,
+  });
+};

@@ -1,25 +1,33 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import styled from "styled-components";
 import ArrowToggleIcon from "../assets/icons/icon_toggle.svg";
 
 const DropdownList = [
+  { label: "최근 순", value: "newest" },
+  { label: "오래된 순", value: "oldest" },
   { label: "많은 포인트 순", value: "highPoint" },
   { label: "적은 포인트 순", value: "lowPoint" },
-  // { label: "최근 순", value: "newest" },
-  { label: "오래된 순", value: "oldest" },
 ];
 
 function DropDown({ handleChangeView }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleDropdownClick = (val) => {
-    handleChangeView(val);
-    setIsOpen(false);
+  const handleDropdownOpen = (e) => {
+    e.stopPropagation();
+    setIsOpen(true);
   };
 
+  const handleDropdownClick = useCallback(
+    (val) => {
+      handleChangeView(val);
+      setIsOpen(false);
+    },
+    [handleChangeView]
+  );
+
   return (
-    <StyledDropdownContainer>
-      <StyledDropdownHeader onClick={() => setIsOpen((prev) => !prev)}>
+    <StyledDropdownContainer onClick={(e) => handleDropdownOpen(e)}>
+      <StyledDropdownHeader>
         최근 순
         {isOpen ? (
           <img
@@ -28,10 +36,7 @@ function DropDown({ handleChangeView }) {
             style={{ rotate: "180deg" }}
           />
         ) : (
-          <img
-            src={ArrowToggleIcon}
-            alt="드롭다운 닫기"
-          />
+          <img src={ArrowToggleIcon} alt="드롭다운 닫기" />
         )}
       </StyledDropdownHeader>
       {isOpen && (
@@ -39,7 +44,7 @@ function DropDown({ handleChangeView }) {
           {DropdownList.map((item, idx) => (
             <StyledDropdownItem
               key={idx}
-              onClick={() => handleDropdownClick(item.value)}
+              onClick={(e) => handleDropdownClick(item.value, e)}
             >
               {item.label}
             </StyledDropdownItem>

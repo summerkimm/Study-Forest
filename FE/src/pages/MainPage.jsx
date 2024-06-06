@@ -17,18 +17,11 @@ function Main() {
   const fetchData = async () => {
     const response = await getStudies({ search, offset, view });
     const { studies } = response?.data;
-    setItems([...items, ...studies]);
+    setItems(studies);
   };
 
   const handleChangeSearch = (e) => {
     setSearch(e.target.value);
-  };
-
-  const handleSearchInputKeyPress = async (e) => {
-    if (e.key === "Enter") {
-      setOffset(0);
-      fetchData();
-    }
   };
 
   const handleChangeView = (val) => {
@@ -43,7 +36,7 @@ function Main() {
 
   useEffect(() => {
     fetchData();
-  }, [offset, view]);
+  }, [search, view]);
 
   return (
     <StyledMainContainer>
@@ -62,7 +55,6 @@ function Main() {
               type="text"
               placeholder="검색"
               onChange={handleChangeSearch}
-              onKeyDown={handleSearchInputKeyPress}
             />
           </SearchInputContainer>
           <Dropdown handleChangeView={handleChangeView} />
