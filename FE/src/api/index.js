@@ -39,6 +39,10 @@ export const postPasswordConfirm = async ({ id, password }) => {
   return await instance.post(`/studies/${id}/userCheck`, { password });
 };
 
+export const patchStudiesId = async (id, data) => {
+  return await instance.patch(`/studies/${id}`, {data})
+}
+
 export const getStudyIdHabit = async (id) => {
   return await instance.get(`/studies/${id}/habit`);
 };
