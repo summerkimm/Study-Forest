@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { getStudies } from "../api/index";
+import { getStudies, getStudiesId } from "../api/index";
 import SearchIcon from "../assets/icons/icon-search.svg";
 import AllCardList from "../components/AllCardList";
 import Dropdown from "../components/Dropdown";
@@ -10,39 +10,79 @@ import { onMobile, onTablet } from "../styles/media-queries";
 
 function Main() {
   const [items, setItems] = useState([]);
+  const [recentItems, setRecentItems] = useState([]);
   const [search, setSearch] = useState("");
   const [offset, setOffset] = useState(0);
   const [view, setView] = useState("newest");
 
-  const fetchData = async () => {
-    const response = await getStudies({ search, offset, view });
-    const { studies } = response?.data;
-    setItems(studies);
-  };
-
-  const handleChangeSearch = (e) => {
-    setSearch(e.target.value);
-  };
-
-  const handleChangeView = (val) => {
-    setView(val);
-    setOffset(0);
-    fetchData();
-  };
-
-  const handleLoadMore = () => {
-    setOffset((prevOffset) => prevOffset + 6);
+  const fetchData = async ({ search, offset, view }) => {
+    try {
+      const response = await getStudies({ search, offset, view });
+      const { studies } = response?.data;
+      setItems((prevItems) =>
+        offset === 0 ? studies : [...prevItems, ...studies]
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
-    fetchData();
-  }, [search, view]);
+    setItems([]);
+    fetchData({ search, offset, view });
+  }, [search, view, offset]);
+
+  useEffect(() => {
+    const storedRecentStudies = localStorage.getItem("recentStudies");
+    const recentStudies = storedRecentStudies
+      ? JSON.parse(localStorage.getItem("recentStudies"))
+      : [];
+
+    if (recentStudies.length === 0) {
+      return;
+    }
+
+    const validRecentStudies = recentStudies?.filter((id) => id);
+    const fetchRecentStudies = async () => {
+      try {
+        const responses = await Promise.all(
+          validRecentStudies?.map((id) => getStudiesId(id))
+        );
+        const recentData = responses?.map((response) => response.data);
+        setRecentItems(recentData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchRecentStudies();
+  }, []);
+
+  const handleChangeSearch = async (e) => {
+    const newSearch = e.target.value;
+    setSearch(newSearch);
+    setOffset(0);
+
+    if (newSearch === "") {
+      fetchData({ search: "", offset: 0, view });
+    }
+  };
+
+  const handleChangeView = async (val) => {
+    setView(val);
+    setOffset(0);
+  };
+
+  const handleLoadMore = async () => {
+    const newOffset = offset + 6;
+    setOffset(newOffset);
+    fetchData({ search, offset: newOffset, view });
+  };
 
   return (
     <StyledMainContainer>
       <StyledRecentCardBoxContainer>
         <StyledBoxTitle>최근 조회한 스터디</StyledBoxTitle>
-        <RecentCardList items={items} />
+        {recentItems.length > 0 && <RecentCardList items={recentItems} />}
       </StyledRecentCardBoxContainer>
 
       <StyledAllCardBoxContainer>

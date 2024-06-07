@@ -4,7 +4,7 @@ import Card from "./Card";
 
 function AllCardList({ items, handleLoadMore }) {
   return (
-    <>
+    <StyledAllCardContainer>
       {items.length === 0 ? (
         <StyledEmptyBoxContainer>
           <StyledEmptyMessage>아직 둘러 볼 스터디가 없어요</StyledEmptyMessage>
@@ -17,11 +17,22 @@ function AllCardList({ items, handleLoadMore }) {
         </StyledCardListContainer>
       )}
       <LoadMoreButton onClick={handleLoadMore}>더보기</LoadMoreButton>
-    </>
+    </StyledAllCardContainer>
   );
 }
 
 export default AllCardList;
+
+const StyledAllCardContainer =styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+
+  ${onMobile} {
+    gap: 30px;
+  }
+`;
 
 const StyledCardListContainer = styled.div`
   width: 100%;
@@ -51,7 +62,6 @@ const LoadMoreButton = styled.button`
   border-radius: 20px;
   border: 1px solid #ddd;
   background: #fff;
-  margin-top: 60px;
 `;
 
 const StyledEmptyBoxContainer = styled.div`

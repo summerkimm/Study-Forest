@@ -1,32 +1,18 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { onMobile } from "../styles/media-queries";
 import Card from "./Card";
-import { onMobile } from '../styles/media-queries';
 
 function RecentCardList({ items }) {
-  const [recentViewedItems, setrecentViewedItems] = useState([]);
-
-  useEffect(() => {
-    const storedItems = JSON.parse(localStorage.getItem("watched"));
-    if (storedItems) {
-      setrecentViewedItems(storedItems);
-    }
-  }, []);
-
-  const filteredItems = items
-    .filter((item) => recentViewedItems.includes(String(item.id)))
-    .slice(0, 3);
-
   return (
     <>
-      {filteredItems.length === 0 ? (
+      {items?.length === 0 ? (
         <StyledEmptyBoxContainer>
           <StyledEmptyMessage>아직 조회한 스터디가 없어요</StyledEmptyMessage>
         </StyledEmptyBoxContainer>
       ) : (
         <StyledRecentCardListContainer>
-          {filteredItems.map((item) => (
-            <Card key={item.id} item={item} />
+          {items?.map((item, index) => (
+            <Card key={index} item={item} />
           ))}
         </StyledRecentCardListContainer>
       )}

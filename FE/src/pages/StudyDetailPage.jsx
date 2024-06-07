@@ -30,6 +30,7 @@ function StudyDetailPage() {
       try {
         const response = await getStudiesId(id);
         setItem(response?.data);
+        addToRecentStudies(id);
       } catch (error) {
         console.error(error);
       }
@@ -56,13 +57,13 @@ function StudyDetailPage() {
     sendEmojiIncrease();
   }, [increasedEmoji, id]);
 
-  useEffect(() => {
-    let get_local = JSON.parse(localStorage.getItem("watched")) || [];
-    get_local.push(id);
-    get_local = new Set(get_local);
-    get_local = [...get_local];
-    localStorage.setItem("watched", JSON.stringify(get_local));
-  }, [id]);
+  const addToRecentStudies = (id) => {
+    let recentStudies = JSON.parse(localStorage.getItem("recentStudies")) || [];
+    recentStudies = recentStudies.filter((studyId) => studyId !== id); // 중복 제거
+    recentStudies.unshift(id); // 최신 ID를 맨 앞에 추가
+    if (recentStudies.length > 3) recentStudies.pop(); // 최근 3개만 저장
+    localStorage.setItem("recentStudies", JSON.stringify(recentStudies));
+  };
 
   const handleEmojiIncrease = (emojiObject) => {
     setIncreasedEmoji(emojiObject.emoji);
@@ -152,7 +153,7 @@ function StudyDetailPage() {
             {showDeleteModal &&
               createPortal(
                 <Modal
-                  onClick={() => setShowEditModal(false)}
+                  onClick={() => setShowDeleteModal(false)}
                   nickName={nickName}
                   name={name}
                   text="스터디 삭제하기"

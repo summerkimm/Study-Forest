@@ -57,35 +57,39 @@ function HabitTracker({ habits }) {
   return (
     <StyledHabitTrackerContainer>
       <StyledHabitTrackerHeader>습관 기록표</StyledHabitTrackerHeader>
-      <StyledHabitTrackerWrapper>
-        <thead>
-          <tr>
-            <StyledDayPin></StyledDayPin>
-            {DaysInKorean.map((day) => (
-              <StyledDay key={day}>{day}</StyledDay>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {habits?.map((habit, index) => (
-            <tr key={habit.name}>
-              <StyledHabitName>{habit.name}</StyledHabitName>
+      {habits?.length === 0 ? (
+        <StyledEmptyHabitTracker>오늘의 습관을 통해 습관을 채워 보세요!</StyledEmptyHabitTracker>
+      ) : (
+        <StyledHabitTrackerWrapper>
+          <thead>
+            <tr>
+              <StyledDayPin></StyledDayPin>
               {DaysInKorean.map((day) => (
-                <StyledHabitStickers key={day}>
-                  {habit.isCompleted.includes(DAYS[day]) ? (
-                    <img
-                      src={STICKERS[index % STICKERS.length]}
-                      alt="습관 완료"
-                    />
-                  ) : (
-                    <img src={EMPTY} alt="습관 미완료" />
-                  )}
-                </StyledHabitStickers>
+                <StyledDay key={day}>{day}</StyledDay>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </StyledHabitTrackerWrapper>
+          </thead>
+          <tbody>
+            {habits?.map((habit, index) => (
+              <tr key={habit.name}>
+                <StyledHabitName>{habit.name}</StyledHabitName>
+                {DaysInKorean.map((day) => (
+                  <StyledHabitStickers key={day}>
+                    {habit.isCompleted.includes(DAYS[day]) ? (
+                      <img
+                        src={STICKERS[index % STICKERS.length]}
+                        alt="습관 완료"
+                      />
+                    ) : (
+                      <img src={EMPTY} alt="습관 미완료" />
+                    )}
+                  </StyledHabitStickers>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </StyledHabitTrackerWrapper>
+      )}
     </StyledHabitTrackerContainer>
   );
 }
@@ -126,6 +130,15 @@ const StyledHabitTrackerHeader = styled.h2`
 
 const StyledHabitTrackerWrapper = styled.table`
   width: 100%;
+`;
+
+const StyledEmptyHabitTracker = styled.div`
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
 `;
 
 const StyledDay = styled.th`

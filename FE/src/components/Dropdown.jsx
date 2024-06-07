@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import ArrowToggleIcon from "../assets/icons/icon_toggle.svg";
 
@@ -12,21 +12,13 @@ const DropdownList = [
 function DropDown({ handleChangeView }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleDropdownOpen = (e) => {
+  const handleDropdownClick = (val, e) => {
     e.stopPropagation();
-    setIsOpen(true);
+    handleChangeView(val);
   };
 
-  const handleDropdownClick = useCallback(
-    (val) => {
-      handleChangeView(val);
-      setIsOpen(false);
-    },
-    [handleChangeView]
-  );
-
   return (
-    <StyledDropdownContainer onClick={(e) => handleDropdownOpen(e)}>
+    <StyledDropdownContainer onClick={() => setIsOpen(!isOpen)}>
       <StyledDropdownHeader>
         최근 순
         {isOpen ? (

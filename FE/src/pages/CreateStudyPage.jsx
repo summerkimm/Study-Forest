@@ -187,7 +187,7 @@ function CreateStudyPage() {
         handleEyeButton={handleShowPasswordConfirm}
       />
 
-      <button type="submit">만들기</button>
+      <StyledSubmitButton type="submit">만들기</StyledSubmitButton>
     </StyledContainer>
   );
 }
@@ -287,4 +287,17 @@ const StyledErrorMessage = styled.p`
   font-size: 14px;
   font-weight: 400;
   margin-top: -8px;
+`;
+
+const StyledSubmitButton = styled.button`
+  width: 648px;
+  height: 55px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background-color: #99c08e;
+  color: #fff;
+  text-align: center;
+  font-family: EF_jejudoldam;
+  font-size: 18px;
+  font-weight: 400;
 `;
