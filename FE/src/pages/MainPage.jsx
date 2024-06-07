@@ -29,7 +29,7 @@ function Main() {
 
   useEffect(() => {
     setItems([]);
-    fetchData({ search, offset, view });
+    fetchData({ search, offset: 0, view });
   }, [search, view, offset]);
 
   useEffect(() => {
@@ -82,7 +82,13 @@ function Main() {
     <StyledMainContainer>
       <StyledRecentCardBoxContainer>
         <StyledBoxTitle>최근 조회한 스터디</StyledBoxTitle>
-        {recentItems.length > 0 && <RecentCardList items={recentItems} />}
+        {recentItems.length === 0 ? (
+          <StyledEmptyBoxContainer>
+            <StyledEmptyMessage>아직 조회한 스터디가 없어요</StyledEmptyMessage>
+          </StyledEmptyBoxContainer>
+        ) : (
+          <RecentCardList items={recentItems} />
+        )}
       </StyledRecentCardBoxContainer>
 
       <StyledAllCardBoxContainer>
@@ -210,4 +216,18 @@ const SearchTextInput = styled.input`
   font-size: 16px;
   font-weight: 400;
   border: none;
+`;
+
+const StyledEmptyBoxContainer = styled.div`
+  width: 100%;
+  height: 358px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledEmptyMessage = styled.p`
+  color: var(--gray-gray_818181, #818181);
+  font-size: 20px;
+  font-weight: 500;
 `;

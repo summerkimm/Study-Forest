@@ -11,8 +11,8 @@ function AllCardList({ items, handleLoadMore }) {
         </StyledEmptyBoxContainer>
       ) : (
         <StyledCardListContainer>
-          {items.map((item) => (
-            <Card key={item.id} item={item} type="feed" />
+          {items.map((item, index) => (
+            <Card key={index} item={item} type="feed" />
           ))}
         </StyledCardListContainer>
       )}
