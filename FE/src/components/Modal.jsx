@@ -30,13 +30,13 @@ function Modal({ nickName, name, onClick, text, page }) {
     const password = data.password;
 
     try {
-      const data = { id, password };
-      const response = await postPasswordConfirm(data);
+      const payload = { id, password };
+      const response = await postPasswordConfirm(payload);
 
       if (response.data.message === "비밀번호가 일치합니다.") {
         switch (page) {
           case "edit":
-            navigate(`/studies`);
+            navigate(`/studies/${id}/edit`);
             break;
           case "habit":
             navigate(`/studies/${id}/habit`);

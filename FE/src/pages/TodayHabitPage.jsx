@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getStudyIdHabit } from "../api/index";
+import { getStudyIdHabit, patchHabits } from "../api/index";
 import Chip from "../components/Chip";
 import CommonLayout from "../components/CommonLayout";
 import CurrentDateTime from "../components/CurrentDateTime";
@@ -19,6 +19,15 @@ function TodayHabitPage() {
   const fetchData = async () => {
     const response = await getStudyIdHabit(id);
     setItem(response?.data);
+  };
+
+  const handleChipClick = async () => {
+      try {
+        await patchHabits(id);
+        window.location.reload();
+      } catch (error) {
+        console.error(error);
+      }
   };
 
   console.log(item);
@@ -67,15 +76,14 @@ function TodayHabitPage() {
 
           {habits?.length === 0 ? (
             <StyledEmptyContainer>
-              <StyledEmptyMessage>아직 습관이 없어요</StyledEmptyMessage>
               <StyledEmptyMessage>
                 목록 수정을 눌러 습관을 생성해보세요
               </StyledEmptyMessage>
             </StyledEmptyContainer>
           ) : (
             <StyledChipContainer>
-              {habits?.map((habit) => (
-                <Chip id={habit.id} isCompleted={habit.isCompletedHabit}>
+              {habits?.map((habit, index) => (
+                <Chip id={index} isCompleted={habit.isCompletedHabit} onClick={handleChipClick}>
                   {habit.name}
                 </Chip>
               ))}

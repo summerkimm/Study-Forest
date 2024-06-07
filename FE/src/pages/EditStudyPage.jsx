@@ -1,8 +1,8 @@
-import { useEffect, useParams, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
-import { patchStudiesId, getStudiesId } from "../api/index";
+import { getStudiesId, patchStudiesId } from "../api/index";
 import Image1 from "../assets/images/image-card1.png";
 import Image2 from "../assets/images/image-card2.png";
 import Image3 from "../assets/images/image-card3.png";
@@ -28,7 +28,7 @@ function EditStudyPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   const [selectedBackground, setSelectedBackground] = useState("");
-  const [studyData, setStudyData] = useState(null);
+  const [prevData, setPrevData] = useState(null);
 
   const {
     register,
@@ -43,15 +43,12 @@ function EditStudyPage() {
       try {
         const response = await getStudiesId(id);
         const study = response?.data;
-        // 스터디 정보를 폼에 채우기
-        setStudyData(study);
-        setSelectedBackground(study.background); // 선택된 배경 설정
-        // 폼에 기존 데이터 설정
-        setValue('nickName', study.nickName);
-        setValue('name', study.name);
-        setValue('description', study.description);
-        setValue('password', study.password);
-        setValue('background', study.background);
+        setPrevData(study);
+        setSelectedBackground(study.background);
+        setValue("nickName", study.nickName);
+        setValue("name", study.name);
+        setValue("description", study.description);
+        setValue("background", study.background);
       } catch (error) {
         console.error(error);
       }
@@ -61,6 +58,7 @@ function EditStudyPage() {
 
   const handleBackgroundChange = (value) => {
     setSelectedBackground(value);
+    setValue("background", value);
   };
 
   const passwordCheck = watch("password");
@@ -76,24 +74,35 @@ function EditStudyPage() {
   const handleOnSubmit = async (data) => {
     const dataWithBackground = { ...data, background: selectedBackground };
 
-    const { name, background, description, password, nickName } =
-      dataWithBackground;
+    const changes = {};
+    if (dataWithBackground.nickName !== prevData.nickName) {
+      changes.nickName = dataWithBackground.nickName;
+    }
+    if (dataWithBackground.name !== prevData.name) {
+      changes.name = dataWithBackground.name;
+    }
+    if (dataWithBackground.description !== prevData.description) {
+      changes.description = dataWithBackground.description;
+    }
+    if (dataWithBackground.background !== prevData.background) {
+      changes.background = dataWithBackground.background;
+    }
+    if (Object.keys(changes).length === 0) {
+      // 변경된 내용이 없으면 아무것도 실행하지 않음
+      return;
+    }
 
     try {
-      const response = await patchStudiesId({
-        name,
-        nickName,
-        description,
-        background,
-        password,
-      });
-
-      if (response.status === 201) {
-        const newId = response?.data.id;
-        navigate(`/studies/${newId}`);
+      const response = await patchStudiesId(id, changes);
+      if (response.status === 200) {
+        // 성공적으로 수정되면 페이지 이동 등의 작업 수행
+        navigate(`/studies/${id}`);
+      } else {
+        // 실패 시 적절한 처리
+        console.error("수정에 실패했습니다.");
       }
     } catch (error) {
-      console.error(error);
+      console.error("수정에 실패했습니다.", error);
     }
   };
 

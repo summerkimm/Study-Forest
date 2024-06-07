@@ -40,8 +40,8 @@ export const postPasswordConfirm = async ({ id, password }) => {
 };
 
 export const patchStudiesId = async (id, data) => {
-  return await instance.patch(`/studies/${id}`, {data})
-}
+  return await instance.patch(`/studies/${id}`, data);
+};
 
 export const getStudyIdHabit = async (id) => {
   return await instance.get(`/studies/${id}/habit`);
@@ -71,6 +71,6 @@ export const postEmojiReactions = async ({ id, emoji, emojiType }) => {
   return await instance.post(`/reactions`, {
     emoji,
     emojiType,
-    studiesId : id,
+    studiesId: id,
   });
 };

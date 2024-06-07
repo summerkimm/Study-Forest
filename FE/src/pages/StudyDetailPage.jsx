@@ -69,7 +69,6 @@ function StudyDetailPage() {
   };
 
   const handleEmojiDecrease = async (emoji, id) => {
-    console.log(emoji, id);
     try {
       const response = await postEmojiReactions({
         id: id,
