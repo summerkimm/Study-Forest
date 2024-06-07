@@ -99,7 +99,7 @@ function StudyDetailPage() {
                 key={index}
                 reactions={emoji}
                 status="general"
-                onClick={() => handleEmojiDecrease(emoji.emoji, emoji.id)}
+                onClick={() => handleEmojiDecrease(emoji.emoji, id)}
               />
             ))}
             {hiddenReactions?.length !== 0 && (
@@ -115,6 +115,7 @@ function StudyDetailPage() {
                         key={index}
                         reactions={emoji}
                         status="general"
+                        onClick={() => handleEmojiDecrease(emoji.emoji, id)}
                       />
                     ))}
                   </StyledHiddenReactions>
