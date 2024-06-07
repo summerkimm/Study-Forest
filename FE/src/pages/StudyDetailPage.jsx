@@ -22,7 +22,6 @@ function StudyDetailPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [increasedEmoji, setIncreasedEmoji] = useState(null);
-  const [decreasedEmoji, setDecreasedEmoji] = useState(null);
   const [showHiddenReactions, setshowHiddenReactions] = useState(false);
 
   useEffect(() => {
