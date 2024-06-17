@@ -290,7 +290,7 @@ const StyledErrorMessage = styled.p`
 `;
 
 const StyledSubmitButton = styled.button`
-  width: 648px;
+  width: 100%;
   height: 55px;
   flex-shrink: 0;
   border-radius: 12px;
