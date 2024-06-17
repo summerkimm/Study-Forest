@@ -174,6 +174,7 @@ app.get(
         count: r.count,
       })),
       points: study.points,
+      background: study.background,
       habitTrackers,
     };
     res.send(result);

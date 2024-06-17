@@ -1,20 +1,8 @@
 import styled from "styled-components";
-import { patchHabits } from "../api/index";
 
-function Chip({ id, isCompleted, children }) {
-  const handleChipClick = async () => {
-    if (!isCompleted) {
-      try {
-        await patchHabits(id);
-        window.location.reload();
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
-
+function Chip({ isCompleted, children, onClick }) {
   return (
-    <StyledChip completed={isCompleted} onClick={handleChipClick}>
+    <StyledChip completed={isCompleted} onClick={onClick}>
       {children}
     </StyledChip>
   );

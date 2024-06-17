@@ -22,7 +22,6 @@ function StudyDetailPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [increasedEmoji, setIncreasedEmoji] = useState(null);
-  const [decreasedEmoji, setDecreasedEmoji] = useState(null);
   const [showHiddenReactions, setshowHiddenReactions] = useState(false);
 
   useEffect(() => {
@@ -70,7 +69,6 @@ function StudyDetailPage() {
   };
 
   const handleEmojiDecrease = async (emoji, id) => {
-    console.log(emoji, id);
     try {
       const response = await postEmojiReactions({
         id: id,
@@ -99,7 +97,7 @@ function StudyDetailPage() {
                 key={index}
                 reactions={emoji}
                 status="general"
-                onClick={() => handleEmojiDecrease(emoji.emoji, emoji.id)}
+                onClick={() => handleEmojiDecrease(emoji.emoji, id)}
               />
             ))}
             {hiddenReactions?.length !== 0 && (
@@ -115,6 +113,7 @@ function StudyDetailPage() {
                         key={index}
                         reactions={emoji}
                         status="general"
+                        onClick={() => handleEmojiDecrease(emoji.emoji, id)}
                       />
                     ))}
                   </StyledHiddenReactions>
