@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { onMobile } from "../styles/media-queries";
+import { onMobile } from "../../styles/media-queries";
 import Card from "./Card";
 
 function RecentCardList({ items }) {

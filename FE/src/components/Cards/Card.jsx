@@ -4,10 +4,10 @@ import Image1 from "../assets/images/image-card1.png";
 import Image2 from "../assets/images/image-card2.png";
 import Image3 from "../assets/images/image-card3.png";
 import Image4 from "../assets/images/image-card4.png";
-import colors from "../styles/colors";
-import { onMobile, onTablet } from "../styles/media-queries";
-import EmojiTag from "./Tags/EmojiTag";
-import PointTag from "./Tags/PointTag";
+import colors from "../../styles/colors";
+import { onMobile, onTablet } from "../../styles/media-queries";
+import EmojiTag from "../Tags/EmojiTag";
+import PointTag from "../Tags/PointTag";
 
 const COLORSCHEME = {
   green: { color: "#578246", backgroundColor: "#e1edde", status: "light" },

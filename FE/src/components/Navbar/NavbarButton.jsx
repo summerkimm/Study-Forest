@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { onMobile, onTablet } from "../styles/media-queries";
+import { onMobile, onTablet } from "../../styles/media-queries";
 
 function NavbarButton({ children }) {
   return <StyledNavbarButton>{children}</StyledNavbarButton>;

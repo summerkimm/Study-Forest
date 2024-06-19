@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { deleteStudiesId, postPasswordConfirm } from "../api/index";
-import InputField from "./InputField";
+import { deleteStudiesId, postPasswordConfirm } from "../../api/index";
+import InputField from "../InputField";
 import ModalButton from "./ModalButton";
 
 function Modal({ nickName, name, onClick, text, page }) {

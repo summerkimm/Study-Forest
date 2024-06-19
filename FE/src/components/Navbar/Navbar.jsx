@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import LogoIcon from "../assets/icons/logoImg.svg";
-import { onMobile, onTablet } from "../styles/media-queries";
+import { onMobile, onTablet } from "../../styles/media-queries";
 import NavbarButton from "./NavbarButton";
 
 function Navbar() {

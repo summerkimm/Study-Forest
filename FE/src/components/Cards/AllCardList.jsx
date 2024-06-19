@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { onMobile, onTablet } from "../styles/media-queries";
+import { onMobile, onTablet } from "../../styles/media-queries";
 import Card from "./Card";
 
 function AllCardList({ items, handleLoadMore }) {

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { deleteHabits } from "../api";
-import { postStudiesHabit } from "../api/index";
+import { deleteHabits } from "../../api";
+import { postStudiesHabit } from "../../api/index";
 import AddIcon from "../assets/icons/ic_plus.svg";
 import DeleteIcon from "../assets/icons/ic_trash.svg";
-import { onMobile } from "../styles/media-queries";
+import { onMobile } from "../../styles/media-queries";
 
 function HabitEditModal({ id, onClick, habits }) {
   const [inputs, setInputs] = useState([]);

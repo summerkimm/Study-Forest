@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import ArrowIcon from "../assets/icons/ic_arrow_right.svg";
-import { onMobile } from "../styles/media-queries";
+import { onMobile } from "../../styles/media-queries";
 
 function Button({ children, onClick }) {
   return (
